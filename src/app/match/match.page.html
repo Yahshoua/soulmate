@@ -1,0 +1,32 @@
+<ion-content>
+    <ion-slides pager="false" [options]="slideOpts">
+        <ion-slide *ngFor="let i of photo">
+            <div class="toto" [ngStyle]="monStyle(i)"></div>
+            <section class="sec-info">
+                <div class="col-name">
+                    <ion-fab-button color="primary" class="myfab" style="right: 35%;">
+                        <i class="fas fa-times" style="margin: auto;font-size: 35px;"></i>
+                    </ion-fab-button>
+                    <ion-fab-button color="primary" class="myfab" style="left: 35%;">
+                        <i class="fas fa-heart" style="margin: auto;font-size: 35px;"></i>
+                    </ion-fab-button>
+                    <div class="col-detail">
+                        <div class="col-info">
+                            <p style="text-align: center;">
+                                <font style="font-family: Oswald-Medium;">
+                                    Malley
+                                </font>
+                                <font style="color: #f704ae;">
+                                    36 ans
+                                </font>
+                            </p>
+                        </div>
+                        <p style="font-size: 80%;margin: 0">
+                            Charbonnage
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

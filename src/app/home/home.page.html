@@ -1,20 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <div>
+        <section>
+            <ion-button expand="full" color="primary" [routerLink]="['/inscription']" routerLinkActive="router-link-active">CREER SON PROFIL</ion-button>
+            <ion-button expand="full" color="light">SE CONNECTER</ion-button>
+            <ion-button expand="full" color="light">
+                <ion-icon slot="start" name="logo-facebook" color="secondary"></ion-icon>
+                Connexion par Facebook
+            </ion-button>
+        </section>
+    </div>
 </ion-content>

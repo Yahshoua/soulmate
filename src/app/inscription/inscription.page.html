@@ -1,0 +1,133 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon style="font-size: 26px;margin-left: 1%;" name="arrow-back-outline" slot="start" (click)="goback()"></ion-icon>
+        <ion-title style="font-size: 93%;">Mon compte</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-slides pager="true" [options]="slideOpts" (ionSlideNextEnd)="finish($event)" #loopSlider>
+        <ion-slide>
+            <div style="width: 100%;">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <p>
+                                Je suis
+                            </p>
+                        </ion-col>
+                        <ion-col class="choix-genre" size="12" style="display: flex;">
+                            <div style="margin-right: 0">
+                                <ion-fab-button (click)="seclect1()" [color]="color1">
+                                    <ion-icon name="man-outline" style="margin: auto;font-size: 35px;"></ion-icon>
+                                </ion-fab-button>
+                            </div>
+                            <div>
+                                <ion-fab-button (click)="seclect2()" [color]="color2">
+                                    <ion-icon name="woman-outline" style="margin: auto;font-size: 35px;"></ion-icon>
+                                </ion-fab-button>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <div class="col-btn" style="padding-top: 15%;">
+                    <ion-button expand="full" color="primary" (click)="next()">
+                        suivant
+                        <ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+                    </ion-button>
+                </div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <div style="width: 100%;">
+                <ion-item class="myinput" style="margin-top: 5%;">
+                    <ion-label position="floating">Date de naissance</ion-label>
+                    <div style="width: 100%;margin-top: 5%">
+                        <ion-datetime [(ngModel)]="dateNaissance" displayFormat="DD-MMMM-YYYY" placeholder="Entre ta date de naissance" dayShortNames="Lun, Mar, Merc, Jeu, Ven, Sa, Dim" dayNames="Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche" doneText="Ok" cancelText="Retour"
+                            monthNames="Janvier, Fevrier, Mars, Avril, Mai, Juin, Juillet, Aout, Septembre, Octobre, Novembre, Decembre" max="2000" [monthShortNames]="customMonthShortNames"></ion-datetime>
+                    </div>
+                </ion-item>
+                <div class="col-btn" style="padding-top: 29%;">
+                    <ion-button expand="full" color="primary" (click)="next2()">
+                        suivant
+                        <ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+                    </ion-button>
+                </div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <div style="width: 100%;">
+                <div style="display: grid; margin-top: 3%;">
+                    <ion-item>
+                        <ion-label position="floating" style="z-index: 1000000;--z-index: 10000000">
+                            Quartier/Ville
+                        </ion-label>
+                        <ion-input [(ngModel)]="lieux" type="text" placeholder="ton quartier/ville (facultatif)"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="fixed" style="z-index: 1000000;--z-index: 10000000">
+                            <span id="mylabel" class="flag-icon flag-icon-ga flag-icon-squared"></span>
+                            <ion-icon name="arrow-dropdown"></ion-icon>
+                        </ion-label>
+                        <ion-input [(ngModel)]="numero" type="tel" minlength="8" maxlength="10" placeholder="Numéro de téléphone (facultatif)"></ion-input>
+                    </ion-item>
+                </div>
+                <div class="col-btn" style="padding-top: 34%;">
+                    <ion-button expand="full" color="primary" (click)="next3()">
+                        suivant
+                        <ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+                    </ion-button>
+                </div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <div style="width: 100%;">
+                <div style="display: grid; margin-top: 7%;">
+                    <ion-item [ngClass]="{'itms': Fnom}">
+                        <ion-label position="floating" style="z-index: 1000000;--z-index: 10000000">
+                            Nom ou Pseudo
+                        </ion-label>
+                        <ion-input [(ngModel)]="nom" type="text" minlength="4" maxlength="10"></ion-input>
+                    </ion-item>
+                </div>
+                <div class="col-btn" style="padding-top: 34%;">
+                    <ion-button expand="full" color="primary" (click)="next0()">
+                        suivant
+                        <ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+                    </ion-button>
+                </div>
+            </div>
+
+        </ion-slide>
+        <ion-slide>
+            <div style="display: grid;width: 100%;margin-top: 5%;">
+                <ion-item [ngClass]="{'itms': Femail}">
+                    <ion-label position="fixed">Email</ion-label>
+                    <ion-input [(ngModel)]="email" type="text" placeholder="saisir mon email"></ion-input>
+                </ion-item>
+                <ion-item [ngClass]="{'itms': Fpass}">
+                    <ion-label position="floating">Mot de passe</ion-label>
+                    <ion-input [(ngModel)]="password" type="password" minlength="4"></ion-input>
+                </ion-item>
+                <div style="display: flex;padding: 5%;">
+                    <ion-checkbox checked="true" style="width: 25px;height: 20px"></ion-checkbox>
+                    <p class="p-cond">
+                        Je reconnais avoir lu les conditions generales d'utilisation de SoulMate
+                    </p>
+                </div>
+                <p style="font-size: small;text-align: center">
+                    <a>
+                    Lire les CGU
+                  </a>
+                </p>
+                <div class="col-btn" style="padding-bottom: 6%">
+                    <ion-button (click)="next4()" expand="full" color="primary" routerLinkActive="router-link-active">
+                        suivant
+                        <ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+                    </ion-button>
+                </div>
+            </div>
+
+        </ion-slide>
+    </ion-slides>
+</ion-content>

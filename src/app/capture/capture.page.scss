@@ -1,0 +1,48 @@
+.sec1 {
+    color: #fff;
+    // background: linear-gradient(45deg, #ff00b3 0%, rgba(255, 10, 182, 0) 70%), linear-gradient(135deg, #f30cc1 10%, rgba(49, 5, 209, 0) 80%), linear-gradient(225deg, #ff0ec3 10%, rgba(255, 16, 203, 0) 80%), linear-gradient(315deg, #ff0d92 100%, rgba(9, 245, 5, 0) 70%);
+    background: url('../../assets/images/book.jpg') center no-repeat;
+    height: 204px;
+    position: relative;
+    background-size: cover;
+}
+
+ion-toolbar {
+    --background: #607D8B;
+    color: #fff;
+}
+
+ion-avatar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -42px;
+    z-index: 10;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+}
+
+ion-content p {
+    text-align: center;
+    margin-top: 15%;
+    margin-left: 3%;
+    margin-right: 3%;
+    font-size: 15px;
+    color: gray;
+    font-family: 'Ubuntu-Light';
+}
+
+ion-content {
+    position: relative;
+}
+
+.sec2 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+}

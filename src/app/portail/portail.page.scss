@@ -1,0 +1,30 @@
+ion-menu {
+    --min-width: 270px;
+    --max-width: 270px;
+}
+
+ion-slides {
+    --bullet-background: none
+}
+
+.col-me {
+    display: flex;
+    padding-top: 3%;
+}
+
+.col-me ion-avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.col-me>div {
+    display: grid;
+    padding-left: 4%;
+    font-size: 15px;
+    padding-top: 1%;
+}
+
+.col-hsr ion-avatar {
+    height: 50px;
+    width: 50px;
+}

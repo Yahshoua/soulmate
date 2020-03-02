@@ -1,0 +1,45 @@
+p {
+    text-align: left;
+}
+
+.choix-genre div {
+    margin: auto;
+}
+
+ion-slide {
+    padding-bottom: 5%;
+}
+
+.col-btn {
+    text-align: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.itms {
+    border-bottom: red 1px solid;
+}
+
+.myinput {
+    width: 100%;
+}
+
+.label-fixed.sc-ion-label-md-h {
+    width: 67px !important;
+    min-width: 0px !important;
+    flex: 0 0 22%;
+}
+
+.item-input.sc-ion-label-md-h,
+.item-input .sc-ion-label-md-h {
+    pointer-events: all;
+}
+
+.p-cond {
+    padding: 0;
+    margin: 0;
+    float: left;
+    font-size: small;
+    color: gray;
+    text-align: center;
+}

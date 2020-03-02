@@ -1,0 +1,9 @@
+<ion-content>
+    <ion-slides [pager]="pages" (ionSlideTap)="tap()" [pager]="pages" [options]="slideOpts" #loopSlider>
+        <ion-slide *ngFor="let al of personne.album">
+            <div class="col-images" [ngStyle]="monstyle2(al)">
+
+            </div>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

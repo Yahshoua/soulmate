@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title style="font-size: 93%;">Ajouter une photo</ion-title>
+    </ion-toolbar>
+</ion-header>
+<section class="sec1">
+    <ion-avatar>
+        <img [src]=image>
+    </ion-avatar>
+</section>
+<ion-content>
+    <p>
+        Ajouter une photo recente de vous, bien cadré et en vous mettant en valeur
+    </p>
+    <section class="sec2">
+        <ion-button expand="full" color="light" style="margin-bottom: 5%;" (click)="pickImage()">
+            <ion-icon slot="start" name="images-outline" color="secondary"></ion-icon>
+            Depuis la gallery
+        </ion-button>
+        <ion-button expand="full" color="light">
+            <ion-icon slot="start" name="logo-facebook" color="secondary"></ion-icon>
+            Depuis Facebook
+        </ion-button>
+    </section>
+</ion-content>
