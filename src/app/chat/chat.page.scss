@@ -1,0 +1,45 @@
+ion-toolbar {
+    --background: #424546;
+    color: #fff;
+}
+
+.col-btn {
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.col-btn ion-input {
+    width: 80%;
+    float: left;
+    --padding-start: 2%
+}
+
+.col-btn ion-fab-button {
+    float: right;
+    margin-right: 2%;
+    padding: 1%;
+}
+
+ion-content {
+    --background: #ffffffed;
+}
+
+.mydiv {
+    background: #ffffffed;
+    right: 0;
+    left: 0;
+    bottom: 51px;
+}
+
+ion-content[class=cnt] {
+    --overflow: hidden;
+}
+
+ion-grid[class=mydiv] {
+    --overflow: auto;
+}
+
+ion-input {
+    --padding-top: 19px;
+}

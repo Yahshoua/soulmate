@@ -36,6 +36,22 @@ const routes: Routes = [
     path: 'voirdiapo',
     loadChildren: () => import('./voirdiapo/voirdiapo.module').then( m => m.VoirdiapoPageModule)
   },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'matchclose',
+    loadChildren: () => import('./matchclose/matchclose.module').then( m => m.MatchclosePageModule)
+  },
+  {
+    path: 'matching',
+    loadChildren: () => import('./matching/matching.module').then( m => m.MatchingPageModule)
+  },
+  {
+    path: 'tabprofil',
+    loadChildren: () => import('./tabprofil/tabprofil.module').then( m => m.TabprofilPageModule)
+  },
 ];
 
 @NgModule({

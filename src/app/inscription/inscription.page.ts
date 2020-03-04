@@ -4,6 +4,7 @@ import { NavController, IonContent } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AlertController } from '@ionic/angular';
+declare var $, moment
 @Component({
   selector: 'app-inscription',
   templateUrl: './inscription.page.html',
@@ -23,7 +24,7 @@ export class InscriptionPage implements OnInit {
   numero
   email
   Femail
-  password
+  password=''
   Fpass
   nom
   Fnom
@@ -89,7 +90,7 @@ export class InscriptionPage implements OnInit {
     }
   }
   next0() {
-    if(this.nom == undefined || this.nom <= 4) {
+    if(this.nom == undefined || this.nom.length < 4) {
         this.Fnom = true
     } else {
       this.Fnom = false
@@ -109,7 +110,7 @@ export class InscriptionPage implements OnInit {
     } else {
       this.Femail = false
     }
-    if(this.password == undefined || this.password.length <= 3) {
+    if(this.password == undefined || this.password.length <= 6) {
       this.Fpass = true
     } else {
       this.Fpass = false

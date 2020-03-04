@@ -12,28 +12,48 @@ export class monservice {
     server1 = 'http://localhost'
     server2= 'https://kazimo.ga/soulmate'
     photo = '../assets/images/homme.png'
-    
+    type= 'formulaire'
     myLat
     myLong
-    setPhoto(img) {
-      this.photo = img
-    }
-    constructor(private geolocation: Geolocation) {
 
+    constructor(private geolocation: Geolocation) {
+      moment().locale('fr')
+        this.getUtilsateurStorage()
+        console.log('utilisateur ', this.utilisateur)
     }
     url = this.server1+'/phpsoulmate/setUser.php';
     header = new HttpHeaders({'Content-Type': 'application/json', "Accept": 'application/json'})
+
+   async setPhoto(img=this.photo) {
+      this.photo = img
+      this.setPicture(img)
+      var date = moment().format()
+      this.utilisateur.dateInscri = date
+      this.utilisateur.type = this.type
+      //Mise à jour des data user dans la BDD
+          var e = $.ajax({
+            method: 'POST',
+            url: this.url,
+            data: this.utilisateur
+          }).done((response)=> {
+            console.log('mise à jour des données users ', response)
+          }).fail((err)=> {
+            console.log('erreur lors de la mise à jour des données users ', err)
+          })
+          return e
+    }
+    // ce tableau sert à contenir les matchings selon que le user à accepter ou non, je le recupere dans la route matchclose
+    matching: any
+
     personnes = [
       {
         "id": "5e5d7e12faa225a80a3dbda7",
         "index": 0,
         "photo": "https://i.picsum.photos/id/230/200/300.jpg",
         "album": [
-          {
-            "id": 0,
-            "image": "https://i.picsum.photos/id/210/200/300.jpg"
-          }
+         
         ],
+        "flash": true,
         "eyeColor": "brown",
         "nom": "Dean Simon",
         "genre": "male",
@@ -49,6 +69,7 @@ export class monservice {
         "id": "5e5d7e1268533d5fbf29cb36",
         "index": 1,
         "photo": "https://i.picsum.photos/id/231/200/300.jpg",
+        "flash": true,
         "album": [
           {
             "id": 0,
@@ -86,6 +107,7 @@ export class monservice {
         "id": "5e5d7e12ce8f7078de809e8b",
         "index": 2,
         "photo": "https://i.picsum.photos/id/232/200/300.jpg",
+        "flash": true,
         "album": [
           {
             "id": 0,
@@ -123,6 +145,7 @@ export class monservice {
         "id": "5e5d7e12c0c6f379cb9910a1",
         "index": 3,
         "photo": "https://i.picsum.photos/id/233/200/300.jpg",
+        "flash": false,
         "album": [
           {
             "id": 0,
@@ -160,6 +183,7 @@ export class monservice {
         "id": "5e5d7e128ef68fb224ff38da",
         "index": 4,
         "photo": "https://i.picsum.photos/id/234/200/300.jpg",
+        "flash": false,
         "album": [
           {
             "id": 0,
@@ -219,6 +243,7 @@ export class monservice {
             "image": "https://i.picsum.photos/id/214/200/300.jpg"
           }
         ],
+        "flash": false,
         "eyeColor": "green",
         "nom": "Lesley Kelley",
         "genre": "female",
@@ -234,6 +259,7 @@ export class monservice {
         "id": "5e5d7e127d3bbbbdf8181bd1",
         "index": 6,
         "photo": "https://i.picsum.photos/id/236/200/300.jpg",
+        "flash": false,
         "album": [
           {
             "id": 0,
@@ -271,6 +297,7 @@ export class monservice {
         "id": "5e5d7e12f5a371158c52b68b",
         "index": 7,
         "photo": "https://i.picsum.photos/id/237/200/300.jpg",
+        "flash": false,
         "album": [
           {
             "id": 0,
@@ -308,6 +335,7 @@ export class monservice {
         "id": "5e5d7e1205f0dce2457098f8",
         "index": 8,
         "photo": "https://i.picsum.photos/id/238/200/300.jpg",
+        "flash": false,
         "album": [
           {
             "id": 0,
@@ -345,6 +373,7 @@ export class monservice {
         "id": "5e5d7e120aafc0768e80507a",
         "index": 9,
         "photo": "https://i.picsum.photos/id/239/200/300.jpg",
+        "flash": false,
         "album": [
           {
             "id": 0,
@@ -379,8 +408,19 @@ export class monservice {
         "dateNaiss": "1992-03-17"
       }
     ]
+    //Mise à jour du match lorsque l'utilisateur click sur le coeur ou la X
+    setMatch(index, etat) {
+       for(var i=0;i< this.personnes.length;i++) {
+         if(this.personnes[i].index == index) {
+           this.personnes[i].flash = etat
+           break
+         }
+       }
+    }
     myroute = false
-
+    getUtilsateurStorage() {
+      this.utilisateur = JSON.parse(localStorage.getItem('user')) || []
+    }
     setMyroute(etat) {
       this.myroute = etat
     }
@@ -406,6 +446,13 @@ export class monservice {
         let log = JSON.parse(localStorage.getItem('user')) || []
         localStorage.setItem('user', JSON.stringify(profil))
         this.utilisateur = JSON.parse(localStorage.getItem('user'))
+    }
+    // ajout de la photo de profil
+    setPicture(image) {
+      let log = JSON.parse(localStorage.getItem('user')) || []
+      log.image = image
+      localStorage.setItem('user', JSON.stringify(log))
+      this.utilisateur.image = image
     }
      // Recuperer le quartier ou la ville
    async displayLocation(latitude, longitude) {

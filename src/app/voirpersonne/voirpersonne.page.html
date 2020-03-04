@@ -1,9 +1,122 @@
 <ion-content>
-    <ion-slides (ionSlideTap)="tap()" [pager]="pages" [options]="slideOpts" #loopSlider>
-        <ion-slide *ngFor="let al of personne?.album">
-            <div class="col-images" [ngStyle]="monstyle(al)">
+    <section style="position: relative;">
+        <ion-slides (ionSlideTap)="tap()" [pager]="pages" [options]="slideOpts" #loopSlider>
+            <ion-slide *ngFor="let al of personne?.album">
+                <div class="col-images" [ngStyle]="monstyle(al)">
 
+                </div>
+            </ion-slide>
+        </ion-slides>
+        <div class="demander">
+            <div>
+                <font style="font-size: 87%;color: #fff">Demander + de photo</font>
             </div>
-        </ion-slide>
-    </ion-slides>
+        </div>
+    </section>
+
+    <ion-grid>
+        <ion-row class="detail">
+            <ion-col size="12">
+                <p>
+                    Evry, Essonne
+                </p>
+            </ion-col>
+            <ion-col size="6">
+                <p style="font-family: 'Ubuntu-Light';">
+                    1Km
+                </p>
+            </ion-col>
+            <ion-col size="6">
+                <p id="age">
+                    23 ans
+                </p>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-item>
+                    <ion-label>
+                        <p>Son annonce</p>
+                        <p>Button on right</p>
+                    </ion-label>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item>
+                    <ion-label>
+                        <p>Centre d'interet</p>
+                        <p>Button on right</p>
+                    </ion-label>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-row class="detail-plus">
+                    <ion-col size="12">
+                        <p id="mode">Mode de vie</p>
+                    </ion-col>
+
+                    <ion-col size="6">
+                        <p class="myp">
+                            Habitation
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p>
+                            en colocation
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="myp">
+                            Enfant
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p>
+                            1 enfant
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="myp">
+                            Profession
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p>
+                            employé
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="myp">
+                            Apparence
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p>
+                            dans la moyenne
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="myp">
+                            Taille
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p>
+                            Environ 1m70
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="myp">
+                            Poids
+                        </p>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p>
+                            Environs 80kg
+                        </p>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

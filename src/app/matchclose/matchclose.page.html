@@ -1,0 +1,15 @@
+<ion-content>
+
+    <ion-item button lines="full" (click)="testClick()" *ngFor="let user of personne;let i = index">
+        <ion-avatar slot="start" [routerLink]="['/voirplus/route/main']" [queryParams]="{id: user.index}" routerLinkActive="router-link-active">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
+        </ion-avatar>
+        <ion-label [routerLink]="['/voirplus/route/main']" [queryParams]="{id: 1}" routerLinkActive="router-link-active">
+            {{user.nom}}
+        </ion-label>
+        <i class="fas fa-heart heart" *ngIf="user.flash==true"></i>
+        <ion-icon class="myheart" slot="end" color="danger" name="heart-dislike-outline" *ngIf="user.flash==false"></ion-icon>
+    </ion-item>
+
+
+</ion-content>

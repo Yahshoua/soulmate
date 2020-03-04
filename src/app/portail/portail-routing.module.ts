@@ -16,6 +16,10 @@ const routes: Routes = [
       {
         path: 'match',
         loadChildren: () => import('../match/match.module').then( m => m.MatchPageModule)
+      },
+      {
+        path: 'profil',
+        loadChildren: () => import('../tabprofil/tabprofil.module').then( m => m.TabprofilPageModule)
       }
     ]
   },

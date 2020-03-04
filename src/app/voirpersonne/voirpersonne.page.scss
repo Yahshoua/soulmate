@@ -1,0 +1,55 @@
+.detail p {
+    margin: 0;
+}
+
+#age {
+    text-align: right;
+    font-family: 'Ubuntu-Light';
+    color: #e91b8c !important;
+    ;
+}
+
+ion-item {
+    --padding-start: -6px;
+}
+
+ion-label p:first-child,
+#mode {
+    padding-bottom: 3px;
+    font-size: 16px;
+    color: #0089c9 !important;
+    ;
+}
+
+ion-label {
+    margin: 2%;
+}
+
+.demander {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.demander div {
+    height: 20px;
+    background-color: #0089c9;
+    margin: auto;
+    margin-bottom: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.detail-plus p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--ion-color-step-600, #666);
+}
+
+.myp {
+    color: #000;
+    font-weight: bold;
+}

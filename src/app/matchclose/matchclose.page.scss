@@ -1,0 +1,19 @@
+.heart {
+    float: right;
+    color: #ff3131;
+    font-size: 17px;
+}
+
+.myheart {
+    width: 20px;
+    height: 20px;
+}
+
+ion-label:active,
+ion-label:focus {
+    outline: none !important;
+    --background-focused: transparent !important;
+    --highlight-color-focused: #f704ae00 !important;
+    --highlight-color-valid: #2dd36f00 !important;
+    --highlight-color-invalid: #eb445a00 !important;
+}

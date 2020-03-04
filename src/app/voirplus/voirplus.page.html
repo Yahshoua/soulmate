@@ -4,4 +4,49 @@
         <ion-title color="light" style="font-size: 93%;"> {{personne.nom}} </ion-title>
     </ion-toolbar>
 </ion-header>
+<ion-content>
+    <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+        <ion-fab-button color="success">
+            <ion-icon name="chatbubbles-outline" style="margin: auto;font-size: 35px;"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+            <div class="col-fab">
+                <div [routerLink]="['/chat']" queryParamsHandling="merge" routerLinkActive="router-link-active">
+                    <div>
+                        <p>
+                            Ecrire un message
+                        </p>
+                    </div>
+                    <ion-fab-button color="success">
+                        <ion-icon name="chatbubbles-outline"></ion-icon>
+                    </ion-fab-button>
+                </div>
+                <div (click)="addFav()">
+                    <div>
+                        <p>
+                            Ajouter aux Favoris
+                        </p>
+                    </div>
+                    <ion-fab-button>
+                        <ion-icon color="warning" name="star-outline"></ion-icon>
+                    </ion-fab-button>
+                </div>
+                <div style="border-bottom: 0" (click)="flash()">
+                    <div>
+                        <p>
+                            Coup de foudre
+                        </p>
+                    </div>
+                    <ion-fab-button color="primary">
+                        <ion-icon name="flash-outline"></ion-icon>
+                    </ion-fab-button>
+                </div>
+
+            </div>
+
+        </ion-fab-list>
+    </ion-fab>
+
+
+</ion-content>
 <ion-router-outlet></ion-router-outlet>

@@ -2,6 +2,7 @@ import { NavController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 declare var $, moment
 @Component({
   selector: 'app-voirplus',
@@ -18,7 +19,7 @@ export class VoirplusPage implements OnInit {
     speed: 400
   };
   @ViewChild('loopSlider', {static: true}) loopSlider;
-  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController) { }
+  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, public toastController: ToastController) { }
 
   ngOnInit() {
     console.log(this.router.snapshot.queryParams)
@@ -37,6 +38,20 @@ export class VoirplusPage implements OnInit {
     } else {
       this.navCtrl.navigateBack(this.myroute, {relativeTo: this.router, queryParams: {slide: this.slide}})
     }
-      
+  }
+  async presentToast(messages) {
+    const toast = await this.toastController.create({
+      message: messages,
+      duration: 2000,
+      position: 'bottom',
+      cssClass: 'myToast'
+    });
+    toast.present();
+  }
+  addFav() {
+    this.presentToast('XXX Ajouté à tes favoris')
+  }
+  flash() {
+    this.presentToast('Ton coup de coeur a été envoyé')
   }
 }
