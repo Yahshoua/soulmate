@@ -39,7 +39,7 @@ export class PropositionPage implements OnInit {
       console.log('my position ', e)
     })
      // 
-    console.log('photo ', this.personnes)
+    console.log('les personnes ', this.personnes)
     console.log('snap ', this.router.snapshot.queryParams.slide)
     if(this.router.snapshot.queryParams.slide !== undefined) {
       this.slideOpts.initialSlide = this.router.snapshot.queryParams.slide

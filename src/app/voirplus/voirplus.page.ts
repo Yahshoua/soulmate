@@ -26,7 +26,7 @@ export class VoirplusPage implements OnInit {
     var index = this.router.snapshot.queryParams.id
     this.slide = this.router.snapshot.queryParams.slide
     this.personne = this.service.personnes.find(res=> {
-      return res.index == index
+      return res.id == index
     })
   }
   goBack() {

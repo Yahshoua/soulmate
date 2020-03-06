@@ -49,6 +49,22 @@ ion-label {
     color: var(--ion-color-step-600, #666);
 }
 
+.mylabel p:last-child {
+    font-size: 80%;
+    border-left: 3px solid #2196F3;
+    padding-left: 3%;
+}
+
+.monp {
+    white-space: normal;
+    font-size: 79%;
+    color: gray !important;
+}
+
+ion-label {
+    white-space: normal;
+}
+
 .myp {
     color: #000;
     font-weight: bold;

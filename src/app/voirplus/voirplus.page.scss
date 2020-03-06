@@ -33,6 +33,7 @@ ion-fab-list {
     margin: 5%;
     width: 45px;
     height: 45px;
+    margin-right: 8px;
 }
 
 .col-fab>div {
@@ -44,6 +45,10 @@ ion-fab-list {
 .col-fab>div div {
     float: left;
     margin: auto;
+    width: 100px;
+    margin-right: 0;
+    margin-left: 0;
+    flex: 1;
 }
 
 .col-fab p {

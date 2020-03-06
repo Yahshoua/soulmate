@@ -7,9 +7,9 @@
                 </div>
             </ion-slide>
         </ion-slides>
-        <div class="demander">
+        <div class="demander" *ngIf="personne?.album.length <= 1">
             <div>
-                <font style="font-size: 87%;color: #fff">Demander + de photo</font>
+                <font style="font-size: 87%;color: #fff"> Demander + de photo</font>
             </div>
         </div>
     </section>
@@ -18,26 +18,31 @@
         <ion-row class="detail">
             <ion-col size="12">
                 <p>
-                    Evry, Essonne
+                    {{personne.adresse}}
                 </p>
             </ion-col>
             <ion-col size="6">
                 <p style="font-family: 'Ubuntu-Light';">
-                    1Km
+                    {{getKms(personne.kilometre)}} Km
                 </p>
             </ion-col>
             <ion-col size="6">
                 <p id="age">
-                    23 ans
+                    {{getAge(personne.datenaiss)}} ans
                 </p>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col size="12">
                 <ion-item>
-                    <ion-label>
+                    <ion-label class="mylabel" style="white-space: normal;">
                         <p>Son annonce</p>
-                        <p>Button on right</p>
+                        <p *ngIf="personne.about?.length >=0">
+                            {{personne.about}}
+                        </p>
+                        <p *ngIf="personne.about?.length <=0">
+                            {{personne.nom}} n'a pas redigé son annonce. Vous pouvez lui suggerer de la renseigner
+                        </p>
                     </ion-label>
                 </ion-item>
             </ion-col>
@@ -45,7 +50,27 @@
                 <ion-item>
                     <ion-label>
                         <p>Centre d'interet</p>
-                        <p>Button on right</p>
+                        <ion-grid style="padding-left: 0;">
+                            <ion-row>
+                                <p class="monp" *ngIf="ObjInteret?.length <= 0" style="white-space: normal;
+                                font-size: 79%;
+                                color: gray !important;">
+                                    Ce membre n'a pas encore indiqu de centres d'interet
+                                </p>
+                                <ion-col *ngFor="let interet of ObjInteret" size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name={{interet?.icon}}></ion-icon>
+                                    <div style="display: grid;display: grid;
+                                    padding-left: 2%;">
+                                        <p style="font-size: 13px;">
+                                            {{interet?.libele}}
+                                        </p>
+                                        <p>
+                                            {{interet?.titre}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
                     </ion-label>
                 </ion-item>
             </ion-col>
