@@ -33,10 +33,14 @@ export class InscriptionPage implements OnInit {
   constructor(private navCtrl: NavController, public formBuild: FormBuilder, private service: monservice, private geolocation: Geolocation, private alertController: AlertController) { }
 
   ngOnInit() {
+    this.service.setPersonne()
     this.loopSlider.lockSwipes(true)
     this.formInscription = this.formBuild.group({
       genre: '',
     })
+   this.getPosition()
+  }
+  getPosition() {
     this.geolocation.getCurrentPosition().then((resp) => {
       console.log(resp.coords.latitude)
       console.log(resp.coords.longitude)
@@ -53,6 +57,8 @@ export class InscriptionPage implements OnInit {
       })
     }).catch((error) => {
        console.log('Error getting location', error);
+       var message = 'Nous n\'avons pas pu trouver ta position GPS !'
+       this.presentAlert(message)
      });
   }
   async presentAlert(erreur) {
@@ -60,7 +66,14 @@ export class InscriptionPage implements OnInit {
       header: 'Problème',
       subHeader: 'Erreur de localisation GPS',
       message: erreur,
-      buttons: ['OK']
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Ok');
+          }
+        }
+      ],
     });
     await alert.present();
   }

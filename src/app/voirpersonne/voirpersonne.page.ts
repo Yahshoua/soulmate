@@ -22,7 +22,7 @@ export class VoirpersonnePage implements OnInit {
   constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router) { }
   monstyle(al) {
     let style=  {
-        'background-image': 'url('+al.image+')', 
+        'background-image': 'url('+al.photo+')', 
       'height': $('app-voirplus').height()/2 + 'px', 
       'background-size': 'cover',
       'width': '100%'

@@ -21,7 +21,7 @@ export class VoirdiapoPage implements OnInit {
   constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private routes: Router) { }
   monstyle2(al) {
     let style=  {
-      'background-image': 'url('+al.image+')', 
+      'background-image': 'url('+al.photo+')', 
       'height': $('app-voirdiapo').height() + 'px', 
       'background-size': 'cover',
       'width': '100%'

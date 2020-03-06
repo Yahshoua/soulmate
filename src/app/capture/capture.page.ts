@@ -34,7 +34,7 @@ export class CapturePage implements OnInit {
     })
     this.service.setPhoto(this.image)
     setTimeout(()=> {
-    // this.navCtrl.navigateForward('portail')
+      this.navCtrl.navigateForward('portail')
     }, 3000)
   }
 }

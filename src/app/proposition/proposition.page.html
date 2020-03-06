@@ -1,22 +1,23 @@
 <ion-content>
     <ion-slides pager="false" [options]="slideOpts" #loopSlider>
         <ion-slide *ngFor="let i of personnes">
+
             <div class="toto" [ngStyle]="monStyle(i)"></div>
             <section class="sec-info">
                 <div class="col-name" style="display: flex;">
-                    <ion-fab-button color="primary" class="myfab" (click)="seemore(i.index)">
+                    <ion-fab-button color="primary" class="myfab" (click)="seemore(i.id)">
                         <ion-icon name="add-outline" style="margin: auto;font-size: 35px;"></ion-icon>
                     </ion-fab-button>
                     <span style="font-family: Oswald-Medium;margin:auto;margin-left: 3%;color: #fff">
                         {{i.nom}}
                     </span>
                     <span style="float: right;margin:auto;margin-right: 3%;color: #fff">
-                        {{getAge(i.dateNaiss)}} ans
+                        {{getAge(i.datenaiss)}} ans
                     </span>
                 </div>
                 <div class="col-loc">
                     <span style="font-size: 70%;margin: auto;margin-left: 3%;">
-                        {{i.address}}
+                        {{i.adresse}}
                     </span>
                     <span style="margin: auto;margin-right: 3%;font-family: Oswald-Medium">
                         {{getDistance(i.latitude, i.longitude)}} Km

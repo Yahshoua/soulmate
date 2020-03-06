@@ -18,7 +18,7 @@ export class PropositionPage implements OnInit {
   };
   monStyle(i) {
     let style=  {
-        'background-image': 'url('+i.photo+')', 
+        'background-image': 'url('+i.images+')', 
       'height': $('app-proposition').height() + 'px', 
       'background-size': 'cover',
       'width': '100%'
@@ -31,14 +31,27 @@ export class PropositionPage implements OnInit {
 
   ngOnInit() {
     moment.locale('fr')
-    this.personnes = this.service.personnes
+     this.service.userSubscriber.subscribe((res: any)=> {
+        this.personnes = res
+    })
+    this.service. getGenres()
+    this.service.getMyPosition().then(e=> {
+      console.log('my position ', e)
+    })
+     // 
     console.log('photo ', this.personnes)
     console.log('snap ', this.router.snapshot.queryParams.slide)
     if(this.router.snapshot.queryParams.slide !== undefined) {
       this.slideOpts.initialSlide = this.router.snapshot.queryParams.slide
     }
     this. getMyPosi()
+    this.getalluser()
 }
+  getalluser() {
+    this.service.getAllUser().then(e=> {
+      console.log('tous les users ', e)
+    })
+  }
   getAge(date) {
     var age = moment(date).format('Y')
      return moment().format('Y') - age
@@ -53,11 +66,11 @@ export class PropositionPage implements OnInit {
   getDistance(lat, long) {
     return this.service.getKms(lat, long)
   }
-  seemore(index) {
+  seemore(id) {
     this.loopSlider.getActiveIndex().then(index=> {
       console.log('index ', index)
       this.curentSlide = index
-    this.navCtrl.navigateRoot('voirplus', {queryParams: {id: index, slide: index}})
+    this.navCtrl.navigateRoot('voirplus', {queryParams: {id: id, slide:  this.curentSlide}})
     })
     
   }

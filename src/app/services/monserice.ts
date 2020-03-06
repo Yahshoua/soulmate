@@ -15,7 +15,20 @@ export class monservice {
     type= 'formulaire'
     myLat
     myLong
-
+    userSubscriber = new Subject()
+    genreVoulu
+    kilometreVoulu = 3
+    getGenres() {
+      if(this.utilisateur.genre =='Homme') {
+        this.genreVoulu = 'Femme'
+      } else {
+        this.genreVoulu = 'Homme'
+      }
+    }
+    userSubscription() {
+      this.userSubscriber.next(this.utilisateur)
+    }
+    url2 = this.server1+'/phpsoulmate/getAlluser.php'
     constructor(private geolocation: Geolocation) {
       moment().locale('fr')
         this.getUtilsateurStorage()
@@ -30,6 +43,8 @@ export class monservice {
       var date = moment().format()
       this.utilisateur.dateInscri = date
       this.utilisateur.type = this.type
+      this.utilisateur.latitude = this.myLat
+      this.utilisateur.longitude = this.myLong
       //Mise à jour des data user dans la BDD
           var e = $.ajax({
             method: 'POST',
@@ -44,7 +59,79 @@ export class monservice {
     }
     // ce tableau sert à contenir les matchings selon que le user à accepter ou non, je le recupere dans la route matchclose
     matching: any
-
+    // FAKER
+    setPersonne() {
+      return
+      for(let i=0;i<this.personnes.length;i++) {
+        if(this.personnes[i].album.length >= 1) {
+          for(let e=0;e<this.personnes[i].album.length;e++) {
+                var image = this.personnes[i].album[e].image
+                var id = this.personnes[i].index
+                $.ajax({
+                  url: this.server1+'/phpsoulmate/setPhoto.php',
+                  method: 'POST',
+                  data: {id: id, image: image}
+                })
+            }
+          
+        }
+        
+        var user = {
+          nom: this.personnes[i].nom,
+          genre: this.personnes[i].genre,
+          datenaiss: this.personnes[i].dateNaiss,
+          email: this.personnes[i].email,
+          lieux: this.personnes[i].address,
+          password: '',
+          tel: this.personnes[i].phone,
+          dateInscri: moment().format(),
+          image: this.personnes[i].photo,
+          latitude: this.personnes[i].latitude,
+          longitude: this.personnes[i].longitude,
+          type: 'formulaire'
+        }
+          //Mise à jour des data user dans la BDD
+          var e = $.ajax({
+            method: 'POST',
+            url: this.url,
+            data: user
+          }).done((response)=> {
+            console.log('mise à jour des données fakes ', response)
+          }).fail((err)=> {
+            console.log('erreur lors de la mise à jour des données fakes ', err)
+          })
+      }
+    }
+    // Recuperer tous les users
+    filter = {
+      genre: this.genreVoulu,
+      kilometre: this.kilometreVoulu
+    }
+   async getAllUser() {
+      var r = $.ajax({
+        method: 'POST',
+        url: this.url2,
+        data: {email: this.utilisateur.email},
+        dataType: 'Json'
+      }).done(res=> {
+          return this.filtrage(res)
+      })
+      return r
+    }
+    filtrage(data) {
+      this.utilisateur = data.filter(item=> {
+        for(var key in this.filter) {
+          if(item['genre'] !== this.genreVoulu || item['kilometre'] > this.filter.kilometre) {
+            return false
+          }
+        }
+        return true
+      })
+      this.userSubscription()
+      console.log('utilisateur ', this.utilisateur)
+      return this.utilisateur
+    }
+   
     personnes = [
       {
         "id": "5e5d7e12faa225a80a3dbda7",
@@ -435,14 +522,22 @@ export class monservice {
       });
       return watch
     }
-    getMyPosition() {
-            this.geolocation.getCurrentPosition().then((resp) => {
+   
+    async getMyPosition() {
+         var q =  this.geolocation.getCurrentPosition().then((resp) => {
             this.myLat = resp.coords.latitude,
             this.myLong = resp.coords.longitude
+            return {
+              latitude: this.myLat,
+              longitude: this.myLong
+            }
         })
+        return q
   }
     storeUser(profil) {
         profil.image = this.photo
+        profil.latitude = this.myLat
+        profil.longitude = this.myLong
         let log = JSON.parse(localStorage.getItem('user')) || []
         localStorage.setItem('user', JSON.stringify(profil))
         this.utilisateur = JSON.parse(localStorage.getItem('user'))
