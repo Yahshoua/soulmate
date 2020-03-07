@@ -1,4 +1,4 @@
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,13 +16,20 @@ export class VoirpersonnePage implements OnInit {
   pages = false
   interet = {
   }
+  mode = {
+
+  }
+  ObjMode: any = []
   ObjInteret:any = []
+  suggetion: any = []
+  affSugPhot: boolean
+  affSugAbouts: boolean
   slideOpts = {
     initialSlide: 0,
     speed: 400
   };
   @ViewChild('loopSlider', {static: true}) loopSlider;
-  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router) { }
+  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController) { }
   monstyle(al) {
     let style=  {
         'background-image': 'url('+al.photo+')', 
@@ -39,7 +46,7 @@ export class VoirpersonnePage implements OnInit {
     console.log(this.router.snapshot.queryParams)
     var index = this.router.snapshot.queryParams.id
     this.slide = this.router.snapshot.queryParams.slide
-    
+
     this.personne = this.service.personnes.find(res=> {
       return res.id == index
     })
@@ -63,11 +70,25 @@ export class VoirpersonnePage implements OnInit {
 
     console.log('personne ', this.personne, 'taille album ', this.personne.album.length)
       this.interet = this.personne.interets
-
+      this.mode = this.personne.mode
+      this.suggetion = this.personne.suggetion
+      this.affSugPhoto()
+      this.affSugAbout()
     this.loopSlider.lockSwipes(true)
     if(this.personne.album.length > 1 ) {
       this.pages = true
       this.loopSlider.lockSwipes(false)
+    }
+    var ObjMode = Object.keys(this.interet).length
+    if(ObjMode >=1) {
+      for(let ints in this.mode) {
+          if(this.mode[ints] !== null) {
+            this.ObjMode.push({
+              libelle: ints,
+              value: this.mode[ints]
+            })
+          }
+      }
     }
     
       var myobj = Object.keys(this.interet).length
@@ -106,6 +127,57 @@ export class VoirpersonnePage implements OnInit {
         }
       }
       
+  }
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+      cssClass: 'myToast2'
+    });
+    toast.present();
+  }
+  affSugPhoto() {
+    if(this.suggetion.length >=1) {
+      var aff = this.suggetion.find(e=> {
+        return e.sujet == 1
+      })
+      console.log( 'aff ', aff, 'type ', typeof aff)
+      if(typeof aff !== 'undefined') {
+        this.affSugPhot = false
+      } else {
+        this.affSugPhot = true
+      }
+    } else {
+      this.affSugPhot = true
+    }
+    console.log('sugg photo ', this.affSugPhot, ' sugg ', this.suggetion)
+  }
+  demander(sujet) {
+      this.service.setSug(sujet, this.personne.id)
+      if(sujet == 1) {
+        this.presentToast('Demande d\'ajout de photo envoyée')
+        this.affSugPhot = false
+      } else {
+        this.presentToast('Demande d\'ajout de description envoyée')
+        this.affSugAbouts = false
+      }
+  }
+  affSugAbout() {
+    if(this.suggetion.length >=1) {
+      var aff = []
+      aff = this.suggetion.find(e=> {
+        return e.sujet == 2
+      })
+      console.log('xxxx', aff, 'type ', typeof aff)
+      if(typeof aff !== 'undefined') {
+        this.affSugAbouts = false
+      } else {
+        this.affSugAbouts = true
+      }
+    } else {
+      this.affSugAbouts = true
+    }
   }
   tap() {
     this.service.setMyroute(true)

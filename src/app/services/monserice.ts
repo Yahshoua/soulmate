@@ -11,6 +11,8 @@ export class monservice {
     utilisateur
     server1 = 'http://localhost'
     server2= 'https://kazimo.ga/soulmate'
+    url2 = this.server1+'/phpsoulmate/getAlluser.php'
+    url3 = this.server1+'/phpsoulmate/setSug.php'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
     myLat
@@ -28,7 +30,15 @@ export class monservice {
     userSubscription() {
       this.userSubscriber.next(this.personnes)
     }
-    url2 = this.server1+'/phpsoulmate/getAlluser.php'
+    setSug(sujet, idpers) {
+      $.ajax({
+        method: 'POST',
+        url: this.url3,
+        data: {email:  this.utilisateur.email, sujet: sujet, id_pers: idpers},
+        dataType: 'Json'
+      })
+    }
+    
     constructor(private geolocation: Geolocation) {
       moment().locale('fr')
         this.getUtilsateurStorage()

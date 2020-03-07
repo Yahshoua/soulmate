@@ -13,7 +13,7 @@ ion-item {
     --padding-start: -6px;
 }
 
-ion-label p:first-child,
+#lib-ann,
 #mode {
     padding-bottom: 3px;
     font-size: 16px;
@@ -23,6 +23,11 @@ ion-label p:first-child,
 
 ion-label {
     margin: 2%;
+}
+
+#mode {
+    margin-top: 0;
+    margin-bottom: 3px;
 }
 
 .demander {
@@ -68,4 +73,19 @@ ion-label {
 .myp {
     color: #000;
     font-weight: bold;
+}
+
+.btn-sug {
+    width: 100px;
+    height: 18px;
+    color: #fff;
+    background-color: cornflowerblue;
+    font-size: 82%;
+    margin: auto;
+    text-align: center;
+}
+
+.about {
+    color: gray;
+    font-size: 80%;
 }

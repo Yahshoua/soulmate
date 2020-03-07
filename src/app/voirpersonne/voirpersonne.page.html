@@ -7,8 +7,8 @@
                 </div>
             </ion-slide>
         </ion-slides>
-        <div class="demander" *ngIf="personne?.album.length <= 1">
-            <div>
+        <div class="demander" *ngIf="personne?.album.length <= 1 && affSugPhot">
+            <div (click)="demander(1)">
                 <font style="font-size: 87%;color: #fff"> Demander + de photo</font>
             </div>
         </div>
@@ -36,13 +36,19 @@
             <ion-col size="12">
                 <ion-item>
                     <ion-label class="mylabel" style="white-space: normal;">
-                        <p>Son annonce</p>
-                        <p *ngIf="personne.about?.length >=0">
+                        <p id="lib-ann">Son annonce</p>
+                        <p *ngIf="personne.about?.length >=0" class="about">
                             {{personne.about}}
                         </p>
-                        <p *ngIf="personne.about?.length <=0">
-                            {{personne.nom}} n'a pas redigé son annonce. Vous pouvez lui suggerer de la renseigner
-                        </p>
+                        <div *ngIf="personne.about?.length <=0" style="display: grid;">
+                            <p class="about">
+                                {{personne.nom}} n'a pas redigé son annonce. Vous pouvez lui suggerer de la renseigner
+                            </p>
+                            <div class="btn-sug" *ngIf="affSugAbouts" (click)="demander(2)">
+                                Suggerer
+                            </div>
+                        </div>
+
                     </ion-label>
                 </ion-item>
             </ion-col>
@@ -74,70 +80,21 @@
                     </ion-label>
                 </ion-item>
             </ion-col>
-            <ion-col size="12">
-                <ion-row class="detail-plus">
-                    <ion-col size="12">
-                        <p id="mode">Mode de vie</p>
+            <ion-col size="12" style="padding-left: 3%;">
+                <p id="mode">Mode de vie</p>
+                <p class="monp" *ngIf="ObjMode?.length <= 0" style="white-space: normal;
+                font-size: 79%;
+                color: gray !important;">
+                    Ce membre n'a pas encore indiqé son mode de vie</p>
+
+                <ion-row class="detail-plus" *ngFor="let mode of ObjMode">
+                    <ion-col size="4">
+                        <p> {{mode.libelle}} </p>
                     </ion-col>
 
                     <ion-col size="6">
                         <p class="myp">
-                            Habitation
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p>
-                            en colocation
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p class="myp">
-                            Enfant
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p>
-                            1 enfant
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p class="myp">
-                            Profession
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p>
-                            employé
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p class="myp">
-                            Apparence
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p>
-                            dans la moyenne
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p class="myp">
-                            Taille
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p>
-                            Environ 1m70
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p class="myp">
-                            Poids
-                        </p>
-                    </ion-col>
-                    <ion-col size="6">
-                        <p>
-                            Environs 80kg
+                            {{mode.value}}
                         </p>
                     </ion-col>
                 </ion-row>
