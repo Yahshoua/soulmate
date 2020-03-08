@@ -2,7 +2,7 @@
 
     <ion-item button lines="full" *ngFor="let user of personne;let i = index">
         <ion-avatar slot="start">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
+            <img src="{{user.images}}">
         </ion-avatar>
         <ion-label (click)="route(user.id)">
             {{user.nom}}

@@ -128,6 +128,9 @@ export class VoirpersonnePage implements OnInit {
       }
       
   }
+  ionViewWillLeave(){
+    this.service.getAllUser()
+  }
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,

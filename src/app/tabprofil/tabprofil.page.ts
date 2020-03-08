@@ -1,4 +1,6 @@
+import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabprofil',
@@ -8,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class TabprofilPage implements OnInit {
   myvalue = 'favorite'
   switch = true
-  constructor() { }
+  constructor(private router: Router, private service: monservice) { }
 
   ngOnInit() {
   }
@@ -20,6 +22,14 @@ export class TabprofilPage implements OnInit {
     } else {
       this.switch = true
     this.myvalue = 'favorite'
+    }
+  }
+ 
+  ionViewWillEnter(){
+    console.log('this.router.url', this.router.url);
+    var route = this.router.url
+    if(route == "/portail/users/profil/route") {
+        this.service.setSubscriptionFavoris(true)
     }
   }
 }

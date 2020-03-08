@@ -1,6 +1,7 @@
 import { NavController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var $
 @Component({
@@ -17,5 +18,6 @@ export class MatchPage implements OnInit {
   ionViewWillEnter(){
     console.log('match..')
     this.service.getAllUser()
+    this.service.setSubscriptionFavoris(false)
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { monservice } from '../services/monserice';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 declare var $, moment
 @Component({
   selector: 'app-matching',
@@ -14,7 +15,7 @@ export class MatchingPage implements OnInit {
   empty: boolean = true
   users
   @ViewChild('loopSlider', {static: true}) loopSlider;
-  constructor(private service: monservice, private navCtrl: NavController) { }
+  constructor(private service: monservice, private navCtrl: NavController, private router: Router) { }
   slideOpts = {
     on: {
       beforeInit() {
@@ -112,30 +113,44 @@ export class MatchingPage implements OnInit {
      return style
   }
   ngOnInit() {
-      this.service.userSubscriber.subscribe((e: any)=> {
-        this.personne =  e.filter(e=> {
+      this.service.allperSub.subscribe((e: any)=> {
+        var i =  e.filter(e=> {
           return e.flash.reponse == 0
         })
+        this.personne = i.sort((a, b)=> {
+        if (a.id < b.id ) {
+        return 1;
+      }
+      if (a.id > b.id ) {
+        return -1;
+      }
+      return 0;
+  })
       this.users = e.filter(e=> {
             return e.flash.etat == true
       })
       this.ready()
     })
-   this.service.userSubscription()
+   this.service.subsciberAllperso()
   }
   ready() {
+   
+    console.log('la route url', this.router.url);
     console.log('personne ', this.personne)
     console.log('uuuuuser ', this.users)
     if(this.users.length >= 1) {
       this.empty = false
       this.service.setMatching(this.users)
     }
-    if(this.personne.length <=0 && this.users.length >= 1) {
-      this.navCtrl.navigateRoot('portail/users/match/route/closematch')
-    } else {
-      this.navCtrl.navigateRoot('portail/users/match/route/matching')
+    if(this.router.url == "/portail/users/match/route" || this.router.url == "/portail/users/match/route/matching") {
+          if(this.personne.length <=0 && this.users.length >= 1) {
+          this.navCtrl.navigateRoot('portail/users/match/route/closematch')
+        } else {
+          this.navCtrl.navigateRoot('portail/users/match/route/matching')
+        }
+        this.loopSlider.lockSwipes(true)
     }
-    this.loopSlider.lockSwipes(true)
+    
   }
   getAge(an) {
     return moment().format('Y') - moment(an).format('Y') + 'ans'
@@ -152,7 +167,8 @@ export class MatchingPage implements OnInit {
       this.loopSlider.slideNext().then(()=> {
       this.loopSlider.lockSwipes(true)
     })
-    this.service.setMatch(index, action)
+    var reponse = action==true?2:1
+    this.service.setMatch(index, reponse)
     if(action == false) {
         for(var i=0;i< this.users.length;i++) {
           if(this.users[i].id == index) {

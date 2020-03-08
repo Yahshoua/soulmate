@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar *ngIf="!favoris">
         <ion-icon style="font-size: 30px;" slot="start" name="menu-outline" (click)="openmenu()"></ion-icon>
         <ion-title style="font-size: 93%;">Pres de chez moi</ion-title>
         <ion-icon slot="end" name="refresh-outline" style="margin-right: 4%;
@@ -7,7 +7,13 @@
         <ion-icon slot="end" style="margin-right: 3%;
         font-size: 20px;" name="ellipsis-vertical-outline"></ion-icon>
     </ion-toolbar>
+    <!--  -->
+    <ion-toolbar class="myToll" *ngIf="favoris">
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title color="light" style="font-size: 93%;"> Mes favoris </ion-title>
+    </ion-toolbar>
 </ion-header>
+
 <ion-menu side="start" menuId="first" contentId="main">
     <ion-header>
         <ion-toolbar color="primary">

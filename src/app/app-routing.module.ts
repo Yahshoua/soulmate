@@ -57,6 +57,22 @@ const routes: Routes = [
     path: 'connexion',
     loadChildren: () => import('./connexion/connexion.module').then( m => m.ConnexionPageModule)
   },
+  {
+    path: 'tabfavoris',
+    loadChildren: () => import('./tabfavoris/tabfavoris.module').then( m => m.TabfavorisPageModule)
+  },
+  {
+    path: 'tab-blacklist',
+    loadChildren: () => import('./tab-blacklist/tab-blacklist.module').then( m => m.TabBlacklistPageModule)
+  },
+  {
+    path: 'tab-macth',
+    loadChildren: () => import('./tab-macth/tab-macth.module').then( m => m.TabMacthPageModule)
+  },
+  {
+    path: 'tabprofil-accueil',
+    loadChildren: () => import('./tabprofil-accueil/tabprofil-accueil.module').then( m => m.TabprofilAccueilPageModule)
+  }
 ];
 
 @NgModule({

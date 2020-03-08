@@ -19,12 +19,28 @@ export class monservice {
     url7 = this.server2+'/phpsoulmate/setChat.php'
     url8 = this.server1+'/phpsoulmate/setFavoris.php'
     url9 = this.server1+'/phpsoulmate/setFlash.php'
+    url10 = this.server1+'/phpsoulmate/setMatch.php'
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
     myLat
     myLong
+    favoris
+    favoriSub = new Subject()
+    favoriSybscriber() {
+      this.favoriSub.next(this.favoris)
+    }
+    setSubscriptionFavoris(etat) {
+        this.favoris = etat
+        this.favoriSybscriber()
+    }
     personnes =[]
+
+    allperSub = new Subject()
+    Allpersonnes
+    subsciberAllperso() {
+      this.allperSub.next(this.Allpersonnes)
+    }
     personneSub = new Subject()
     personneSubscription() {
       this.personneSub.next(this.personnes)
@@ -42,7 +58,15 @@ export class monservice {
       this.matchingSubscriber.next(this.matching)
     }
     setMatching(data) {
-      this.matching = data
+      this.matching = data.sort((a, b)=> {
+        if (a.id < b.id ) {
+        return 1;
+      }
+      if (a.id > b.id ) {
+        return -1;
+      }
+      return 0;
+  })
       this.matchingsubscription()
     }
     getGenres() {
@@ -184,6 +208,9 @@ export class monservice {
             }
           }
         }
+          this.Allpersonnes = res
+          this.subsciberAllperso()
+
           return this.filtrage(res)
       })
       return r
@@ -198,28 +225,39 @@ export class monservice {
         return true
       })
       this.matching = data.filter(i=> {
-          if(i.length >= 1) {
             return i.flash.etat == true
-          } else {
-            return []
-          }
       })
+      this.matching = this.matching.sort((a, b)=> {
+        if (a.id < b.id ) {
+        return 1;
+      }
+      if (a.id > b.id ) {
+        return -1;
+      }
+      return 0;
+  })
       this.matchingsubscription()
       this.userSubscription()
-      console.log('mes utilisateur ', this.personnes, 'mes matching ', this.matching)
+      console.log('mes utilisateur ', this.personnes, "data",data, ' mes matching ', this.matching)
       return this.personnes
     }
    
    
     //Mise à jour du match lorsque l'utilisateur click sur le coeur ou la X
-    setMatch(index, etat) {
-       for(var i=0;i< this.personnes.length;i++) {
-         if(this.personnes[i].index == index) {
-           this.personnes[i].flash.reponse = etat
+    setMatch(index, reponse) {
+       for(var i=0;i< this.Allpersonnes.length;i++) {
+         if(this.Allpersonnes[i].id == index) {
+           this.Allpersonnes[i].flash.reponse = reponse
            break
          }
        }
-    }
+        $.ajax({
+          method: "POST",
+          url: this.url10,
+          data: {id: this.utilisateur.id, id_flasheur: index, etat: reponse},
+          dataType: "json"
+        })
+      }
     getStorageUser() {
       let user = JSON.parse(localStorage.getItem('user')) || []
       user.length <=0? this.auth= false:this.auth = true
