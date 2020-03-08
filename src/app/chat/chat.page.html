@@ -5,22 +5,37 @@
             <ion-avatar style="width: 40px;height: 40px;">
                 <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
             </ion-avatar>
-            <div style="padding-left: 3%;display: grid">
-                <span>Edna</span>
-                <span style="font-size: 85%;">20 ans, Paris</span>
+            <div style="padding-left: 3%;display: grid;line-height: 16px;">
+                <span style="font-size: 81%;">{{personne.nom}}</span>
+                <span style="font-size: 70%;"> {{getAge(personne.datenaiss)}}  </span>
+                <span style="font-size: 70%;">{{personne.adresse}}</span>
             </div>
         </div>
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="cnt" style="position: relative" id="mydiv">
+<section class="cnt" style="position: relative" id="mydiv">
+    <div style="margin-top: 12%;" class="mydiv" *ngIf="chating?.length >= 1">
+        <div style="bottom: 0;right: 0;
+        left: 0;" id="madiv">
+            <ion-item *ngFor="let chat of chating" lines="none" style="background: #ffffffed">
+                <ion-avatar [slot]="slot(chat.email)">
+                    <img src={{chat?.photo}}>
+                </ion-avatar>
+                <ion-label [ngStyle]="{'text-align': align(chat?.email)}" style="white-space: initial">
 
-</ion-content>
-<form class="myform" style="background: #a9a9a914">
+                    <p>{{chat?.messages}}</p>
+                    <span style="font-size: 59%;color: gray"> {{chat?.dates}} </span>
+                </ion-label>
+            </ion-item>
+        </div>
+    </div>
+</section>
+<form [formGroup]="form" class="myform" style="background: #a9a9a914">
     <div class="col-btn">
-        <ion-input placeholder="Dites quelque chose à ..."></ion-input>
-        <ion-fab-button id="btn" slot="end">
-            <ion-icon name="send"></ion-icon>
+        <ion-input [(ngModel)]="texte" placeholder="Dites quelque chose à {{personne.nom}}" formControlName="message"></ion-input>
+        <ion-fab-button id="btn" slot="end" [disabled]="!form.valid">
+            <ion-icon name="send" (click)="envoi()"></ion-icon>
         </ion-fab-button>
     </div>
 </form>

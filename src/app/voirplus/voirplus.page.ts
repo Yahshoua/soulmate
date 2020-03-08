@@ -14,6 +14,8 @@ export class VoirplusPage implements OnInit {
   slide
   pages = false
   myroute = 'portail'
+  favoris
+  mycolor
   slideOpts = {
     initialSlide: 0,
     speed: 400
@@ -29,6 +31,10 @@ export class VoirplusPage implements OnInit {
       return res.id == index
     })
   }
+  ngAfterViewInit() {
+    this.favoris = this.personne.favoris
+    this.mycolor = this.favoris == true?'warning':'medium'
+  }
   goBack() {
     var e = this.service.myroute
     if(e == true) {
@@ -38,6 +44,13 @@ export class VoirplusPage implements OnInit {
     } else {
       this.navCtrl.navigateBack(this.myroute, {relativeTo: this.router, queryParams: {slide: this.slide}})
     }
+  }
+  Getfavoris() {
+  if(this.favoris == false) {
+    return 'Ajouter aux favoris'
+  } else {
+    return 'Enlever aux favoris'
+  }
   }
   async presentToast(messages) {
     const toast = await this.toastController.create({
@@ -49,9 +62,19 @@ export class VoirplusPage implements OnInit {
     toast.present();
   }
   addFav() {
-    this.presentToast('XXX Ajouté à tes favoris')
+    if(this.favoris == true) {
+      this.presentToast(this.personne.nom+ " enlever à tes favoris")
+      this.favoris = false
+      this.mycolor = 'medium'
+    } else {
+      this.presentToast(this.personne.nom+ " ajouter à tes favoris")
+      this.mycolor = 'warning'
+      this.favoris = true
+    }
+    this.service.setFavoris({id: this.service.utilisateur.id, id_favoris: this.personne.id})
   }
   flash() {
     this.presentToast('Ton coup de coeur a été envoyé')
+    this.service.setFlash({id: this.service.utilisateur.id, id_pers: this.personne.id})
   }
 }

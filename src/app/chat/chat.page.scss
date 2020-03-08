@@ -21,7 +21,7 @@ ion-toolbar {
     padding: 1%;
 }
 
-ion-content {
+section {
     --background: #ffffffed;
 }
 
@@ -32,7 +32,7 @@ ion-content {
     bottom: 51px;
 }
 
-ion-content[class=cnt] {
+section[class=cnt] {
     --overflow: hidden;
 }
 

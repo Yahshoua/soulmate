@@ -1,3 +1,5 @@
+import { NavController } from '@ionic/angular';
+import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
 declare var $
 @Component({
@@ -7,7 +9,7 @@ declare var $
 })
 export class HomePage implements OnInit {
 
-  constructor() {}
+  constructor(private service: monservice, private navCtrl: NavController) {}
   ngOnInit() {
    // $('ion-content>div').css({'height': $('app-home').height() + 'px'})
   }

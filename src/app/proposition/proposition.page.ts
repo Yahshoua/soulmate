@@ -47,6 +47,10 @@ export class PropositionPage implements OnInit {
     this. getMyPosi()
     this.getalluser()
 }
+
+ionViewWillLeave(){
+  this.getalluser()
+}
   getalluser() {
     this.service.getAllUser().then(e=> {
       console.log('tous les users ', e)
@@ -63,8 +67,8 @@ export class PropositionPage implements OnInit {
   })
      
   }
-  getDistance(lat, long) {
-    return this.service.getKms(lat, long)
+  getDistance(kms) {
+    return Math.floor(kms)
   }
   seemore(id) {
     this.loopSlider.getActiveIndex().then(index=> {

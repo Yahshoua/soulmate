@@ -12,5 +12,5 @@ export class MatchPage implements OnInit {
   ngOnInit() {
     
   }
-  constructor() {}
+  constructor(private service: monservice) {}
 }

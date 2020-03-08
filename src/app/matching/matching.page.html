@@ -1,7 +1,16 @@
 <ion-content>
+    <div style="margin-top: 50%;display: grid" *ngIf="empty">
+        <div style="display: flex;">
+            <img style="margin: auto" src="../assets/images/carte.png" width="100px">
+
+        </div>
+        <p style="text-align: center;font-size: 80%">
+            Personne n'a ecnore aimé ton profil
+        </p>
+    </div>
     <ion-slides pager="false" [options]="slideOpts" #loopSlider>
         <ion-slide *ngFor="let i of personne">
-            <div class="toto" [ngStyle]="monStyle(i.photo)"></div>
+            <div class="toto" [ngStyle]="monStyle(i.images)"></div>
             <section class="sec-info">
                 <div class="col-name">
                     <ion-fab-button (click)="action(false, i.index)" color="primary" class="myfab" style="right: 35%;">
@@ -13,16 +22,16 @@
                     <div class="col-detail">
                         <div class="col-info">
                             <p style="text-align: center;">
-                                <font style="font-family: Oswald-Medium;">
-                                    Malley
+                                <font style="    font-weight: bold;color: #fff;">
+                                    {{i.nom}}
                                 </font>
-                                <font style="color: #f704ae;">
-                                    36 ans
+                                <font style="color: #f704ae;padding-left: 3%">
+                                    {{getAge(i.datenaiss)}}
                                 </font>
                             </p>
                         </div>
-                        <p style="font-size: 80%;margin: 0">
-                            Charbonnage
+                        <p style="font-size: 80%;margin: 0;color: #fff">
+                            {{i.adresse}}
                         </p>
                     </div>
                 </div>

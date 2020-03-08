@@ -10,7 +10,9 @@ declare var $, moment
 export class MatchingPage implements OnInit {
 
   photo= []
-  personne
+  personne = []
+  empty: boolean = true
+  users
   @ViewChild('loopSlider', {static: true}) loopSlider;
   constructor(private service: monservice, private navCtrl: NavController) { }
   slideOpts = {
@@ -110,11 +112,33 @@ export class MatchingPage implements OnInit {
      return style
   }
   ngOnInit() {
-    this.personne =  this.service.personnes.filter(e=> {
-      return e.flash == true
+      this.service.userSubscriber.subscribe((e: any)=> {
+        this.personne =  e.filter(e=> {
+          return e.flash.reponse == 0
+        })
+      this.users = e.filter(e=> {
+            return e.flash.etat == true
+      })
+      this.ready()
     })
-    console.log('photo ', this.personne)
+   this.service.userSubscription() 
+
+  }
+  ready() {
+    console.log('personne ', this.personne)
+    console.log('uuuuuser ', this.users)
+    if(this.users.length >= 1) {
+      this.empty = false
+      this.service.matching = this.users
+    }
+    if(this.personne.length <=0 && this.users.length >= 1) {
+      this.service.matching = this.users
+      this.navCtrl.navigateRoot('portail/users/match/route/closematch')
+    }
     this.loopSlider.lockSwipes(true)
+  }
+  getAge(an) {
+    return moment().format('Y') - moment(an).format('Y') + 'ans'
   }
   action(action, index) {
     this.loopSlider.lockSwipes(false)
@@ -131,17 +155,20 @@ export class MatchingPage implements OnInit {
     if(action == false) {
         for(var i=0;i< this.personne.length;i++) {
           if(this.personne[i].index == index) {
-              this.personne[i].flash = false
+              this.personne[i].flash.etat = false
+              this.personne[i].flash.reponse = 1
               break
           }
         }
     } else {
       for(var i=0;i< this.personne.length;i++) {
         if(this.personne[i].index == index) {
-            this.personne[i].flash = true
+            this.personne[i].flash.etat = true
+            this.personne[i].flash.reponse = 3
             break
         }
       }
     }
   }
+
 }

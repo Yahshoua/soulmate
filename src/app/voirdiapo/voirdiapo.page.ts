@@ -31,11 +31,11 @@ export class VoirdiapoPage implements OnInit {
   }
   ngOnInit() {
     console.log(this.router.snapshot.queryParams)
-    var index = this.router.snapshot.queryParams.index
+    var id = this.router.snapshot.queryParams.index
     this.slide = this.router.snapshot.queryParams.slide2
     this.slideOpts.initialSlide = this.slide
     this.personne = this.service.personnes.find(res=> {
-      return res.index == index
+      return res.id == id
     })
     // this.personne.album.push({image: this.personne.photo})
     this.loopSlider.lockSwipes(true)

@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,11 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MatchclosePage implements OnInit {
   personne
-  constructor(private service: monservice) { }
+  constructor(private service: monservice, private navCtrl: NavController) { }
 
   ngOnInit() {
     this.personne = this.service.matching
     console.log('tableau matching ', this.personne)
+    if(this.personne.length >=1) {
+          this.navCtrl.navigateBack('users/match/route/matching')
+        }
+      console.log('personnes ', this.personne)
+      this.service.userSubscription() 
   }
   getSize(i) {
     console.log('modulo ', i%2)

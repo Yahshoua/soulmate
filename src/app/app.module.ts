@@ -19,6 +19,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     ImagePicker,
     MenuController,
     Geolocation,
+    MutationObserver,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

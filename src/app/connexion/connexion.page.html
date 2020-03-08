@@ -1,0 +1,34 @@
+<ion-content [fullscreen]="true" style="position: relative;">
+    <div class="header">
+        <ion-icon name="chevron-back-outline" slot="start" [routerLink]="['/home']" routerLinkActive="router-link-active"></ion-icon>
+        <p>
+            Connexion
+        </p>
+    </div>
+    <section class="mysect">
+        <div class="col-form">
+            <form [formGroup]="formConnexion">
+                <ion-item>
+                    <ion-label position="floating">Adresse email</ion-label>
+                    <ion-input [(ngModel)]="email" type="text" formControlName="email"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Mot de passe </ion-label>
+                    <ion-input [(ngModel)]="password" type="password" formControlName="password"></ion-input>
+                </ion-item>
+                <div style="text-align: center;
+                padding: 10%;">
+                    <ion-button [disabled]="!formConnexion.valid" shape="round" (click)="connexion()">Connexion</ion-button>
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <p [routerLink]="['/inscription']" routerLinkActive="router-link-active">
+                Je crée mon profil pour la premiere fois
+            </p>
+            <p>
+                Nous contacter
+            </p>
+        </div>
+    </section>
+</ion-content>

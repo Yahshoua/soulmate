@@ -10,14 +10,27 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 export class monservice {
     utilisateur
     server1 = 'http://localhost'
-    server2= 'https://kazimo.ga/soulmate'
+    server2= 'https://kazimo.ga/cashapp'
     url2 = this.server1+'/phpsoulmate/getAlluser.php'
     url3 = this.server1+'/phpsoulmate/setSug.php'
+    url4 = this.server1+'/phpsoulmate/getUserCloud.php'
+    url5 = this.server1+'/phpsoulmate/login.php'
+    url6 = this.server1+'/phpsoulmate/getChat.php'
+    url7 = this.server2+'/phpsoulmate/setChat.php'
+    url8 = this.server1+'/phpsoulmate/setFavoris.php'
+    url9 = this.server1+'/phpsoulmate/setFlash.php'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
     myLat
     myLong
+    personnes =[]
+    personneSub = new Subject()
+    personneSubscription() {
+      this.personneSub.next(this.personnes)
+    }
+    auth: boolean = true
     userSubscriber = new Subject()
+    utilisateurSubscriber = new Subject()
     genreVoulu
     kilometreVoulu = 3
     getGenres() {
@@ -26,6 +39,23 @@ export class monservice {
       } else {
         this.genreVoulu = 'Homme'
       }
+    }
+    setFlash(data) {
+      $.ajax({
+        method: 'POST',
+        url: this.url9,
+        data: data
+      })
+    }
+    setFavoris(data) {
+      $.ajax({
+        method: 'POST',
+        url: this.url8,
+        data: data
+      })
+    }
+    utilsateurSubscription() {
+      this.utilisateurSubscriber.next(this.utilisateur)
     }
     userSubscription() {
       this.userSubscriber.next(this.personnes)
@@ -38,7 +68,19 @@ export class monservice {
         dataType: 'Json'
       })
     }
-    
+    async login(data) {
+      var e = $.ajax({
+        method: 'POST',
+        url: this.url5,
+        data: data,
+        dataType: 'json'
+      }).done(e=> {
+        return e
+      }).fail(err=> {
+        return 'erreur lors du login '+ err
+      })
+      return e
+    }
     constructor(private geolocation: Geolocation) {
       moment().locale('fr')
         this.getUtilsateurStorage()
@@ -149,7 +191,7 @@ export class monservice {
       return this.personnes
     }
    
-    personnes =[]
+   
     //Mise à jour du match lorsque l'utilisateur click sur le coeur ou la X
     setMatch(index, etat) {
        for(var i=0;i< this.personnes.length;i++) {
@@ -159,9 +201,38 @@ export class monservice {
          }
        }
     }
+    getStorageUser() {
+      let user = JSON.parse(localStorage.getItem('user')) || []
+      user.length <=0? this.auth= false:this.auth = true
+      this.utilisateur = user
+      this.utilsateurSubscription()
+      return {
+            user: this.utilisateur,
+            auth: this.auth
+      }
+    }
     myroute = false
     getUtilsateurStorage() {
       this.utilisateur = JSON.parse(localStorage.getItem('user')) || []
+    }
+    async getCloudUtilisateur() {
+      var email = this.utilisateur.email
+     var i = $.ajax({
+        method: 'POST',
+        url: this.url4,
+        data: {email: email}
+      }).done(e=> {
+        var user = JSON.parse(e)
+        user = user[0]
+        console.log('eeeee ', user)
+        localStorage.setItem('user', JSON.stringify(user))
+        this.utilisateur = user
+        this.utilsateurSubscription()
+        return user
+      }).fail(err=> {
+        return 'erreur lors de la recuperation de tes données'
+      })
+      return i
     }
     setMyroute(etat) {
       this.myroute = etat
@@ -177,7 +248,31 @@ export class monservice {
       });
       return watch
     }
-   
+   async getChat(data) {
+      var e = $.ajax({
+        method: 'POST',
+        url: this.url6,
+        data: data,
+        dataType: 'json'
+      }).done(e=> {
+        return e
+      }).fail(err=> {
+        return "erreur lors de la recuperation des conversations "+ err
+      })
+      return e
+   }
+   setChat(data) {
+     $.ajax({
+       method: "POST",
+       url: this.url7,
+       data: data,
+       dataType: 'Json'
+     }).done(e=> {
+
+     }).fail(err=> {
+
+     })
+   }
     async getMyPosition() {
          var q =  this.geolocation.getCurrentPosition().then((resp) => {
             this.myLat = resp.coords.latitude,
@@ -190,9 +285,13 @@ export class monservice {
         return q
   }
     storeUser(profil) {
-        profil.image = this.photo
-        profil.latitude = this.myLat
-        profil.longitude = this.myLong
+        if(profil.image == undefined) {
+          profil.image = this.photo
+        }
+        if( profil.latitude == undefined) {
+          profil.latitude = this.myLat
+          profil.longitude = this.myLong
+        }
         let log = JSON.parse(localStorage.getItem('user')) || []
         localStorage.setItem('user', JSON.stringify(profil))
         this.utilisateur = JSON.parse(localStorage.getItem('user'))
