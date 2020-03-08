@@ -13,7 +13,7 @@ export class VoirplusPage implements OnInit {
   personne
   slide
   pages = false
-  myroute = 'portail'
+  myroute
   favoris
   mycolor
   slideOpts = {
@@ -27,9 +27,11 @@ export class VoirplusPage implements OnInit {
     console.log(this.router.snapshot.queryParams)
     var index = this.router.snapshot.queryParams.id
     this.slide = this.router.snapshot.queryParams.slide
+    this.myroute = this.router.snapshot.queryParams.route
     this.personne = this.service.personnes.find(res=> {
       return res.id == index
     })
+    console.log('myyy route ', this.myroute)
   }
   ngAfterViewInit() {
     this.favoris = this.personne.favoris
@@ -39,7 +41,6 @@ export class VoirplusPage implements OnInit {
     var e = this.service.myroute
     if(e == true) {
       this.navCtrl.navigateRoot(['voirplus/route/main'], {queryParams: {slide: this.slide, id: this.router.snapshot.queryParams.id}})
-      
       this.service.setMyroute(false)
     } else {
       this.navCtrl.navigateBack(this.myroute, {relativeTo: this.router, queryParams: {slide: this.slide}})

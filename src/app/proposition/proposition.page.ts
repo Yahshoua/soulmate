@@ -74,7 +74,7 @@ ionViewWillLeave(){
     this.loopSlider.getActiveIndex().then(index=> {
       console.log('index ', index)
       this.curentSlide = index
-    this.navCtrl.navigateRoot('voirplus', {queryParams: {id: id, slide:  this.curentSlide}})
+    this.navCtrl.navigateForward('voirplus', {queryParams: {id: id, slide:  this.curentSlide, route: 'portail/users/proposition'}})
     })
     
   }

@@ -12,13 +12,19 @@ export class MatchclosePage implements OnInit {
   constructor(private service: monservice, private navCtrl: NavController) { }
 
   ngOnInit() {
-    this.personne = this.service.matching
+    this.service.matchingSubscriber.subscribe((e: any)=> {
+      this.personne = e
+      var user = e.filter(i=> {
+          return e.reponse == 0
+      })
+      console.log('uuuuuser ', user)
+      if(user >=1) {
+        this.navCtrl.navigateRoot('users/match/route/matching')
+      }
+    
+    })
+    this.service.matchingsubscription()
     console.log('tableau matching ', this.personne)
-    if(this.personne.length >=1) {
-          this.navCtrl.navigateBack('users/match/route/matching')
-        }
-      console.log('personnes ', this.personne)
-      this.service.userSubscription() 
   }
   getSize(i) {
     console.log('modulo ', i%2)
@@ -27,5 +33,9 @@ export class MatchclosePage implements OnInit {
     } else {
       return 12
     }
+  }
+  route(id) {
+    this.navCtrl.navigateForward('/voirplus/route/main', {queryParams: {id: id, route: 'portail/users/match'}})
+    console.log('myyyyyy  route ',  this.service.myroutes)
   }
 }

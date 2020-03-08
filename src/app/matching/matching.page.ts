@@ -121,19 +121,19 @@ export class MatchingPage implements OnInit {
       })
       this.ready()
     })
-   this.service.userSubscription() 
-
+   this.service.userSubscription()
   }
   ready() {
     console.log('personne ', this.personne)
     console.log('uuuuuser ', this.users)
     if(this.users.length >= 1) {
       this.empty = false
-      this.service.matching = this.users
+      this.service.setMatching(this.users)
     }
     if(this.personne.length <=0 && this.users.length >= 1) {
-      this.service.matching = this.users
       this.navCtrl.navigateRoot('portail/users/match/route/closematch')
+    } else {
+      this.navCtrl.navigateRoot('portail/users/match/route/matching')
     }
     this.loopSlider.lockSwipes(true)
   }
@@ -145,26 +145,27 @@ export class MatchingPage implements OnInit {
     this.loopSlider.isEnd().then(end=> {
       console.log('is end ? ', end)
       if(end == true) {
-        this.service.matching = this.personne
+        this.service.setMatching(this.users)
           this.navCtrl.navigateRoot('portail/users/match/route/closematch')
       }
     })
-    this.loopSlider.slideNext().then(()=> {
+      this.loopSlider.slideNext().then(()=> {
       this.loopSlider.lockSwipes(true)
     })
+    this.service.setMatch(index, action)
     if(action == false) {
-        for(var i=0;i< this.personne.length;i++) {
-          if(this.personne[i].index == index) {
-              this.personne[i].flash.etat = false
-              this.personne[i].flash.reponse = 1
+        for(var i=0;i< this.users.length;i++) {
+          if(this.users[i].id == index) {
+              this.users[i].flash.etat = false
+              this.users[i].flash.reponse = 1
               break
           }
         }
     } else {
-      for(var i=0;i< this.personne.length;i++) {
-        if(this.personne[i].index == index) {
-            this.personne[i].flash.etat = true
-            this.personne[i].flash.reponse = 3
+      for(var i=0;i< this.users.length;i++) {
+        if(this.users[i].id == index) {
+            this.users[i].flash.etat = true
+            this.users[i].flash.reponse = 2
             break
         }
       }

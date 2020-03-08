@@ -9,8 +9,13 @@ declare var $
   styleUrls: ['./match.page.scss'],
 })
 export class MatchPage implements OnInit {
+  personne
+  constructor(private service: monservice, private navCtrl: NavController) {}
   ngOnInit() {
     
   }
-  constructor(private service: monservice) {}
+  ionViewWillEnter(){
+    console.log('match..')
+    this.service.getAllUser()
+  }
 }

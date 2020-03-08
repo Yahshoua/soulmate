@@ -19,6 +19,7 @@ export class monservice {
     url7 = this.server2+'/phpsoulmate/setChat.php'
     url8 = this.server1+'/phpsoulmate/setFavoris.php'
     url9 = this.server1+'/phpsoulmate/setFlash.php'
+    myroutes = 'portail'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
     myLat
@@ -33,6 +34,17 @@ export class monservice {
     utilisateurSubscriber = new Subject()
     genreVoulu
     kilometreVoulu = 3
+    // ce tableau sert à contenir les matchings selon que le user à accepter ou non, je le recupere dans la route matchclose
+    matching: any
+    matchingSubscriber = new Subject()
+
+    matchingsubscription() {
+      this.matchingSubscriber.next(this.matching)
+    }
+    setMatching(data) {
+      this.matching = data
+      this.matchingsubscription()
+    }
     getGenres() {
       if(this.utilisateur.genre =='Homme') {
         this.genreVoulu = 'Femme'
@@ -109,8 +121,7 @@ export class monservice {
           })
           return e
     }
-    // ce tableau sert à contenir les matchings selon que le user à accepter ou non, je le recupere dans la route matchclose
-    matching: any
+    
     // FAKER
     setPersonne() {
       return
@@ -186,8 +197,16 @@ export class monservice {
         }
         return true
       })
+      this.matching = data.filter(i=> {
+          if(i.length >= 1) {
+            return i.flash.etat == true
+          } else {
+            return []
+          }
+      })
+      this.matchingsubscription()
       this.userSubscription()
-      console.log('mes utilisateur ', this.personnes)
+      console.log('mes utilisateur ', this.personnes, 'mes matching ', this.matching)
       return this.personnes
     }
    
@@ -196,7 +215,7 @@ export class monservice {
     setMatch(index, etat) {
        for(var i=0;i< this.personnes.length;i++) {
          if(this.personnes[i].index == index) {
-           this.personnes[i].flash = etat
+           this.personnes[i].flash.reponse = etat
            break
          }
        }

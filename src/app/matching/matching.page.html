@@ -13,10 +13,10 @@
             <div class="toto" [ngStyle]="monStyle(i.images)"></div>
             <section class="sec-info">
                 <div class="col-name">
-                    <ion-fab-button (click)="action(false, i.index)" color="primary" class="myfab" style="right: 35%;">
+                    <ion-fab-button (click)="action(false, i.id)" color="primary" class="myfab" style="right: 35%;">
                         <i class="fas fa-times" style="margin: auto;font-size: 35px;"></i>
                     </ion-fab-button>
-                    <ion-fab-button (click)="action(true, i.index)" color="primary" class="myfab" style="left: 35%;">
+                    <ion-fab-button (click)="action(true, i.id)" color="primary" class="myfab" style="left: 35%;">
                         <i class="fas fa-heart" style="margin: auto;font-size: 35px;"></i>
                     </ion-fab-button>
                     <div class="col-detail">
