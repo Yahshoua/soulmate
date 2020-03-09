@@ -23,10 +23,10 @@ export class TabfavorisPage implements OnInit {
   }
   ionViewWillEnter(){
     this.service.getAllUser()
-    this.service.setSubscriptionFavoris(true)
+    this.service.setSubscriptionFavoris(true, "Mes favoris")
   }
   ionViewWillLeave(){
-   this.service.setSubscriptionFavoris(false)
+   this.service.setSubscriptionFavoris(false, "Mes favoris")
   }
   route(id) {
     this.navCtr.navigateForward('/voirplus/route/main', {queryParams: {id: id, route: 'portail/users/profil/route/favoris'}})

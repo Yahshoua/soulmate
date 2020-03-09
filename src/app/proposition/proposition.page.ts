@@ -48,7 +48,7 @@ export class PropositionPage implements OnInit {
     this.getalluser()
 }
 ionViewWillEnter(){
-  this.service.setSubscriptionFavoris(false)
+  this.service.setSubscriptionFavoris(false, "")
 }
 ionViewWillLeave(){
   this.getalluser()

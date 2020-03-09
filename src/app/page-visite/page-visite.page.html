@@ -1,11 +1,10 @@
 <ion-content>
-
     <div class="col-empty" *ngIf="personne?.length <= 0">
         <div style="display: flex;">
-            <img style="margin: auto" src="../assets/images/Brzzzzz_Icon_256.png" width="88px">
+            <img style="margin: auto" src="../assets/images/cry.PNG" width="88px">
         </div>
         <p style="text-align: center;font-size:70%; color: gray">
-            Tu n'as pas encore de matches !
+            {{message}}
         </p>
     </div>
     <ion-item style="margin-top: 3%;" *ngFor="let pers of personne" button (click)="route(pers.id)" routerLinkActive="router-link-active">
@@ -15,7 +14,5 @@
         <ion-label>
             {{pers.nom}}
         </ion-label>
-        <ion-icon slot="end" color="danger" name="heart-circle-outline"></ion-icon>
     </ion-item>
-
 </ion-content>

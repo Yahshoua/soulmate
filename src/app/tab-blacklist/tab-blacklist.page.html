@@ -1,3 +1,23 @@
 <ion-content>
-
+    <div class="col-empty" *ngIf="personne?.length <= 0">
+        <div style="display: flex;">
+            <img style="margin: auto" src="../assets/images/Faill_Icon_64.png" width="88px">
+        </div>
+        <p style="text-align: center;font-size:70%; color: gray">
+            Ta blacklist est vide
+        </p>
+    </div>
+    <ion-grid *ngIf="personne?.length >=1" style="margin-top: 3%;">
+        <ion-row>
+            <ion-col size="12" *ngFor="let user of personne; let i = index" class="item{{i}}">
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <img src="{{user.images}}">
+                    </ion-avatar>
+                    <ion-label>{{user.nom}}</ion-label>
+                    <ion-button slot="end" color="secondary" (click)="deblock(user.id, user.nom, i)">Débloquer</ion-button>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

@@ -72,6 +72,18 @@ const routes: Routes = [
   {
     path: 'tabprofil-accueil',
     loadChildren: () => import('./tabprofil-accueil/tabprofil-accueil.module').then( m => m.TabprofilAccueilPageModule)
+  },
+  {
+    path: 'page-visite',
+    loadChildren: () => import('./page-visite/page-visite.module').then( m => m.PageVisitePageModule)
+  },
+  {
+    path: 'page-like',
+    loadChildren: () => import('./page-like/page-like.module').then( m => m.PageLikePageModule)
+  },
+  {
+    path: 'page-sug',
+    loadChildren: () => import('./page-sug/page-sug.module').then( m => m.PageSugPageModule)
   }
 ];
 

@@ -24,6 +24,21 @@ const routes: Routes = [
       {
         path: 'matchs',
         loadChildren: () => import('../tab-macth/tab-macth.module').then( m => m.TabMacthPageModule)
+      },
+      {
+        path: 'visite',
+        loadChildren: () => import('../page-visite/page-visite.module').then( m => m.PageVisitePageModule)
+
+      },
+      {
+        path: 'like',
+        loadChildren: () => import('../page-like/page-like.module').then( m => m.PageLikePageModule)
+
+      },
+      {
+        path: 'suggetions',
+        loadChildren: () => import('../page-sug/page-sug.module').then( m => m.PageSugPageModule)
+
       }
     ]
   },
@@ -32,7 +47,6 @@ const routes: Routes = [
     redirectTo: 'route/accueil'
   }
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

@@ -28,4 +28,19 @@ export class TabprofilAccueilPage implements OnInit {
   goFavoris() {
    this.navCtrl.navigateRoot('portail/users/profil/route/favoris')
   }
+  goBlacklist() {
+    this.navCtrl.navigateRoot('portail/users/profil/route/blacklist')
+  }
+  goMatch() {
+    this.navCtrl.navigateRoot('portail/users/profil/route/matchs')
+  }
+  goVisite(label, title) {
+    this.navCtrl.navigateRoot('portail/users/profil/route/visite', {queryParams: {title: title, label: label}} )
+  }
+  goLike(label, title) {
+    this.navCtrl.navigateRoot('portail/users/profil/route/like', {queryParams: {title: title, label: label}})
+  }
+  goSug(label, title) {
+    this.navCtrl.navigateRoot('portail/users/profil/route/suggetions', {queryParams: {title: title, label: label}})
+  }
 }

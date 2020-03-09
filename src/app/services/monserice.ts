@@ -20,18 +20,23 @@ export class monservice {
     url8 = this.server1+'/phpsoulmate/setFavoris.php'
     url9 = this.server1+'/phpsoulmate/setFlash.php'
     url10 = this.server1+'/phpsoulmate/setMatch.php'
+    url11 = this.server1+'/phpsoulmate/debloquer.php'
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
     myLat
     myLong
     favoris
+    titre
     favoriSub = new Subject()
+    titreSub = new Subject()
     favoriSybscriber() {
       this.favoriSub.next(this.favoris)
+      this.titreSub.next(this.titre) 
     }
-    setSubscriptionFavoris(etat) {
+    setSubscriptionFavoris(etat, titre) {
         this.favoris = etat
+        this.titre = titre
         this.favoriSybscriber()
     }
     personnes =[]
@@ -40,6 +45,14 @@ export class monservice {
     Allpersonnes
     subsciberAllperso() {
       this.allperSub.next(this.Allpersonnes)
+    }
+    debloquer(data) {
+      $.ajax({
+         method: 'POST',
+         url: this.url11,
+         data: data
+      })
+      this.subsciberAllperso()
     }
     personneSub = new Subject()
     personneSubscription() {

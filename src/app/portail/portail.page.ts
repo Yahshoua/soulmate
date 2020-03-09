@@ -10,12 +10,16 @@ import { Router } from '@angular/router';
 export class PortailPage implements OnInit {
   image
   favoris
+  titre
   constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController) { }
 
   ngOnInit() {
     this.image = this.service.photo 
     this.service.favoriSub.subscribe(e=> {
       this.favoris = e
+    })
+    this.service.titreSub.subscribe(t=> {
+      this.titre = t
     })
     this.service.favoriSybscriber()
   }

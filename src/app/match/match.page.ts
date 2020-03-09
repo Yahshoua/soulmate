@@ -18,6 +18,6 @@ export class MatchPage implements OnInit {
   ionViewWillEnter(){
     console.log('match..')
     this.service.getAllUser()
-    this.service.setSubscriptionFavoris(false)
+    this.service.setSubscriptionFavoris(false, "Mes matches")
   }
 }

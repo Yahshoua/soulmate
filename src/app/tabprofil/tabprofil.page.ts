@@ -29,7 +29,7 @@ export class TabprofilPage implements OnInit {
     console.log('this.router.url', this.router.url);
     var route = this.router.url
     if(route == "/portail/users/profil/route") {
-        this.service.setSubscriptionFavoris(true)
+        this.service.setSubscriptionFavoris(true, "Mes favoris")
     }
   }
 }

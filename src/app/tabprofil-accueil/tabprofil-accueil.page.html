@@ -7,14 +7,14 @@
             </ion-label>
             <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-item>
-        <ion-item button>
+        <ion-item button (click)="goBlacklist()">
             <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
             <ion-label>
                 Ma blacklist
             </ion-label>
             <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-item>
-        <ion-item button lines="none">
+        <ion-item button lines="none" (click)="goMatch()">
             <ion-icon color="danger" slot="start" name="heart-outline"></ion-icon>
             <ion-label>
                 Mes matches
@@ -33,21 +33,21 @@
             </ion-segment-button>
         </ion-segment>
         <div *ngIf="switch">
-            <ion-item button>
+            <ion-item button (click)="goVisite('receipt', 'Visites reçues')">
                 <ion-icon color="success" slot="start" name="eye-outline"></ion-icon>
                 <ion-label>
                     visite reçues
                 </ion-label>
                 <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-item>
-            <ion-item button>
+            <ion-item button (click)="goLike('receipt', 'Likes reçus')">
                 <ion-icon color="secondary" slot="start" name="heart-circle-outline"></ion-icon>
                 <ion-label>
                     Likes reçus
                 </ion-label>
                 <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-item>
-            <ion-item button lines="none">
+            <ion-item button lines="none" (click)="goSug('receipt', 'Suggestions reçues')">
                 <ion-icon slot="start" name="newspaper-outline"></ion-icon>
                 <ion-label>
                     Suggestions reçues
@@ -56,21 +56,21 @@
             </ion-item>
         </div>
         <div *ngIf="!switch">
-            <ion-item button>
+            <ion-item button (click)="goVisite('fait', 'Visite faites')">
                 <ion-icon color="success" slot="start" name="eye-outline"></ion-icon>
                 <ion-label>
                     visite faites
                 </ion-label>
                 <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-item>
-            <ion-item button>
+            <ion-item button (click)="goLike('fait', 'Likes envoyé')">
                 <ion-icon color="secondary" slot="start" name="heart-circle-outline"></ion-icon>
                 <ion-label>
-                    Likes envoyé
+                    Likes envoyés
                 </ion-label>
                 <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-item>
-            <ion-item button lines="none">
+            <ion-item button lines="none" (click)="goSug('fait', 'Suggestions envoyées')">
                 <ion-icon slot="start" name="newspaper-outline"></ion-icon>
                 <ion-label>
                     Suggestions envoyées
