@@ -15,6 +15,9 @@ export class PortailPage implements OnInit {
 
   ngOnInit() {
     this.image = this.service.photo 
+    
+  }
+  ionViewWillEnter(){
     this.service.favoriSub.subscribe(e=> {
       this.favoris = e
     })

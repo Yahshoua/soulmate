@@ -14,4 +14,7 @@ export class TabsPortailComponent implements OnInit {
   goProfil() {
       this.navCtrl.navigateRoot('/portail/users/profil/route/accueil')
   }
+  goMessage() {
+    this.navCtrl.navigateRoot('portail/users/messages')
+  }
 }

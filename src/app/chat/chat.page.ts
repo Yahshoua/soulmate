@@ -1,7 +1,7 @@
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonContent, AlertController, ToastController, IonCol  } from '@ionic/angular';
+import { IonContent, AlertController, ToastController, IonCol, NavController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 declare var $, moment, Pusher
 @Component({
@@ -22,7 +22,7 @@ export class ChatPage implements OnInit {
   
   ]
   private mutationObserver: MutationObserver
-  constructor(public router:ActivatedRoute, private service: monservice,public alertController: AlertController, public toastController: ToastController, private formBuild: FormBuilder) { }
+  constructor(public router:ActivatedRoute, private service: monservice,public alertController: AlertController, public toastController: ToastController, private formBuild: FormBuilder, private navCtrl: NavController) { }
 
   ngOnInit() {
     moment.locale('fr')
@@ -32,6 +32,9 @@ export class ChatPage implements OnInit {
    console.info('bbb ', h1)
     console.log(this.router.snapshot.queryParams)
     var id = this.router.snapshot.queryParams.id
+    if( this.router.snapshot.queryParams.routes !== undefined) {
+      this.myroute = this.router.snapshot.queryParams.routes
+    }
     this.personne = this.service.personnes.find(res=> {
       return res.id == id
     })
@@ -83,6 +86,10 @@ export class ChatPage implements OnInit {
   ngAfterViewInit() {
  
   }
+  ionViewWillEnter(){
+    this.service.getAllUser()
+    this.service.setSubscriptionFavoris(false, '')
+  }
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
@@ -111,5 +118,15 @@ export class ChatPage implements OnInit {
   }
   align(email) {
     return this.user.email == email?'right':'left'
+  }
+  goBAck() {
+    this.navCtrl.navigateRoot(this.myroute)
+  }
+  ionViewDidLeave(){
+    if( this.router.snapshot.queryParams.routes !== undefined) {
+      this.myroute = this.router.snapshot.queryParams.routes
+      this.service.setSubscriptionFavoris(true, this.router.snapshot.queryParams.title)
+    }
+    
   }
 }

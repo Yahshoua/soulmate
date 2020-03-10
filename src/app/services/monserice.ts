@@ -71,15 +71,7 @@ export class monservice {
       this.matchingSubscriber.next(this.matching)
     }
     setMatching(data) {
-      this.matching = data.sort((a, b)=> {
-        if (a.id < b.id ) {
-        return 1;
-      }
-      if (a.id > b.id ) {
-        return -1;
-      }
-      return 0;
-  })
+      this.matching = data
       this.matchingsubscription()
     }
     getGenres() {

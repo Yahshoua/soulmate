@@ -20,6 +20,11 @@ const routes: Routes = [
       {
         path: 'profil',
         loadChildren: () => import('../tabprofil/tabprofil.module').then( m => m.TabprofilPageModule)
+      },
+      {
+        path: 'messages',
+        loadChildren: () => import('../messages/messages.module').then( m => m.MessagesPageModule)
+
       }
     ]
   },

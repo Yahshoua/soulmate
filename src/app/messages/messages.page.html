@@ -1,0 +1,21 @@
+<ion-content>
+    <div class="col-empty" *ngIf="personne?.length <= 0">
+        <div style="display: flex;">
+            <img style="margin: auto" src="../assets/images/messages.png" width="88px">
+        </div>
+        <p style="text-align: center;font-size:70%; color: gray">
+            Tu n'as pas encore des messages !
+        </p>
+    </div>
+
+    <ion-item *ngFor="let pers of personne" button (click)="route(pers.id)">
+        <ion-avatar slot="start">
+            <img src="{{pers.images}}">
+        </ion-avatar>
+        <ion-label>
+            <h2>{{pers.nom}}</h2>
+            <h3>{{getLastMessage(pers.chat)}}</h3>
+            <p>{{getDate(pers.chat)}}</p>
+        </ion-label>
+    </ion-item>
+</ion-content>

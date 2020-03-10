@@ -84,6 +84,10 @@ const routes: Routes = [
   {
     path: 'page-sug',
     loadChildren: () => import('./page-sug/page-sug.module').then( m => m.PageSugPageModule)
+  },
+  {
+    path: 'messages',
+    loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
   }
 ];
 
