@@ -9,18 +9,20 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 })
 export class monservice {
     utilisateur
+    moi
     server1 = 'http://localhost'
     server2= 'https://kazimo.ga/cashapp'
-    url2 = this.server1+'/phpsoulmate/getAlluser.php'
-    url3 = this.server1+'/phpsoulmate/setSug.php'
-    url4 = this.server1+'/phpsoulmate/getUserCloud.php'
-    url5 = this.server1+'/phpsoulmate/login.php'
-    url6 = this.server1+'/phpsoulmate/getChat.php'
+    url2 = this.server2+'/phpsoulmate/getAlluser.php'
+    url3 = this.server2+'/phpsoulmate/setSug.php'
+    url4 = this.server2+'/phpsoulmate/getUserCloud.php'
+    url5 = this.server2+'/phpsoulmate/login.php'
+    url6 = this.server2+'/phpsoulmate/getChat.php'
     url7 = this.server2+'/phpsoulmate/setChat.php'
-    url8 = this.server1+'/phpsoulmate/setFavoris.php'
-    url9 = this.server1+'/phpsoulmate/setFlash.php'
-    url10 = this.server1+'/phpsoulmate/setMatch.php'
-    url11 = this.server1+'/phpsoulmate/debloquer.php'
+    url8 = this.server2+'/phpsoulmate/setFavoris.php'
+    url9 = this.server2+'/phpsoulmate/setFlash.php'
+    url10 = this.server2+'/phpsoulmate/setMatch.php'
+    url11 = this.server2+'/phpsoulmate/debloquer.php'
+    url = this.server2+'/phpsoulmate/setUser.php';
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
@@ -33,6 +35,13 @@ export class monservice {
     favoriSybscriber() {
       this.favoriSub.next(this.favoris)
       this.titreSub.next(this.titre) 
+    }
+    setUtilisateur(user) {
+      this.utilisateur.push(user)
+      this.utilsateurSubscription()
+    }
+    getUtilisateur() {
+      return this.utilisateur
     }
     setSubscriptionFavoris(etat, titre) {
         this.favoris = etat
@@ -61,8 +70,13 @@ export class monservice {
     auth: boolean = true
     userSubscriber = new Subject()
     utilisateurSubscriber = new Subject()
-    genreVoulu
-    kilometreVoulu = 3
+    // Variable filtres par defaut
+    public genreVoulu
+    public kilometreVoulu = 3
+    public gps = true
+    public ageMin = 18
+    public ageMax = 70
+    //fin
     // ce tableau sert à contenir les matchings selon que le user à accepter ou non, je le recupere dans la route matchclose
     matching: any
     matchingSubscriber = new Subject()
@@ -127,10 +141,11 @@ export class monservice {
         this.getUtilsateurStorage()
         console.log('utilisateur ', this.utilisateur)
     }
-    url = this.server1+'/phpsoulmate/setUser.php';
+    
     header = new HttpHeaders({'Content-Type': 'application/json', "Accept": 'application/json'})
 
    async setPhoto(img=this.photo) {
+     this.utilisateur = this.moi
       this.photo = img
       this.setPicture(img)
       var date = moment().format()
@@ -138,6 +153,7 @@ export class monservice {
       this.utilisateur.type = this.type
       this.utilisateur.latitude = this.myLat
       this.utilisateur.longitude = this.myLong
+      this.storeUser( this.utilisateur)
       //Mise à jour des data user dans la BDD
           var e = $.ajax({
             method: 'POST',
@@ -195,10 +211,7 @@ export class monservice {
       }
     }
     // Recuperer tous les users
-    filter = {
-      genre: this.genreVoulu,
-      kilometre: this.kilometreVoulu
-    }
+    
    async getAllUser() {
       var r = $.ajax({
         method: 'POST',
@@ -218,14 +231,36 @@ export class monservice {
 
           return this.filtrage(res)
       })
+      console.log('rrrr ', r)
       return r
     }
+    
     filtrage(data) {
+
+    // filtre
+        var filter = {
+          genre: this.genreVoulu,
+          kilometre: this.kilometreVoulu,
+          ageMinVoulu: this.ageMin,
+          ageMaxVoulu: this.ageMax,
+          monId: this.utilisateur.id
+        }
+        // methode du filtre
+
       this.personnes = data.filter(item=> {
-        for(var key in this.filter) {
-          if(item['genre'] !== this.genreVoulu || item['kilometre'] > this.filter.kilometre) {
-            return false
+        for(var key in filter) {
+          var ageUser = moment().format('Y') - moment(item['datenaiss']).format('Y')
+          console.log('age min ', filter.ageMinVoulu, "ageMAx ", filter.ageMaxVoulu, "GPS ", this.gps, " kilometre ", filter.kilometre)
+          if(this.gps == true) {
+                if(item['genre'] !== this.genreVoulu || item['kilometre'] > filter.kilometre || ageUser < filter.ageMinVoulu || ageUser > filter.ageMaxVoulu || item['id'] == filter.monId ) {
+                  return false
+                }
+              } else {
+                if(item['genre'] !== this.genreVoulu || item['kilometre'] || ageUser < filter.ageMinVoulu && ageUser > filter.ageMaxVoulu) {
+                  return false
+                }
           }
+          
         }
         return true
       })
@@ -278,7 +313,7 @@ export class monservice {
       this.utilisateur = JSON.parse(localStorage.getItem('user')) || []
     }
     async getCloudUtilisateur() {
-      var email = this.utilisateur.email
+     var email = this.utilisateur.email
      var i = $.ajax({
         method: 'POST',
         url: this.url4,
@@ -346,6 +381,10 @@ export class monservice {
         })
         return q
   }
+    logout() {
+      localStorage.removeItem('user');
+      this.auth = false
+    }
     storeUser(profil) {
         if(profil.image == undefined) {
           profil.image = this.photo

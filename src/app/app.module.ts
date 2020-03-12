@@ -1,3 +1,5 @@
+import { PhotoProfilSelectedPageModule } from './photo-profil-selected/photo-profil-selected.module';
+import { ModalFilterPageModule } from './modal-filter/modal-filter.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -13,7 +15,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule],
   providers: [
     StatusBar,
     ImagePicker,

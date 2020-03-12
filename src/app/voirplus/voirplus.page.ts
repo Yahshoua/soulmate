@@ -28,7 +28,7 @@ export class VoirplusPage implements OnInit {
     var index = this.router.snapshot.queryParams.id
     this.slide = this.router.snapshot.queryParams.slide
     this.myroute = this.router.snapshot.queryParams.route
-    this.personne = this.service.personnes.find(res=> {
+    this.personne = this.service.Allpersonnes.find(res=> {
       return res.id == index
     })
     console.log('myyy route ', this.myroute)

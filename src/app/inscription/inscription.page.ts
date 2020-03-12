@@ -29,6 +29,8 @@ export class InscriptionPage implements OnInit {
   nom
   Fnom
   lieux= ''
+  localization = true
+  toto = false
   customMonthShortNames = ['Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Ju', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'];
   constructor(private navCtrl: NavController, public formBuild: FormBuilder, private service: monservice, private geolocation: Geolocation, private alertController: AlertController) { }
 
@@ -38,10 +40,11 @@ export class InscriptionPage implements OnInit {
     this.formInscription = this.formBuild.group({
       genre: '',
     })
-   this.getPosition()
+  
   }
   getPosition() {
     this.geolocation.getCurrentPosition().then((resp) => {
+      this.toto = false
       console.log(resp.coords.latitude)
       console.log(resp.coords.longitude)
       this.service.myLat = resp.coords.latitude
@@ -55,10 +58,13 @@ export class InscriptionPage implements OnInit {
             this.presentAlert(res.erreur)
           }
       })
+      this.loopSlider.lockSwipes(false)
+      this.loopSlider.slideNext()
     }).catch((error) => {
        console.log('Error getting location', error);
        var message = 'Nous n\'avons pas pu trouver ta position GPS !'
        this.presentAlert(message)
+       this.toto = true
      });
   }
   async presentAlert(erreur) {
@@ -138,8 +144,11 @@ export class InscriptionPage implements OnInit {
           lieux: this.lieux,
           password: this.password
        }
-       this.service.storeUser(profil)
-      this.navCtrl.navigateForward('capture')
+       this.service.moi = profil
+       setTimeout(e=> {
+this.navCtrl.navigateForward('capture')
+       }, 5000)
+      
     }
   }
   finish() {

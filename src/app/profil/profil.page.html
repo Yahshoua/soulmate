@@ -1,0 +1,237 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title color="light" style="font-size: 93%;"> Mon profil </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <section style="position: relative;">
+        <ion-slides (ionSlideTap)="tap()" [pager]="pages" [options]="slideOpts" #loopSlider>
+            <ion-slide *ngFor="let al of personne?.album">
+                <div class="col-images" [ngStyle]="monstyle(al)">
+
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </section>
+    <ion-fab vertical="top" horizontal="end" style="position: absolute" (click)="pickImage()">
+        <ion-fab-button>
+            <ion-icon name="camera-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-grid style="padding: 0;">
+        <div class="detail">
+            <div>
+                <p style="font-family: 'Ubuntu-Light';padding: 0;color: #8ec6e0;">
+                    {{personne.nom}}, {{getAge(personne.datenaiss)}} ans
+                </p>
+                <span style="font-size: 82%;">
+                  {{personne.adresse}}
+              </span>
+            </div>
+            <div style="width: 50%;">
+                <ion-fab vertical="top" horizontal="end" slot="end" style="position: inherit;float: right">
+                    <ion-fab-button>
+                        <ion-icon name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+        </div>
+        <ion-row>
+            <ion-col size="12" style="padding: 0;margin-top: 4%">
+                <div class="col-item">
+                    <p id="lib-ann">A propos de moi</p>
+                    <p style="float: right;">
+                        Ajouter
+                    </p>
+                </div>
+
+                <ion-item lines="none">
+                    <ion-label class="mylabel" style="white-space: normal;">
+                        <p *ngIf="personne.about?.length >=0" class="about">
+                            {{personne.about}}
+                        </p>
+                        <div *ngIf="personne.about?.length <=0" style="display: grid;">
+                            <p class="about">
+                                Ajoutez une annonce/presentation pour susciter de l'interet de votre profil
+                            </p>
+                        </div>
+                    </ion-label>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" style="padding: 0;">
+                <div class="col-item">
+                    <p id="lib-ann">Centre d'interet</p>
+                    <p style="float: right;">
+                        Ajouter
+                    </p>
+                </div>
+                <ion-item lines="none">
+                    <ion-label>
+                        <ion-grid style="padding-left: 0;">
+                            <ion-row class="col-mode col-mode2">
+                                <ion-col size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name="musical-notes-outline"></ion-icon>
+                                    <div style="display: grid;display: grid;
+                                  padding-left: 2%;">
+                                        <p>
+                                            Styles musicaux
+                                        </p>
+                                        <p style="font-size: 13px;">
+                                            {{interet?.music}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name="videocam-outline"></ion-icon>
+                                    <div style="display: grid;display: grid;
+                                padding-left: 2%;">
+                                        <p>
+                                            Fimls/Séries
+                                        </p>
+                                        <p style="font-size: 13px;">
+                                            {{interet?.film}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name="hourglass-outline"></ion-icon>
+                                    <div style="display: grid;display: grid;
+                              padding-left: 2%;">
+                                        <p>
+                                            Passe-temps
+                                        </p>
+                                        <p style="font-size: 13px;">
+                                            {{interet?.passeTemps}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name="football-outline"></ion-icon>
+                                    <div style="display: grid;display: grid;
+                            padding-left: 2%;">
+                                        <p>
+                                            Sport
+                                        </p>
+                                        <p style="font-size: 13px;">
+                                            {{interet?.sport}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name="heart-outline"></ion-icon>
+                                    <div style="display: grid;display: grid;
+                          padding-left: 2%;">
+                                        <p>
+                                            Ce que j'aime
+                                        </p>
+                                        <p style="font-size: 13px;">
+                                            {{interet?.aime}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="12" style="display: flex;padding-left: 0;">
+                                    <ion-icon style="font-size: 23px;" name="heart-dislike-outline"></ion-icon>
+                                    <div style="display: grid;display: grid;
+                        padding-left: 2%;">
+                                        <p>
+                                            Ce que je deteste
+                                        </p>
+                                        <p style="font-size: 13px;">
+                                            {{interet?.deteste}}
+                                        </p>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-label>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" style="padding-left: 3%;padding: 0" class="col-mode">
+                <div class="col-item">
+                    <p id="lib-ann">Mode de vie</p>
+                    <p style="float: right;">
+                        Ajouter
+                    </p>
+                </div>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Situation </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.situation}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Habitation </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.habitation}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Enfants </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.enfants}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Profession </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.apparence}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Apparence </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.taille}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Taille </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.taille}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-plus">
+                    <ion-col size="4">
+                        <p> Poids </p>
+                    </ion-col>
+
+                    <ion-col size="7">
+                        <p class="myp">
+                            {{mode?.poids}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar style="margin-left: 3%;">
+        <ion-icon style="font-size: 30px;" slot="start" name="close-outline" (click)="back()"></ion-icon>
+        <ion-title style="font-size: 93%;">Filtres</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section style="margin-top: 5%;">
+        <div class="div-age">
+            <span>
+              Choisir une limite d'âge
+          </span>
+            <div>
+                <ion-range [(ngModel)]="age" (ionChange)="ages($event)" slot="end" class="range-age" pin="true" dualKnobs="true" min="21" max="72" step="3">
+                    <ion-icon color="primary" slot="start" name="chevron-back-outline"></ion-icon>
+                    <ion-icon color="primary" slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-range>
+            </div>
+        </div>
+        <div class="div-age" style="margin-top: 10%;">
+            <span>
+            Choisir une distance maximale (en Kilomètre)
+        </span>
+            <div>
+                <ion-range [(ngModel)]="distances" (ionChange)="distance($event)" style="padding-right: 17%" slot="end" class="range-age" pin="true" dualKnobs="false" min="0" max="100" step="1">
+                    <ion-icon color="primary" slot="start" name="walk-outline"></ion-icon>
+                </ion-range>
+            </div>
+        </div>
+        <div class="div-age" style="margin-top: 10%;">
+            <span>
+          Localisation GPS
+      </span>
+            <div>
+                <ion-toggle [(ngModel)]="gps" (ionChange)="localization($event)" style="padding-left: 17%;"></ion-toggle>
+            </div>
+        </div>
+        <div style="text-align: center;margin-top:5%">
+            <ion-button size="default" shape="round" (click)="filter()"> Appliquer mes choix </ion-button>
+        </div>
+    </section>
+
+
+
+
+</ion-content>

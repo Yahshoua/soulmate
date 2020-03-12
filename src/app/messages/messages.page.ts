@@ -13,7 +13,7 @@ export class MessagesPage implements OnInit {
   constructor(private service: monservice, private navCtrl: NavController) { }
 
   ngOnInit() {
-    this.service.personneSub.subscribe((e: any)=> {
+    this.service.allperSub.subscribe((e: any)=> {
         e = e.sort((a, b)=> {
           if (a.id < b.id ) {
           return 1;
@@ -44,7 +44,7 @@ export class MessagesPage implements OnInit {
   ionViewWillEnter(){
     this.service.getAllUser()
     this.service.setSubscriptionFavoris(true, this.title)
-    this.service.personneSubscription()
+    this.service.subsciberAllperso()
   }
   ionViewWillLeave(){
    this.service.setSubscriptionFavoris(false, this.title)

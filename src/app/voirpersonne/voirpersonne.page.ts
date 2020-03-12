@@ -35,19 +35,19 @@ export class VoirpersonnePage implements OnInit {
         'background-image': 'url('+al.photo+')', 
       'height': $('app-voirplus').height()/2 + 'px', 
       'background-size': 'cover',
+      'background-position': 'center',
       'width': '100%'
      }
      // console.log('taille ', $('app-proposition').height())
      return style
   }
   ngOnInit() {
-  
     console.log('useeer ', this.personne, 'tableau interet ', this.ObjInteret)
     console.log(this.router.snapshot.queryParams)
     var index = this.router.snapshot.queryParams.id
     this.slide = this.router.snapshot.queryParams.slide
 
-    this.personne = this.service.personnes.find(res=> {
+    this.personne = this.service.Allpersonnes.find(res=> {
       return res.id == index
     })
     console.log('album ', this.personne.album)
@@ -55,20 +55,20 @@ export class VoirpersonnePage implements OnInit {
       return e.photo == this.personne.images
     })
     console.log('iiii ', i)
-    if(i == undefined) {
-     var k =  this.personne.album.push({id: this.personne.album.length+1,photo: this.personne.images})
-      this.personne.album = this.personne.album.sort((a, b)=> {
-        if (a.id < b.id ) {
-        return 1;
-      }
-      if (a.id > b.id ) {
-        return -1;
-      }
-      return 0;
-  })
+        if(i == undefined) {
+        var k =  this.personne.album.push({id: this.personne.album.length+1,photo: this.personne.images})
+          this.personne.album = this.personne.album.sort((a, b)=> {
+            if (a.id < b.id ) {
+            return 1;
+          }
+          if (a.id > b.id ) {
+            return -1;
+          }
+          return 0;
+      })
     }
 
-    console.log('personne ', this.personne, 'taille album ', this.personne.album.length)
+      console.log('personne ', this.personne, 'taille album ', this.personne.album.length)
       this.interet = this.personne.interets
       this.mode = this.personne.mode
       this.suggetion = this.personne.suggetion
@@ -193,6 +193,10 @@ export class VoirpersonnePage implements OnInit {
      return moment().format('Y') - age
   }
   getKms(km) {
-    return Math.round(km)
+    var kM = Math.round(km)
+    if(kM <= 1) {
+      return "< 1"
+    }
+    return kM
   }
 }

@@ -1,7 +1,9 @@
+import { ModalFilterPage } from './../modal-filter/modal-filter.page';
 import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { MenuController, NavController, ModalController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+declare var moment
 @Component({
   selector: 'app-portail',
   templateUrl: './portail.page.html',
@@ -11,11 +13,42 @@ export class PortailPage implements OnInit {
   image
   favoris
   titre
-  constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController) { }
+  loading
+  utilisateur = this.service.utilisateur
+  constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController, private modalController: ModalController, public loadingController: LoadingController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.presentLoading()
     this.image = this.service.photo 
+  }
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Chargement des profil...'
+    });
+    this.service.getAllUser().then(async (e)=> {
+      this.loading.dismiss()
+    })
+    await this.loading.present();
+
+    // this.role =  loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }
+  getAge(age) {
+    return moment().format('Y') - moment(age).format('Y') + ' ans'
+  }
+  disconnecte() {
+    this.menu.close('first');
+    this.service.logout()
+    setTimeout(e=> {
+        this.navCtl.navigateBack('home')
+    }, 1500)
     
+  }
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ModalFilterPage
+    });
+    return await modal.present();
   }
   ionViewWillEnter(){
     this.service.favoriSub.subscribe(e=> {

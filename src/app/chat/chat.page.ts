@@ -35,19 +35,21 @@ export class ChatPage implements OnInit {
     if( this.router.snapshot.queryParams.routes !== undefined) {
       this.myroute = this.router.snapshot.queryParams.routes
     }
-    this.personne = this.service.personnes.find(res=> {
+    this.personne = this.service.Allpersonnes.find(res=> {
       return res.id == id
     })
-   
-    this.service.utilisateurSubscriber.subscribe(e=> {
-      this.user = e
-    })
+    console.log('utilisateur ', this.service.utilisateur)
+    this.user = this.service.utilisateur
+      this.FireChat()
+    
    this.service.utilsateurSubscription()
    this.service.getCloudUtilisateur()
     console.log('user', this.user)
     console.log('personne', this.personne)
-    this.chaine = this.user.chaine_notif
-       this.service.getChat({id: this.user.id, id_user: this.personne.id}).then(e=> {
+       
+  }
+  FireChat() {
+    this.service.getChat({id: this.user.id, id_user: this.personne.id}).then(e=> {
       console.log('recuperation des chats ', e)
       if(e.length>=1) {
         this.chaine = e[0].chaine
@@ -79,7 +81,6 @@ export class ChatPage implements OnInit {
       message: ['', Validators.compose([Validators.required, Validators.minLength(2)])]
     })
   }
-
   ionViewDidEnter() {
     $('#mydiv').animate({scrollTop: document.body.scrollHeight},"fast");
   }
@@ -114,10 +115,11 @@ export class ChatPage implements OnInit {
     this.form.reset()
   }
   slot(email) {
-    return this.user.email == email?'end':'start'
+    console.log('email ',email, 'this.user ', this.user.email)
+    return this.user.email == email?'start':'end'
   }
   align(email) {
-    return this.user.email == email?'right':'left'
+    return this.user.email == email?'left':'right'
   }
   goBAck() {
     this.navCtrl.navigateRoot(this.myroute)

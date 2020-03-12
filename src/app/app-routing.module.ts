@@ -58,7 +58,7 @@ const routes: Routes = [
     loadChildren: () => import('./connexion/connexion.module').then( m => m.ConnexionPageModule)
   },
   {
-    path: 'tabfavoris',
+    path: 'tabfavoris',canActivate: [GuardHome],
     loadChildren: () => import('./tabfavoris/tabfavoris.module').then( m => m.TabfavorisPageModule)
   },
   {
@@ -88,6 +88,18 @@ const routes: Routes = [
   {
     path: 'messages',
     loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+  },
+  {
+    path: 'modal-filter',
+    loadChildren: () => import('./modal-filter/modal-filter.module').then( m => m.ModalFilterPageModule)
+  },
+  {
+    path: 'profil',
+    loadChildren: () => import('./profil/profil.module').then( m => m.ProfilPageModule)
+  },
+  {
+    path: 'photo-profil-selected',
+    loadChildren: () => import('./photo-profil-selected/photo-profil-selected.module').then( m => m.PhotoProfilSelectedPageModule)
   }
 ];
 

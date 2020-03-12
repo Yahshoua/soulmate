@@ -12,12 +12,12 @@ export class TabMacthPage implements OnInit {
   constructor(private service: monservice, public alertController: AlertController, private navCtrl: NavController) { }
 
   ngOnInit() {
-    this.service.personneSub.subscribe((e: any)=> {
+    this.service.allperSub.subscribe((e: any)=> {
         this.personne = e.filter((res: any)=> {
           return res.match == true
         })
     })
-    this.service.personneSubscription()
+    this.service.subsciberAllperso()
   }
   ionViewWillEnter(){
     this.service.getAllUser()

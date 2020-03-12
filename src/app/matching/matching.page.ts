@@ -108,6 +108,7 @@ export class MatchingPage implements OnInit {
         'background-image': 'url('+i+')', 
       'height': $('app-match').height() + 'px', 
       'background-size': 'cover',
+      'background-position': 'center',
       'width': '100%'
      }
      return style

@@ -43,3 +43,22 @@ ion-slide {
     color: gray;
     text-align: center;
 }
+
+.warn-decline {
+    text-align: center;
+    padding-bottom: 6%;
+    background: #FFEB3B;
+    margin: 5%;
+}
+
+.warn-decline span {
+    color: rgba(89, 89, 255, 0.712)
+}
+
+.warn-decline p {
+    font-size: 58%;
+    text-align: center;
+    padding: 3%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}

@@ -20,7 +20,7 @@ export class PageSugPage implements OnInit {
     this.label = this.routes.snapshot.queryParams.label
     this.title = this.routes.snapshot.queryParams.title
     console.log('title ', this.title, ' label ', this.label)
-    this.service.personneSub.subscribe((e: any)=> {
+    this.service.allperSub.subscribe((e: any)=> {
       this.personne = e.filter((res: any)=> {
           if(this.label == 'receipt') {
             this.message = "Tu n'as pas encore fait des suggetions !"
@@ -31,7 +31,7 @@ export class PageSugPage implements OnInit {
         }
       })
   })
-  this.service.personneSubscription()
+  this.service.subsciberAllperso()
   console.log('personnes suggestion ', this.personne)
   }
   ionViewWillEnter(){

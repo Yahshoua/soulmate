@@ -1,4 +1,13 @@
 <ion-content>
+    <div class="col-empty" style="margin-top: 50%;" *ngIf="personnes?.length <= 0">
+        <div style="display: flex;">
+            <img style="margin: auto" src="../assets/images/Search_Icon_256.png" width="88px">
+        </div>
+        <p style="text-align: center;font-size:70%; color: gray">
+            Nous n'avons trouvé personne selon vos critères de recherche
+        </p>
+    </div>
+
     <ion-slides pager="false" [options]="slideOpts" #loopSlider>
         <ion-slide *ngFor="let i of personnes">
 
@@ -19,7 +28,7 @@
                     <span style="font-size: 70%;margin: auto;margin-left: 3%;">
                         {{i.adresse}}
                     </span>
-                    <span style="margin: auto;margin-right: 3%;font-family: Oswald-Medium">
+                    <span style="margin: auto;margin-right: 3%;font-family: Oswald-Medium;white-space: pre;">
                         {{getDistance(i.kilometre)}} Km
                     </span>
                 </div>

@@ -35,7 +35,7 @@ export class MatchclosePage implements OnInit {
     }
   }
   route(id) {
-    this.navCtrl.navigateForward('/voirplus/route/main', {queryParams: {id: id, route: 'portail/users/match'}})
+    this.navCtrl.navigateForward('/voirplus/route/main', {queryParams: {id: id, route: 'portail/users/match/route/closematch'}})
     console.log('myyyyyy  route ',  this.service.myroutes)
   }
 }

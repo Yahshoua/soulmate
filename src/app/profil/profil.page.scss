@@ -1,0 +1,147 @@
+.detail p {
+    margin: 0;
+    padding: 4%;
+}
+
+.detail {
+    display: flex;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 1%;
+    margin-top: 1%;
+}
+
+.detail div:first-of-type {
+    display: grid;
+    width: 50%;
+    line-height: 16px;
+}
+
+.detail div:first-of-type span {
+    font-size: 67%;
+    margin-top: 2%;
+    white-space: nowrap;
+}
+
+#age {
+    text-align: right;
+    font-family: 'Ubuntu-Light';
+    color: #e91b8c !important;
+    ;
+}
+
+.col-mode ion-col {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-bottom: 0.5px dotted gray;
+}
+
+.col-mode ion-row {
+    padding-left: 3% !important
+}
+
+.col-mode2 ion-col {
+    margin-left: 3% !important
+}
+
+ion-toolbar {
+    --background: black
+}
+
+#lib-ann,
+.lib-ann,
+#mode {
+    padding-bottom: 3px;
+    font-size: 16px;
+    margin: 0;
+    padding: 4%;
+    /* padding-left: 5%; */
+    ;
+}
+
+.col-item {
+    display: flex;
+    background: #f1f1f1;
+}
+
+.col-item p:first-of-type {
+    flex: 1;
+}
+
+.col-item p:last-of-type {
+    padding: 0;
+    padding-right: 2%;
+    margin-top: 4%;
+    color: #2196F3;
+}
+
+ion-label {
+    margin-left: 0;
+}
+
+#mode {
+    margin-top: 0;
+    margin-bottom: 3px;
+    padding: 4%;
+    background: #f1f1f1;
+}
+
+.demander {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.demander div {
+    height: 20px;
+    background-color: #0089c9;
+    margin: auto;
+    margin-bottom: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.detail-plus p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--ion-color-step-600, #666);
+}
+
+.mylabel p:last-child {
+    font-size: 80%;
+    border-left: 3px solid #2196F3;
+    padding-left: 3%;
+}
+
+.monp {
+    white-space: normal;
+    font-size: 79%;
+    color: gray !important;
+}
+
+ion-label {
+    white-space: normal;
+}
+
+.myp {
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-sug {
+    width: 100px;
+    height: 18px;
+    color: #fff;
+    background-color: cornflowerblue;
+    font-size: 82%;
+    margin: auto;
+    text-align: center;
+}
+
+.about {
+    color: gray;
+    font-size: 80%;
+}

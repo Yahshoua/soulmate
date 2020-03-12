@@ -24,6 +24,7 @@ export class VoirdiapoPage implements OnInit {
       'background-image': 'url('+al.photo+')', 
       'height': $('app-voirdiapo').height() + 'px', 
       'background-size': 'cover',
+      'background-position': 'center',
       'width': '100%'
      }
      // console.log('taille ', $('app-proposition').height())
@@ -31,12 +32,13 @@ export class VoirdiapoPage implements OnInit {
   }
   ngOnInit() {
     console.log(this.router.snapshot.queryParams)
-    var id = this.router.snapshot.queryParams.index
+    var id = this.router.snapshot.queryParams.id
     this.slide = this.router.snapshot.queryParams.slide2
     this.slideOpts.initialSlide = this.slide
-    this.personne = this.service.personnes.find(res=> {
+    this.personne = this.service.Allpersonnes.find(res=> {
       return res.id == id
     })
+    this.service.subsciberAllperso()
     // this.personne.album.push({image: this.personne.photo})
     this.loopSlider.lockSwipes(true)
     if(this.personne.album.length > 1 ) {

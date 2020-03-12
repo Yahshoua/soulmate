@@ -4,7 +4,7 @@
         <ion-title style="font-size: 93%;">Pres de chez moi</ion-title>
         <ion-icon slot="end" name="refresh-outline" style="margin-right: 4%;
         font-size: 25px;"></ion-icon>
-        <ion-icon slot="end" style="margin-right: 3%;
+        <ion-icon (click)="presentModal()" slot="end" style="margin-right: 3%;
         font-size: 20px;" name="ellipsis-vertical-outline"></ion-icon>
     </ion-toolbar>
     <!--  -->
@@ -23,23 +23,25 @@
                         <img [src]="image">
                     </ion-avatar>
                     <div>
-                        <span>Anthony</span>
-                        <small>30 ans</small>
+                        <span>{{utilisateur.nom}}</span>
+                        <small>{{getAge(utilisateur.datenaiss)}}</small>
                     </div>
                 </div>
                 <div style="padding-top: 3%;
-                padding-bottom: 3%;">
+                padding-bottom: 3%;" [routerLink]="['/profil']" routerLinkActive="router-link-active">
                     <font style="font-size: 72%;">MODIFIER</font>
                 </div>
             </ion-title>
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-list>
-            <ion-item>
+        <ion-list style="margin-top: 0;padding-top: 0">
+            <!-- Pour la version 0.2 -->
+            <!-- <ion-item>
                 <ion-icon name="cog-outline" color="primary" style="font-size: 20px"></ion-icon>
                 <font style="font-size: 93%"> Parametres </font>
-            </ion-item>
+            </ion-item> -->
+            <div class="deconnexion" (click)="disconnecte()">Deconexion</div>
             <ion-item lines="none">
                 <font>Au hasard</font>
                 <ion-icon slot="end" name="refresh-outline"></ion-icon>

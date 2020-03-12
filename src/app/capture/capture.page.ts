@@ -13,6 +13,11 @@ export class CapturePage implements OnInit {
 
   ngOnInit() {
     this.image = this.service.photo
+    this.service.utilisateurSubscriber.subscribe(e=> {
+      console.log('utilisateur ', e)
+    })
+    this.service.utilsateurSubscription()
+    console.log('moiii ', this.service.moi)
   }
   pickImage() {
     let options = {

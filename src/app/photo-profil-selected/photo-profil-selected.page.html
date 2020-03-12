@@ -1,0 +1,16 @@
+<ion-content>
+    <div [ngStyle]="monstyle(image)" style="position: relative;">
+        <div class="col-btn">
+            <div style="width: 30%;">
+                <ion-button expand="full" (click)="choice(false)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+            </div>
+            <div style="width: 70%;" (click)="choice(true)">
+                <ion-button expand="full">
+                    Ajouter
+                </ion-button>
+            </div>
+        </div>
+    </div>
+</ion-content>

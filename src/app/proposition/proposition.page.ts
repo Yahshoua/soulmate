@@ -21,6 +21,7 @@ export class PropositionPage implements OnInit {
         'background-image': 'url('+i.images+')', 
       'height': $('app-proposition').height() + 'px', 
       'background-size': 'cover',
+      'background-position': 'center',
       'width': '100%'
      }
      // console.log('taille ', $('app-proposition').height())
@@ -32,7 +33,7 @@ export class PropositionPage implements OnInit {
   ngOnInit() {
     moment.locale('fr')
      this.service.userSubscriber.subscribe((res: any)=> {
-        this.personnes = res
+        this.personnes = res.sort(() => Math.random() - 0.5)
     })
     this.service. getGenres()
     this.service.getMyPosition().then(e=> {
@@ -70,7 +71,11 @@ ionViewWillLeave(){
      
   }
   getDistance(kms) {
-    return Math.floor(kms)
+    var KM = Math.floor(kms)
+    if(KM <=1) {
+      return "< 1"
+    }
+    return KM
   }
   seemore(id) {
     this.loopSlider.getActiveIndex().then(index=> {

@@ -36,8 +36,8 @@ export class ConnexionPage implements OnInit {
           var user = e[0]
           console.log('utilsya ', user)
           this.service.storeUser(user)
-        this.navCtrl.navigateForward('portail')
-         this.service.auth = true
+          this.navCtrl.navigateForward('portail')
+          this.service.auth = true
         }   
         
     }, 2000)

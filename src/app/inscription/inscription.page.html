@@ -36,7 +36,24 @@
                         <ion-icon slot="end" name="arrow-round-forward"></ion-icon>
                     </ion-button>
                 </div>
+
             </div>
+        </ion-slide>
+        <ion-slide>
+            <div style="display: grid;">
+                <div style="width: 100%;text-align: center;margin-top: 30%">
+                    <ion-button shape="round" color="secondary" (click)="getPosition()">J'active ma position GPS</ion-button>
+                </div>
+                <div class="warn-decline" *ngIf="toto">
+                    <p>
+                        Vous ne pouvez pas continuez à utiliser Soulmate tant que vous n'activez pas la localisation Gps
+                    </p>
+                    <p style="font-size: 10px;text-decoration: underline;">
+                        Veuillez autoriser la localisation GPS
+                    </p>
+                </div>
+            </div>
+
         </ion-slide>
         <ion-slide>
             <div style="width: 100%;">

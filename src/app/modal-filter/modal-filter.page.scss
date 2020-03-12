@@ -1,0 +1,20 @@
+.header-md:after {
+    background-image: none !important;
+}
+
+ion-range {
+    padding: 0;
+    --height: 58px;
+    --bar-height: 5px;
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+.div-age {
+    display: grid;
+}
+
+.div-age span {
+    padding-left: 6%;
+    color: gray;
+}
