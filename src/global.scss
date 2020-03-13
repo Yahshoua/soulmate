@@ -81,3 +81,10 @@
 .myToast2 {
     --width: 80%
 }
+
+.my-custom-modal-opinion .modal-wrapper {
+    position: absolute !important;
+    top: 0% !important;
+    display: block;
+    height: 54% !important;
+}

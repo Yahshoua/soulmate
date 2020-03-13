@@ -100,6 +100,26 @@ const routes: Routes = [
   {
     path: 'photo-profil-selected',
     loadChildren: () => import('./photo-profil-selected/photo-profil-selected.module').then( m => m.PhotoProfilSelectedPageModule)
+  },
+  {
+    path: 'profil-view-image',
+    loadChildren: () => import('./profil-view-image/profil-view-image.module').then( m => m.ProfilViewImagePageModule)
+  },
+  {
+    path: 'edit-infos',
+    loadChildren: () => import('./edit-infos/edit-infos.module').then( m => m.EditInfosPageModule)
+  },
+  {
+    path: 'editpropos',
+    loadChildren: () => import('./editpropos/editpropos.module').then( m => m.EditproposPageModule)
+  },
+  {
+    path: 'edit-interet',
+    loadChildren: () => import('./edit-interet/edit-interet.module').then( m => m.EditInteretPageModule)
+  },
+  {
+    path: 'edit-modal',
+    loadChildren: () => import('./edit-modal/edit-modal.module').then( m => m.EditModalPageModule)
   }
 ];
 

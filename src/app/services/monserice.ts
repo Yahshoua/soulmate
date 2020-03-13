@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 declare var $, moment, google
 import { resolve } from 'url';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { JsonPipe } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +23,10 @@ export class monservice {
     url9 = this.server2+'/phpsoulmate/setFlash.php'
     url10 = this.server2+'/phpsoulmate/setMatch.php'
     url11 = this.server2+'/phpsoulmate/debloquer.php'
+    url12 = this.server2+'/phpsoulmate/updateimage.php'
+    url13 = this.server2+'/phpsoulmate/updateprofil.php'
+    url14 = this.server2+'/phpsoulmate/updateabout.php'
+    url15 = this.server2+'/phpsoulmate/updateInteret.php'
     url = this.server2+'/phpsoulmate/setUser.php';
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
@@ -54,6 +59,70 @@ export class monservice {
     Allpersonnes
     subsciberAllperso() {
       this.allperSub.next(this.Allpersonnes)
+    }
+    updateInteret(data, table, Tabmod) {
+      var datas = JSON.stringify(data)
+      $.ajax({
+        method: 'POST',
+        url: this.url15,
+        data: {data: encodeURIComponent(datas), id: this.utilisateur.id, table: table},
+        success: e=> {
+          console.log('ok success ')
+          this.getAllUser()
+          this.subsciberAllperso()
+        }
+      })
+    }
+    updatePropos(personne) {
+      for(let i = 0; i < this.Allpersonnes.length; i++) {
+        if(this.Allpersonnes[i].id == personne.id) {
+          this.Allpersonnes[i].about = personne.about
+          $.ajax({
+            method: "POST",
+            url: this.url14,
+            data: {id_user: this.utilisateur.id, about: personne.about}
+          })
+          this.subsciberAllperso()
+          break
+        }
+      }
+    }
+    updateInfos(personne) {
+      for(let i = 0; i < this.Allpersonnes.length; i++) {
+        if(this.Allpersonnes[i].id == personne.id) {
+          this.Allpersonnes[i].nom = personne.nom
+          this.Allpersonnes[i].adresse = personne.adresse
+          this.Allpersonnes[i].datenaiss = personne.datenaiss
+          console.log('date ', personne, ' all ', this.Allpersonnes[i])
+          $.ajax({
+            method: "POST",
+            url: this.url13,
+            data: {id_user: this.utilisateur.id, nom: personne.nom, adresse: personne.adresse, dates: personne.datenaiss}
+          })
+          this.subsciberAllperso()
+          break
+        }
+      }
+    }
+    updateAllperson(imag1, album, newimage) {
+        for(let i=0;i < this.Allpersonnes.length; i++) {
+          if(this.Allpersonnes[i].id == this.utilisateur.id) {
+            this.Allpersonnes[i].images = imag1
+            this.Allpersonnes[i].album = album
+            $.ajax({
+              method: "POST",
+              url: this.url12,
+              data: {image: newimage, id: this.utilisateur.id},
+              dataType: "JSON"
+            }).done(e=> {
+              console.log('mise ) jour de la photo effectuée !')
+            }).fail(err=> {
+              console.log('erreur lors de la mise à jour de la photo ', err)
+            })
+            break
+          }
+        }
+        this.subsciberAllperso()
     }
     debloquer(data) {
       $.ajax({
@@ -222,13 +291,13 @@ export class monservice {
         for(let i=0;i < res.length;i++) {
           if(res[i].album.length >= 1) {
             for(let e=0;e < res[i].album.length;e++) {
-              res[i].album[e].id = res[i].id
+              res[i].album[e].id = e
+              // res[i].album[e].id = res[i].id
             }
           }
         }
           this.Allpersonnes = res
           this.subsciberAllperso()
-
           return this.filtrage(res)
       })
       console.log('rrrr ', r)

@@ -1,0 +1,124 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title slot="end" color="light" style="font-size: 93%;" *ngIf="Tabmode.music.length >=1 ||Tabmode.film.length >=1 || Tabmode.passeTemps.length >=1 || Tabmode.sport.length >=1 || Tabmode.aime.length >=1 || Tabmode.deteste.length >=1" (click)="apply()">
+            Appliquer </ion-title>
+        <ion-title color="light" style="font-size: 93%;"> Centre d'interet </ion-title>
+        <ion-icon style="font-size: 23px;margin-right: 5px;" (click)="delete()" slot="end" color="light" name="trash-outline"></ion-icon>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section style="margin-top: 5%;">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="9" style="color: #009688;">
+                    Style musicaux
+                </ion-col>
+                <ion-col size="3" (click)="popup('music', 'Ajouter un style musical')">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-col>
+                <div class="items-add" *ngIf="Tabmode.music.length >= 1">
+                    <ion-row *ngFor="let tab of Tabmode.music; let i = index">
+                        <ion-col size="9">
+                            {{tab.texte}}
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-checkbox [(ngModel)]="tab.etat" style="float: right;" (click)="switch('music', i)" [checked]="tab.etat"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-row>
+            <ion-row>
+                <ion-col size="9" style="color: #E91E63;">
+                    Films/Séries
+                </ion-col>
+                <ion-col size="3" (click)="popup('film', 'Ajouter un film')">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-col>
+                <div class="items-add" *ngIf="Tabmode.film.length >= 1">
+                    <ion-row *ngFor="let tab of Tabmode.film;let i = index">
+                        <ion-col size="9">
+                            {{tab.texte}}
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-checkbox [(ngModel)]="tab.etat" style="float: right;" (click)="switch('film', i)" [checked]="tab.etat"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-row>
+            <ion-row>
+                <ion-col size="9" style="color: #4b7521">
+                    Passe-temps
+                </ion-col>
+                <ion-col size="3" (click)="popup('temps', 'Ajouter un passe-temps')">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-col>
+                <div class="items-add" *ngIf="Tabmode.passeTemps.length >= 1">
+                    <ion-row *ngFor="let tab of Tabmode.passeTemps;let i = index">
+                        <ion-col size="9">
+                            {{tab.texte}}
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-checkbox [(ngModel)]="tab.etat" style="float: right;" (click)="switch('temps', i)" [checked]="tab.etat"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-row>
+            <ion-row>
+                <ion-col size="9" style="color: orange;">
+                    Sport
+                </ion-col>
+                <ion-col size="3" (click)="popup('sport', 'Ajouter un sport')">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-col>
+                <div class="items-add" *ngIf="Tabmode.sport.length >= 1">
+                    <ion-row *ngFor="let tab of Tabmode.sport;let i = index">
+                        <ion-col size="9">
+                            {{tab.texte}}
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-checkbox [(ngModel)]="tab.etat" style="float: right;" (click)="switch('sport', i)" [checked]="tab.etat"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-row>
+            <ion-row>
+                <ion-col size="9" style="color: chocolate;">
+                    Ce que j'aime
+                </ion-col>
+                <ion-col size="3" (click)="popup('aime', 'Ajouter ce que j\'aime')">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-col>
+                <div class="items-add" *ngIf="Tabmode.aime.length >= 1">
+                    <ion-row *ngFor="let tab of Tabmode.aime;let i = index">
+                        <ion-col size="9">
+                            {{tab.texte}}
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-checkbox [(ngModel)]="tab.etat" style="float: right;" (click)="switch('deteste', i)" [checked]="tab.etat"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-row>
+            <ion-row>
+                <ion-col size="9">
+                    Ce que je deteste
+                </ion-col>
+                <ion-col size="3" (click)="popup('deteste', 'Ajouter ce que je deteste')">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-col>
+                <div class="items-add" *ngIf="Tabmode.deteste.length >= 1">
+                    <ion-row *ngFor="let tab of Tabmode.deteste;let i = index">
+                        <ion-col size="9">
+                            {{tab.texte}}
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-checkbox [(ngModel)]="tab.etat" style="float: right;" (click)="switch(i)" [checked]="tab.etat"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-row>
+        </ion-grid>
+    </section>
+</ion-content>

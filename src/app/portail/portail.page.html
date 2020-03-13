@@ -23,11 +23,11 @@
                         <img [src]="image">
                     </ion-avatar>
                     <div>
-                        <span>{{utilisateur.nom}}</span>
-                        <small>{{getAge(utilisateur.datenaiss)}}</small>
+                        <span>{{utilisateur?.nom}}</span>
+                        <small>{{getAge(utilisateur?.datenaiss)}}</small>
                     </div>
                 </div>
-                <div style="padding-top: 3%;
+                <div class="modifier" style="padding-top: 3%;
                 padding-bottom: 3%;" [routerLink]="['/profil']" routerLinkActive="router-link-active">
                     <font style="font-size: 72%;">MODIFIER</font>
                 </div>

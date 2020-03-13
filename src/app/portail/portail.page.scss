@@ -44,3 +44,8 @@ ion-slides {
 .deconnexion:active {
     background: #c612c9;
 }
+
+.modifier:active,
+.modifier:focus {
+    outline: none !important;
+}

@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title color="primary" style="font-size: 93%;"> {{title}} </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div style="text-align: center">
+        <p style="text-align: center;font-size: 80%">
+            Ajouter un seul mot ou une expression à la fois
+        </p>
+        <ion-item>
+            <ion-input maxlength="7" minlength="4" [(ngModel)]="text" autofocus></ion-input>
+        </ion-item>
+        <ion-button shape="round" style="margin-top: 20%;" (click)="valider()">Valider</ion-button>
+    </div>
+</ion-content>

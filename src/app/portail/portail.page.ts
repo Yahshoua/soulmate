@@ -14,19 +14,30 @@ export class PortailPage implements OnInit {
   favoris
   titre
   loading
-  utilisateur = this.service.utilisateur
+  utilisateur
+  all
   constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController, private modalController: ModalController, public loadingController: LoadingController) { }
 
-  async ngOnInit() {
+   ngOnInit() {
     this.presentLoading()
-    this.image = this.service.photo 
+    this.image = this.service.photo
+    this.service.allperSub.subscribe((e: any)=> {
+      this.all = e
+    }) 
+    
+   
   }
+ 
   async presentLoading() {
     this.loading = await this.loadingController.create({
       message: 'Chargement des profil...'
     });
     this.service.getAllUser().then(async (e)=> {
       this.loading.dismiss()
+      this.service.subsciberAllperso()
+      this.utilisateur = this.all.find(i=> {
+        return i.id == this.service.utilisateur.id
+      })
     })
     await this.loading.present();
 

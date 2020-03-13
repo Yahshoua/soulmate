@@ -1,0 +1,26 @@
+.col-text {
+    display: grid;
+    margin: 4%;
+    color: #fff;
+    background-color: #f106a3;
+    font-size: 13px;
+}
+
+ion-toolbar {
+    --background: black
+}
+
+ion-textarea {
+    border: 0.1px solid #dedede;
+}
+
+.col-text p {
+    text-align: justify;
+    margin: 2%;
+    padding: 0;
+}
+
+.col-textarea {
+    margin-right: 4%;
+    margin-left: 4%;
+}

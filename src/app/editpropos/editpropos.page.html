@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title color="light" style="font-size: 93%;"> A propos de moi </ion-title>
+        <ion-title (click)="apply()" slot="end" color="light" style="font-size: 93%;"> Appliquer </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section style="margin-top: 5%">
+        <div class="col-text">
+            <p>
+                Présentez-vous en quelques mots, décrivez vos attentes, vos passions.
+            </p>
+            <p>
+                Soyez imaginatifs !
+            </p>
+        </div>
+        <div class="col-textarea">
+            <ion-textarea [(ngModel)]="personne.about" auto-grow="true" autofocus="true" cols="1" maxlength="1024" minlength="10" required></ion-textarea>
+        </div>
+
+    </section>
+</ion-content>

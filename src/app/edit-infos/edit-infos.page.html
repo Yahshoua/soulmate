@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title color="light" style="font-size: 93%;"> Mes infos </ion-title>
+        <ion-title (click)="apply()" slot="end" color="light" style="font-size: 93%;"> Appliquer </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section style="margin-top: 7%;">
+        <ion-item>
+            <ion-label position="fixed">
+                Pseudo
+            </ion-label>
+            <ion-input placeholder="Entre on pseudo" [(ngModel)]="personne.nom">
+                <ion-icon slot="start" name="text-outline"></ion-icon>
+            </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="fixed">
+                Localisation
+            </ion-label>
+            <ion-input placeholder="Ville/quartier" [(ngModel)]="personne.adresse">
+                <ion-icon slot="start" name="compass-outline"></ion-icon>
+            </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="fixed">
+                Naissance
+            </ion-label>
+            <ion-datetime [(ngModel)]="dateNaissance" displayFormat="DD-MMMM-YYYY" placeholder="Entre ta date de naissance" dayShortNames="Lun, Mar, Merc, Jeu, Ven, Sa, Dim" dayNames="Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche" doneText="Ok" cancelText="Retour"
+                monthNames="Janvier, Fevrier, Mars, Avril, Mai, Juin, Juillet, Aout, Septembre, Octobre, Novembre, Decembre" max="2000" [monthShortNames]="customMonthShortNames">
+                <ion-icon slot="start" name="compass-outline"></ion-icon>
+            </ion-datetime>
+        </ion-item>
+    </section>
+
+</ion-content>

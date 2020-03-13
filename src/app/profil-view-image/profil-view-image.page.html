@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title color="light" style="font-size: 93%;"> Mes photos </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section style="position: relative;">
+        <ion-slides pager="true" [options]="slideOpts" #loopSlider>
+            <ion-slide *ngFor="let al of personne?.album">
+                <div class="col-images" [ngStyle]="monstyle(al)">
+
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </section>
+    <ion-fab vertical="top" horizontal="end" style="position: absolute" (click)="pickImage()">
+        <ion-fab-button>
+            <ion-icon name="camera-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

@@ -13,6 +13,8 @@ export class PropositionPage implements OnInit {
   @ViewChild('loopSlider', {static: true}) loopSlider;
   curentSlide = 0
   personnes= []
+  Allperson
+  texte = "Recherche des personnes à proximité ..."
   slideOpts = {
     initialSlide: this.curentSlide,
   };
@@ -34,6 +36,9 @@ export class PropositionPage implements OnInit {
     moment.locale('fr')
      this.service.userSubscriber.subscribe((res: any)=> {
         this.personnes = res.sort(() => Math.random() - 0.5)
+        if(this.personnes.length <= 0) {
+            this.texte = " Nous n'avons trouvé personne selon vos critères de recherche"
+        }
     })
     this.service. getGenres()
     this.service.getMyPosition().then(e=> {
@@ -57,6 +62,7 @@ ionViewWillLeave(){
   getalluser() {
     this.service.getAllUser().then(e=> {
       console.log('tous les users ', e)
+      this.Allperson = e
     })
   }
   getAge(date) {

@@ -30,7 +30,7 @@
               </span>
             </div>
             <div style="width: 50%;">
-                <ion-fab vertical="top" horizontal="end" slot="end" style="position: inherit;float: right">
+                <ion-fab [routerLink]="['/edit-infos']" routerLinkActive="router-link-active" vertical="top" horizontal="end" slot="end" style="position: inherit;float: right">
                     <ion-fab-button>
                         <ion-icon name="pencil-outline"></ion-icon>
                     </ion-fab-button>
@@ -39,7 +39,7 @@
         </div>
         <ion-row>
             <ion-col size="12" style="padding: 0;margin-top: 4%">
-                <div class="col-item">
+                <div class="col-item" [routerLink]="['/editpropos']" routerLinkActive="router-link-active">
                     <p id="lib-ann">A propos de moi</p>
                     <p style="float: right;">
                         Ajouter
@@ -60,7 +60,7 @@
                 </ion-item>
             </ion-col>
             <ion-col size="12" style="padding: 0;">
-                <div class="col-item">
+                <div class="col-item" [routerLink]="['/edit-interet']" routerLinkActive="router-link-active">
                     <p id="lib-ann">Centre d'interet</p>
                     <p style="float: right;">
                         Ajouter
@@ -78,7 +78,7 @@
                                             Styles musicaux
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{interet?.music}}
+                                            {{parsing(interet?.music)}}
                                         </p>
                                     </div>
                                 </ion-col>
@@ -90,7 +90,7 @@
                                             Fimls/Séries
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{interet?.film}}
+                                            {{parsing(interet?.film)}}
                                         </p>
                                     </div>
                                 </ion-col>
@@ -102,7 +102,7 @@
                                             Passe-temps
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{interet?.passeTemps}}
+                                            {{parsing(interet?.passeTemps)}}
                                         </p>
                                     </div>
                                 </ion-col>
@@ -114,7 +114,7 @@
                                             Sport
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{interet?.sport}}
+                                            {{parsing(interet?.sport)}}
                                         </p>
                                     </div>
                                 </ion-col>
@@ -126,7 +126,7 @@
                                             Ce que j'aime
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{interet?.aime}}
+                                            {{parsing(interet?.aime)}}
                                         </p>
                                     </div>
                                 </ion-col>
@@ -138,7 +138,7 @@
                                             Ce que je deteste
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{interet?.deteste}}
+                                            {{parsing(interet?.deteste)}}
                                         </p>
                                     </div>
                                 </ion-col>

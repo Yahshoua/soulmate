@@ -37,20 +37,23 @@ export class ProfilPage implements OnInit {
      return style
   }
   async pickImage() {
-    console.log('pick')
     let options = {
       maximumImagesCount: 1,
       outputType: 1,
       allow_video: false
     }
-     //FAKE
-      this.modal = await this.moadalCtrl.create({
-      component: PhotoProfilSelectedPage,
-      componentProps: {
-        'image': this.image
+    this.imagePicker.getPictures(options).then(async (results) => {
+      for (var i = 0; i < results.length; i++) {
+          console.log('Image base64: ' + results[i]);
+          this.image = "data:image/png;base64,"+results[i]
       }
-    })
-    this.modal.onDidDismiss().then((e: any)=> {
+          this.modal = await this.moadalCtrl.create({
+            component: PhotoProfilSelectedPage,
+            componentProps: {
+              'image': this.image
+            }
+          })
+      this.modal.onDidDismiss().then((e: any)=> {
         console.log('dismiss', e)
         var data = e.data.componentProps.image
         if(data == true) {
@@ -60,6 +63,9 @@ export class ProfilPage implements OnInit {
             var taille = this.loopSlider.length().then(e=> {
               console.log('taille ', e)
               this.loopSlider.slideTo(e)
+              var album = this.personne.album
+              var img1 = this.personne.images
+              this.service.updateAllperson(img1, album, this.image)
             })
             
           })
@@ -69,25 +75,36 @@ export class ProfilPage implements OnInit {
         }
     })
     return await this.modal.present();
-    this.imagePicker.getPictures(options).then((results) => {
-      for (var i = 0; i < results.length; i++) {
-          console.log('Image base64: ' + results[i]);
-          this.image = "data:image/png;base64,"+results[i]
-      }
-      this.moadalCtrl.create({
-        component: PhotoProfilSelectedPage,
-        componentProps: {
-          'image': this.image
-        }
-      })
     }, (err) => { 
-      console.log('erreur', err)
+      alert('erreur lors de la recuperation de votre image '+ err)
     })
   }
+  parsing(data) {
+    
+    if(typeof data == 'string' && typeof data !== 'object' && data !== null && data !== '') {
+      console.log('data ', data, 'datype ', typeof data)
+      var k = ''
+      var e = JSON.parse(data)
+      for(let i =0;i < e.length; i++) {
+        if(i>0 && i < e.length) {
+          k+= ","+ e[i].texte
+        } else {
+          k+= e[i].texte
+        }
+      }
+      return k
+    }
+  }
   ngOnInit() {
-    this.personne = this.service.Allpersonnes.find(i=> {
-      return i.id == this.service.utilisateur.id
-    })
+    // this.personne = this.service.Allpersonnes.find(i=> {
+    //   return i.id == this.service.utilisateur.id
+    // })
+    this.service.allperSub.subscribe((i: any)=> {
+      this.personne = i.find((e: any)=> {
+           return e.id == this.service.utilisateur.id
+         })
+     })
+     this.service.subsciberAllperso()
     console.log('personne ', this.personne, ' album ', this.personne.album)
     var i = this.personne.album.find(e=> {
       return e.photo == this.personne.images
@@ -111,15 +128,25 @@ export class ProfilPage implements OnInit {
         this.pages = true
         this.loopSlider.lockSwipes(false)
       }
-      this.interet = this.personne.interets
-      this.mode = this.personne.mode
-      this.suggetion = this.personne.suggetion
+     
+  }
+  ionViewWillEnter(){
+    console.log('ok entrer')
+    
+    console.log('personne ', this.personne.interets)
+    this.interet = this.personne.interets
+    this.mode = this.personne.mode
+    this.suggetion = this.personne.suggetion
+    
   }
   goBack() {
     this.navCtrl.navigateBack('portail/users/proposition')
   }
   tap() {
-
+    this.loopSlider.getActiveIndex().then(e=> {
+      this.navCtrl.navigateRoot('profil-view-image', {queryParams: {index: e}} )
+    })
+    
   }
   getAge(date) {
     var age = moment(date).format('Y')

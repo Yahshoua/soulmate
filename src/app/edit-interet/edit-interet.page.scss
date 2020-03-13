@@ -1,0 +1,32 @@
+ion-toolbar {
+    --background: black
+}
+
+section ion-icon {
+    font-size: 20px;
+    float: right;
+}
+
+section ion-row {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+section ion-grid {
+    background: #eae7e7;
+    padding: 0;
+}
+
+.items-add {
+    width: 100%
+}
+
+.items-add ion-row {
+    border: none;
+    background: #fff;
+}
+
+.items-add ion-checkbox {
+    float: right
+}

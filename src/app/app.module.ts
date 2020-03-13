@@ -12,10 +12,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { EditModalPageModule } from './edit-modal/edit-modal.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule],
   providers: [
     StatusBar,
     ImagePicker,
