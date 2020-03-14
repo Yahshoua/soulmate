@@ -176,10 +176,7 @@ export class InscriptionPage implements OnInit {
           password: this.password
        }
        this.service.moi = profil
-       setTimeout(e=> {
 this.navCtrl.navigateForward('capture')
-       }, 5000)
-      
     }
   }
   finish() {

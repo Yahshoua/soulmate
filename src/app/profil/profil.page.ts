@@ -4,6 +4,7 @@ import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 declare var $, moment
 @Component({
   selector: 'app-profil',
@@ -24,7 +25,8 @@ export class ProfilPage implements OnInit {
   mode: any;
   suggetion: any;
   modal
-  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController, private imagePicker: ImagePicker, private moadalCtrl: ModalController) { }
+  Imagename
+  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController, private imagePicker: ImagePicker, private moadalCtrl: ModalController, private transfer: FileTransfer) { }
   monstyle(al) {
     let style=  {
         'background-image': 'url('+al.photo+')', 
@@ -39,14 +41,33 @@ export class ProfilPage implements OnInit {
   async pickImage() {
     let options = {
       maximumImagesCount: 1,
-      outputType: 1,
+      outputType: 0,
       allow_video: false
     }
     this.imagePicker.getPictures(options).then(async (results) => {
-      for (var i = 0; i < results.length; i++) {
-          console.log('Image base64: ' + results[i]);
-          this.image = "data:image/png;base64,"+results[i]
-      }
+        //
+        var fileTransfer: FileTransferObject = this.transfer.create();
+        console.log('Image URI: ' + results[0]);
+        //chemin de l image
+        var imageUpload = results[0]
+        // nom de l image
+         this.Imagename = moment().format('DD-MMMM-YYYY HH:mm:s')+'.jpg'
+         //
+         let options: FileUploadOptions = {
+           fileKey: 'file',
+           fileName: this.Imagename,
+           headers: {}
+        }
+        fileTransfer.upload(imageUpload, 'https://kazimo.ga/cashapp/upload_photo.php', options).then(e=> {
+          console.log(e, 'effectué')
+        
+        }).catch(err=>  {
+          console.log('erreur du transfert ', err)
+        })
+        //
+          console.log('Image url: ' + results[0]);
+          this.image = results[0]
+     
           this.modal = await this.moadalCtrl.create({
             component: PhotoProfilSelectedPage,
             componentProps: {
@@ -58,14 +79,14 @@ export class ProfilPage implements OnInit {
         var data = e.data.componentProps.image
         if(data == true) {
           this.loopSlider.lockSwipes(false)
-          this.personne.album.push({id: this.personne.album.length+1,photo: this.image})
+          this.personne.album.push({id: this.personne.album.length+1, photo: this.image})
           this.loopSlider.update().then(e=> {
             var taille = this.loopSlider.length().then(e=> {
               console.log('taille ', e)
               this.loopSlider.slideTo(e)
               var album = this.personne.album
               var img1 = this.personne.images
-              this.service.updateAllperson(img1, album, this.image)
+              this.service.updateAllperson(img1, album, this.Imagename)
             })
             
           })
@@ -79,22 +100,7 @@ export class ProfilPage implements OnInit {
       alert('erreur lors de la recuperation de votre image '+ err)
     })
   }
-  parsing(data) {
-    
-    if(typeof data == 'string' && typeof data !== 'object' && data !== null && data !== '') {
-      console.log('data ', data, 'datype ', typeof data)
-      var k = ''
-      var e = JSON.parse(data)
-      for(let i =0;i < e.length; i++) {
-        if(i>0 && i < e.length) {
-          k+= ","+ e[i].texte
-        } else {
-          k+= e[i].texte
-        }
-      }
-      return k
-    }
-  }
+
   ngOnInit() {
     // this.personne = this.service.Allpersonnes.find(i=> {
     //   return i.id == this.service.utilisateur.id
@@ -103,9 +109,22 @@ export class ProfilPage implements OnInit {
       this.personne = i.find((e: any)=> {
            return e.id == this.service.utilisateur.id
          })
-     })
+         this.interet = this.personne.interets
+        })
      this.service.subsciberAllperso()
     console.log('personne ', this.personne, ' album ', this.personne.album)
+   
+  }
+  decode(uri) {
+    return decodeURI(uri)
+  }
+  ionViewWillEnter(){
+    console.log('ok entrer')
+    this.service.subsciberAllperso()
+    console.log('personne ', this.personne.interets)
+    
+    this.mode = this.personne.mode
+    this.suggetion = this.personne.suggetion
     var i = this.personne.album.find(e=> {
       return e.photo == this.personne.images
     })
@@ -130,17 +149,23 @@ export class ProfilPage implements OnInit {
       }
      
   }
-  decode(uri) {
-    return decodeURI(uri)
-  }
-  ionViewWillEnter(){
-    console.log('ok entrer')
-    
-    console.log('personne ', this.personne.interets)
-    this.interet = this.personne.interets
-    this.mode = this.personne.mode
-    this.suggetion = this.personne.suggetion
-    
+  parsing(data) {
+    console.log('data ', data, 'datype ', typeof data)
+    if(data == null || data.length <= 0) return
+      var e = data
+    if(typeof data == 'string') {
+        e = JSON.parse(data)
+    }
+    console.log('parsing ', data, 'interets', this.interet, 'type' )
+      var k = ''
+      for(let i =0;i < e.length; i++) {
+        if(i>0 && i < e.length) {
+          k+= ","+ e[i].texte
+        } else {
+          k+= e[i].texte
+        }
+      }
+      return k
   }
   goBack() {
     this.navCtrl.navigateBack('portail/users/proposition')

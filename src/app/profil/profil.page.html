@@ -23,10 +23,10 @@
         <div class="detail">
             <div>
                 <p style="font-family: 'Ubuntu-Light';padding: 0;color: #8ec6e0;">
-                    {{personne.nom}}, {{getAge(personne.datenaiss)}} ans
+                    {{personne?.nom}}, {{getAge(personne?.datenaiss)}} ans
                 </p>
                 <span style="font-size: 82%;">
-                  {{personne.adresse}}
+                  {{personne?.adresse}}
               </span>
             </div>
             <div style="width: 50%;">
@@ -49,7 +49,7 @@
                 <ion-item lines="none">
                     <ion-label class="mylabel" style="white-space: normal;">
                         <p *ngIf="personne.about?.length >=0" class="about">
-                            {{personne.about}}
+                            {{personne?.about}}
                         </p>
                         <div *ngIf="personne.about?.length <=0" style="display: grid;">
                             <p class="about">
@@ -78,7 +78,7 @@
                                             Styles musicaux
                                         </p>
                                         <p style="font-size: 13px;">
-                                            {{parsing(interet?.music)}}
+                                            {{parsing(interet.music)}}
                                         </p>
                                     </div>
                                 </ion-col>
@@ -161,7 +161,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{decode(mode?.situation)}}
+                            {{mode?.situation}}
                         </p>
                     </ion-col>
                 </ion-row>
@@ -172,7 +172,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{decode(mode?.habitation)}}
+                            {{mode?.habitation}}
                         </p>
                     </ion-col>
                 </ion-row>

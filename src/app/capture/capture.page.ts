@@ -1,9 +1,11 @@
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { LoadingController } from '@ionic/angular';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+declare var moment
 @Component({
   selector: 'app-capture',
   templateUrl: './capture.page.html',
@@ -13,8 +15,9 @@ export class CapturePage implements OnInit {
   image
   loading
   loader
+  name
   userData: { email: any; first_name: any; photo: any; nom: any; 'type': string; };
-  constructor(private service: monservice, private imagePicker: ImagePicker, private navCtrl: NavController, private fb: Facebook, public loadingController: LoadingController) { }
+  constructor(private service: monservice, private imagePicker: ImagePicker, private navCtrl: NavController, private fb: Facebook, public loadingController: LoadingController, private transfer: FileTransfer, private alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.image = this.service.photo
@@ -23,6 +26,7 @@ export class CapturePage implements OnInit {
     })
     this.service.utilsateurSubscription()
     console.log('moiii ', this.service.moi)
+     
   }
   fbimage() {
     var image = this.service.facebook.photo
@@ -52,23 +56,50 @@ export class CapturePage implements OnInit {
   pickImage() {
     let options = {
       maximumImagesCount: 1,
-      outputType: 1,
+      outputType: 0,
       allow_video: false
     }
+
     this.imagePicker.getPictures(options).then(async (results) => {
-          console.log('Image base64: ' + results[0]);
-          this.image = "data:image/png;base64,"+results[0]
-          this.load()
-          this.service.setPhoto(this.image).then(async (e)=> {
-             this.navCtrl.navigateForward('portail')
-             this.loading.dismiss()
-                this.loading = false
-          })
+      this.load()
+     var fileTransfer: FileTransferObject = this.transfer.create();
+         console.log('Image URI: ' + results[0]);
+         var imageUpload = results[0]
+          this.name = moment().format('DD-MMMM-YYYY-HH:mm:s')+'.jpg'
+          let options: FileUploadOptions = {
+            fileKey: 'file',
+            fileName: this.name,
+            headers: {}
+         }
+         fileTransfer.upload(imageUpload, 'https://kazimo.ga/cashapp/upload_photo.php', options)
+            .then((data) => {
+                console.log(data, 'effectué')
+                this.image = "https://kazimo.ga/cashapp/uploads/"+this.name
+                this.service.setPhoto("https://kazimo.ga/cashapp/uploads/"+this.name).then(e=> {
+                  this.navCtrl.navigateForward('portail')
+                  this.loading.dismiss()
+                })
+                
+            }, async (err) => {
+              // error
+              this.loading.dismiss()
+              console.log(err, 'une erreur est arrivé')
+              const alert = await this.alertCtrl.create({
+                header: 'Erreur',
+                subHeader: "Impossible de continuer.",
+                message: "Une erreur inconnue s'est produite ! Recommencez svp",
+                buttons: ['OK']
+              });
+              await alert.present();
+            })
+        //  
       
     }, (err) => { 
       console.log('erreur', err)
+    
     })
     // Test
+    
     // this.service.setPhoto(this.image)
     // setTimeout(()=> {
     //   this.navCtrl.navigateForward('portail')

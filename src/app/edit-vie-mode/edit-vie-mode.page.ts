@@ -40,8 +40,19 @@ export class EditVieModePage implements OnInit {
       })
     })
     this.service.subsciberAllperso()
-    this.emptyTable = this.personne.mode
-    this.emptyTable.id =  this.service.utilisateur.id
+    if(this.personne.mode.length >=1) {
+      this.emptyTable = this.personne.mode
+      this.emptyTable.id =  this.service.utilisateur.id
+    }
+    console.log('type of ', typeof this.personne.mode)
+    for(let i in this.personne.mode) {
+      for(let e in this.emptyTable) {
+        if(e == i) {
+          this.emptyTable[i] = this.personne.mode[e]
+        }
+      }
+      console.log('eeee ', this.emptyTable)
+    }
   }
   check(item) {
     for(let i in this.emptyTable) {

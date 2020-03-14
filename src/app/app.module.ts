@@ -14,12 +14,18 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { EditModalPageModule } from './edit-modal/edit-modal.module';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule],
   providers: [
     Facebook,
+    FileTransfer,
+    Push,
+    FileTransferObject,
     StatusBar,
     ImagePicker,
     MenuController,

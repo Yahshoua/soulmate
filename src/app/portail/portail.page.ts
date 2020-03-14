@@ -20,11 +20,11 @@ export class PortailPage implements OnInit {
   constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController, private modalController: ModalController, public loadingController: LoadingController, private alertCtrl: AlertController) { }
 
    ngOnInit() {
-    this.presentLoading()
-    
     this.service.allperSub.subscribe((e: any)=> {
       this.all = e
-    }) 
+    })
+    this.service.subsciberAllperso()
+    this.presentLoading()
   }
   refresh() {
     this.service.getAllUser()
@@ -34,12 +34,14 @@ export class PortailPage implements OnInit {
       message: 'Chargement des profil...'
     });
     this.service.getAllUser().then(async (e)=> {
+      console.log('utilisateur dans portail ', this.service.utilisateur, ' storage ', this.service.getStorageUser().user)
       this.loading.dismiss()
       this.service.subsciberAllperso()
-      this.utilisateur = this.all.find(i=> {
+      this.utilisateur = e.find(i=> {
         return i.id == this.service.utilisateur.id
       })
-      this.image = this.utilisateur.images
+      
+      this.image = this.service.utilisateur.images
       this.randoms()
     }).catch(async (err)=> {
       console.log('erreur ', err)
@@ -48,7 +50,7 @@ export class PortailPage implements OnInit {
       } else {
         this.alert("Une erreur du serveur sans doute")
       }
-      
+      this.loading.dismiss()
     })
     await this.loading.present();
     // this.role =  loading.onDidDismiss();

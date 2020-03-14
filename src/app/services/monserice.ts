@@ -67,6 +67,13 @@ export class monservice {
     }
     updatemode(datas) {
       console.log('dataaaaaaa ', datas)
+      for(let i = 0;i< this.Allpersonnes.length; i++) {
+        if(this.Allpersonnes[i].id == this.utilisateur.id) {
+          this.Allpersonnes[i].mode = datas
+          this.subsciberAllperso()
+          break
+        }
+      }
       $.ajax({
         method: 'POST',
         url: this.url16,
@@ -74,17 +81,23 @@ export class monservice {
         dataType: 'json',
         success: e=> {
           // code pourri
-          this.getAllUser()
-          this.subsciberAllperso()
         }
       })
     }
-   async updateInteret(data, table, Tabmod) {
+   async updateInteret(data, table,Tabmod) {
     //  Penses à mettre à jour directement la table des  interets de l'user dans variables this.allperso, ensuite appeler le subscribe pour eviter la MAJ asynchrone
     //...
-
-
-    //...
+  
+    console.log('tabmod ', Tabmod)
+    for(let i = 0;i< this.Allpersonnes.length; i++) {
+      if(this.Allpersonnes[i].id == this.utilisateur.id) {
+        this.Allpersonnes[i].interets = Tabmod
+        this.subsciberAllperso()
+        console.log('nouvelle val ', this.Allpersonnes[i])
+        break
+      }
+    }
+    //... les data sont un tableau de valeur, ex: [{texte: 'xxxx', status: true}, {texte: '',...}]
       var datas = JSON.stringify(data)
       $.ajax({
         method: 'POST',
@@ -93,8 +106,6 @@ export class monservice {
         success: e=> {
           console.log('ok success ')
           // Code pouri à bannir
-          this.getAllUser()
-          this.subsciberAllperso()
         }
       })
     
@@ -138,7 +149,7 @@ export class monservice {
             $.ajax({
               method: "POST",
               url: this.url12,
-              data: {image: newimage, id: this.utilisateur.id},
+              data: {image: "https://kazimo.ga/cashapp/uploads/"+newimage, id: this.utilisateur.id},
               dataType: "JSON"
             }).done(e=> {
               console.log('mise ) jour de la photo effectuée !')
@@ -167,7 +178,7 @@ export class monservice {
     utilisateurSubscriber = new Subject()
     // Variable filtres par defaut
     public genreVoulu
-    public kilometreVoulu = 10
+    public kilometreVoulu = 1
     public gps = true
     public ageMin = 18
     public ageMax = 70
@@ -241,6 +252,7 @@ export class monservice {
 
    async setPhoto(img=this.photo) {
      this.utilisateur = this.moi
+     console.log('moiii ', this.moi)
       this.photo = img
       this.setPicture(img)
       var date = moment().format()
@@ -248,7 +260,7 @@ export class monservice {
       this.utilisateur.type = this.type
       this.utilisateur.latitude = this.myLat
       this.utilisateur.longitude = this.myLong
-      this.storeUser( this.utilisateur)
+      
       //Mise à jour des data user dans la BDD
           var e = $.ajax({
             method: 'POST',
@@ -256,6 +268,9 @@ export class monservice {
             data: this.utilisateur
           }).done((response)=> {
             console.log('mise à jour des données users ', response)
+            response = JSON.parse(response)
+            this.utilisateur.id = response.id
+            this.storeUser( this.utilisateur)
           }).fail((err)=> {
             console.log('erreur lors de la mise à jour des données users ', err)
           })
@@ -351,7 +366,7 @@ export class monservice {
                   return false
                 }
               } else {
-                if(item['genre'] !== this.genreVoulu || ageUser < filter.ageMinVoulu && ageUser > filter.ageMaxVoulu) {
+                if(item['genre'] !== this.genreVoulu || ageUser < filter.ageMinVoulu && ageUser > filter.ageMaxVoulu || item['id'] == filter.monId) {
                   return false
                 }
           }
@@ -454,6 +469,14 @@ export class monservice {
       return e
    }
    setChat(data) {
+     var id  = data.idRecep
+     for(let i =0;i < this.Allpersonnes.length; i++) {
+       if(this.Allpersonnes[i].id == id) {
+         this.Allpersonnes[i].chat.push(data)
+         this.subsciberAllperso()
+         break
+       }
+     }
      $.ajax({
        method: "POST",
        url: this.url7,
@@ -495,9 +518,9 @@ export class monservice {
     // ajout de la photo de profil
     setPicture(image) {
       let log = JSON.parse(localStorage.getItem('user')) || []
-      log.image = image
+      log.images = image
       localStorage.setItem('user', JSON.stringify(log))
-      this.utilisateur.image = image
+      this.utilisateur.images = image
     }
      // Recuperer le quartier ou la ville
    async displayLocation(latitude, longitude) {

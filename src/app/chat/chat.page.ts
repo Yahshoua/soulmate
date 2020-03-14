@@ -35,9 +35,13 @@ export class ChatPage implements OnInit {
     if( this.router.snapshot.queryParams.routes !== undefined) {
       this.myroute = this.router.snapshot.queryParams.routes
     }
-    this.personne = this.service.Allpersonnes.find(res=> {
-      return res.id == id
-    })
+            this.service.allperSub.subscribe((e: any)=> {
+              this.personne =  e.find(i=> {
+                return i.id == id
+              })
+          })  
+          this.service.subsciberAllperso()
+    
     console.log('utilisateur ', this.service.utilisateur)
     this.user = this.service.utilisateur
       this.FireChat()
@@ -49,9 +53,8 @@ export class ChatPage implements OnInit {
        
   }
   FireChat() {
-    this.service.getChat({id: this.user.id, id_user: this.personne.id}).then(e=> {
-      console.log('recuperation des chats ', e)
-      if(e.length>=1) {
+    var e = this.personne.chat
+    if(e.length>=1) {
         this.chaine = e[0].chaine
         console.log('il y a deja une chaine ', this.chaine)
         this.chating = e
@@ -59,7 +62,7 @@ export class ChatPage implements OnInit {
         this.chaine = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         console.log('pas de chaine, nouvelle chaine ', this.chaine)
       }
-    //Pusher
+      //Pusher
     var pusher = new Pusher('cd29f2f1d7ed1ce9bd9c', {
       cluster: 'eu',
       encrypted: true
@@ -67,6 +70,11 @@ export class ChatPage implements OnInit {
     });
     var channel = pusher.subscribe(this.chaine);
       channel.bind('my-event', (data)=> {
+        if(data.id_exp == this.service.utilisateur.id) {
+          data.photo = this.service.utilisateur.images
+        } else {
+          data.photo = this.personne.images
+        }
         console.log('data pusher', data);
         this.chating.push(data)
         // window.scrollTo(0,document.body.scrollHeight);
@@ -74,9 +82,6 @@ export class ChatPage implements OnInit {
         //element.scrollTop = element.scrollHeight - element.clientHeight;
         $('#mydiv').animate({scrollTop: document.body.scrollHeight},"fast");
       });
-    }).catch(err=> {
-        this.presentToast('impossible de recuperer vos conversations ')
-    })
     this.form = this.formBuild.group({
       message: ['', Validators.compose([Validators.required, Validators.minLength(2)])]
     })
@@ -115,7 +120,7 @@ export class ChatPage implements OnInit {
     this.form.reset()
   }
   slot(email) {
-    console.log('email ',email, 'this.user ', this.user.email)
+   // console.log('email ',email, 'this.user ', this.user.email)
     return this.user.email == email?'start':'end'
   }
   align(email) {

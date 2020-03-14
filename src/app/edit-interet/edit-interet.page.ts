@@ -24,13 +24,24 @@ export class EditInteretPage implements OnInit {
        this.personne =  e.find(i=> {
            return i.id == this.service.utilisateur.id
         })
-    })
+          console.log('moiii ', this.personne)
+      })
     this.service.subsciberAllperso()
    // var Tabmode = JSON.parse(this.personne.interets)
+      if(typeof this.personne.interets == 'string') {
+        this.personne.interets = JSON.parse(this.personne.interets)
+      }
     console.log('table parse ',  this.personne)
+    // if(this.personne.interets >= 1) {
+    //   this.Tabmode = this.personne
+    // }
     for(let i in this.personne.interets) {
-      if(this.personne.interets[i] !== null && typeof this.personne.interets[i] !== 'object' && this.personne.interets[i] !== '') {
-        this.Tabmode[i] = JSON.parse(this.personne.interets[i])
+      if(this.personne.interets[i] !== null && this.personne.interets[i].length >= 1) {
+        var e = this.personne.interets[i]
+        if(typeof this.personne.interets[i] == 'string') {
+            e = JSON.parse(this.personne.interets[i])
+        }
+        this.Tabmode[i] = e
       }
     }
   }
@@ -54,10 +65,14 @@ export class EditInteretPage implements OnInit {
     toast.present();
   }
   async apply() {
+    console.log('apply tab ', this.Tabmode)
+    // this.service.updateInteret(this.Tabmode)
+    var mytab = this.Tabmode
+    console.log('mytab ', mytab)
     for(let i in this.Tabmode) {
       if(this.Tabmode[i].length >= 1) {
         var table = i
-        this.service.updateInteret(this.Tabmode[i], table, this.Tabmode)
+        this.service.updateInteret(this.Tabmode[i], table, mytab)
       }
   }
       const toast = await this.toastController.create({

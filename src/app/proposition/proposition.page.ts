@@ -1,4 +1,4 @@
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, LoadingController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -17,6 +17,7 @@ export class PropositionPage implements OnInit {
   Allperson
   GPS
   texte = "Recherche des personnes à proximité ..."
+  loading
   slideOpts = {
     initialSlide: this.curentSlide,
   };
@@ -32,17 +33,26 @@ export class PropositionPage implements OnInit {
      return style
   }
     
-  constructor(private service: monservice, private geolocation: Geolocation, private navCtrl: NavController, public router:ActivatedRoute, private modalController: ModalController) { }
+  constructor(private service: monservice, private geolocation: Geolocation, private navCtrl: NavController, public router:ActivatedRoute, private modalController: ModalController, public loadingController: LoadingController,) { }
   
   ngOnInit() {
     moment.locale('fr')
+    $.ajax({
+      method: 'POST',
+      url: this.service.url2,
+      data: {email: this.service.utilisateur.email},
+      dataType: 'Json',
+      success: e=> {
+        console.log('resultat ', e)
+      }
+    })
     this.GPS = this.service.gps
      this.service.userSubscriber.subscribe((res: any)=> {
         this.personnes = res.sort(() => Math.random() - 0.5)
         console.log('ooook', this.personnes)
         if(this.personnes.length <= 0) {
            var km = this.service.kilometreVoulu
-            this.texte = `Nous n'avons trouvé de personne d\'au moins ${km} Km de vous`
+            this.texte = `Nous n'avons pas trouvé de personne à moins de ${km} Km de vous`
         }
     })
     this.service.getGenres()
@@ -71,12 +81,17 @@ ionViewWillEnter(){
 ionViewWillLeave(){
   this.getalluser()
 }
-  localization() {
+ async  localization() {
     this.service.gps = this.GPS
+    this.loading = await this.loadingController.create({
+      message: 'Recherche des personnes en cours...'
+    });
+    this.loading.present()
     console.log('GPS', this.GPS, 'GPS servce ', this.service.gps)
         this.service.getAllUser().then(e=> {
           console.log('nouvelles personnes ', e)
           this.service.userSubscription()
+          this.loading.dismiss()
         })
   }
   getalluser() {
