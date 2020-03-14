@@ -120,6 +120,10 @@ const routes: Routes = [
   {
     path: 'edit-modal',
     loadChildren: () => import('./edit-modal/edit-modal.module').then( m => m.EditModalPageModule)
+  },
+  {
+    path: 'edit-vie-mode',
+    loadChildren: () => import('./edit-vie-mode/edit-vie-mode.module').then( m => m.EditVieModePageModule)
   }
 ];
 

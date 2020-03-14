@@ -1,0 +1,16 @@
+ion-toolbar {
+    --background: black
+}
+
+section ion-row {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+section ion-col[size='9'] {
+    border-bottom: 1px dotted rgb(209, 209, 209);
+}
+
+section ion-col[size='3'] {
+    color: rgb(247, 30, 66)
+}

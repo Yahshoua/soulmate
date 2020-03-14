@@ -82,7 +82,7 @@ export class VoirpersonnePage implements OnInit {
     var ObjMode = Object.keys(this.interet).length
     if(ObjMode >=1) {
       for(let ints in this.mode) {
-          if(this.mode[ints] !== null) {
+          if(this.mode[ints] !== null && this.mode[ints] !== '') {
             this.ObjMode.push({
               libelle: ints,
               value: this.mode[ints]
@@ -117,7 +117,7 @@ export class VoirpersonnePage implements OnInit {
                     break
             }
             
-            if(this.interet[ints] !== null) {
+            if(this.interet[ints] !== null && this.interet[ints] !== '') {
               this.ObjInteret.push({
                 libele: ints,
                 titre: this.interet[ints],
@@ -198,5 +198,21 @@ export class VoirpersonnePage implements OnInit {
       return "< 1"
     }
     return kM
+  }
+  parsing(data) {
+    
+    if(typeof data == 'string' && typeof data !== 'object' && data !== null && data.length >= 1) {
+      console.log('data ', data, 'datype ', typeof data, 'taille ', data.length)
+      var k = ''
+      var e = JSON.parse(data)
+      for(let i =0;i < e.length; i++) {
+        if(i>0 && i < e.length) {
+          k+= ","+ e[i].texte
+        } else {
+          k+= e[i].texte
+        }
+      }
+      return k
+    }
   }
 }

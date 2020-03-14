@@ -1,8 +1,9 @@
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ActivatedRoute } from '@angular/router';
+import { ModalFilterPage } from '../modal-filter/modal-filter.page';
 declare var $, moment
 @Component({
   selector: 'app-proposition',
@@ -14,6 +15,7 @@ export class PropositionPage implements OnInit {
   curentSlide = 0
   personnes= []
   Allperson
+  GPS
   texte = "Recherche des personnes à proximité ..."
   slideOpts = {
     initialSlide: this.curentSlide,
@@ -30,17 +32,20 @@ export class PropositionPage implements OnInit {
      return style
   }
     
-  constructor(private service: monservice, private geolocation: Geolocation, private navCtrl: NavController, public router:ActivatedRoute) { }
-
+  constructor(private service: monservice, private geolocation: Geolocation, private navCtrl: NavController, public router:ActivatedRoute, private modalController: ModalController) { }
+  
   ngOnInit() {
     moment.locale('fr')
+    this.GPS = this.service.gps
      this.service.userSubscriber.subscribe((res: any)=> {
         this.personnes = res.sort(() => Math.random() - 0.5)
+        console.log('ooook', this.personnes)
         if(this.personnes.length <= 0) {
-            this.texte = " Nous n'avons trouvé personne selon vos critères de recherche"
+           var km = this.service.kilometreVoulu
+            this.texte = `Nous n'avons trouvé de personne d\'au moins ${km} Km de vous`
         }
     })
-    this.service. getGenres()
+    this.service.getGenres()
     this.service.getMyPosition().then(e=> {
       console.log('my position ', e)
     })
@@ -53,12 +58,27 @@ export class PropositionPage implements OnInit {
     this. getMyPosi()
     this.getalluser()
 }
+async presentModal() {
+  const modal = await this.modalController.create({
+    component: ModalFilterPage
+  });
+  return await modal.present();
+}
 ionViewWillEnter(){
   this.service.setSubscriptionFavoris(false, "")
+  this.service.userSubscription()
 }
 ionViewWillLeave(){
   this.getalluser()
 }
+  localization() {
+    this.service.gps = this.GPS
+    console.log('GPS', this.GPS, 'GPS servce ', this.service.gps)
+        this.service.getAllUser().then(e=> {
+          console.log('nouvelles personnes ', e)
+          this.service.userSubscription()
+        })
+  }
   getalluser() {
     this.service.getAllUser().then(e=> {
       console.log('tous les users ', e)

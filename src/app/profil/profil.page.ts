@@ -130,6 +130,9 @@ export class ProfilPage implements OnInit {
       }
      
   }
+  decode(uri) {
+    return decodeURI(uri)
+  }
   ionViewWillEnter(){
     console.log('ok entrer')
     

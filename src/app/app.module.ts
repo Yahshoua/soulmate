@@ -13,11 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { EditModalPageModule } from './edit-modal/edit-modal.module';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule],
   providers: [
+    Facebook,
     StatusBar,
     ImagePicker,
     MenuController,

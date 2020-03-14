@@ -12,7 +12,7 @@
               Choisir une limite d'âge
           </span>
             <div>
-                <ion-range [(ngModel)]="age" (ionChange)="ages($event)" slot="end" class="range-age" pin="true" dualKnobs="true" min="21" max="72" step="3">
+                <ion-range [(ngModel)]="age" slot="end" class="range-age" pin="true" dualKnobs="true" min="21" max="72" step="3">
                     <ion-icon color="primary" slot="start" name="chevron-back-outline"></ion-icon>
                     <ion-icon color="primary" slot="end" name="chevron-forward-outline"></ion-icon>
                 </ion-range>
@@ -23,7 +23,7 @@
             Choisir une distance maximale (en Kilomètre)
         </span>
             <div>
-                <ion-range [(ngModel)]="distances" (ionChange)="distance($event)" style="padding-right: 17%" slot="end" class="range-age" pin="true" dualKnobs="false" min="0" max="100" step="1">
+                <ion-range [(ngModel)]="distances" style="padding-right: 17%" slot="end" class="range-age" pin="true" dualKnobs="false" min="0" max="100" step="1">
                     <ion-icon color="primary" slot="start" name="walk-outline"></ion-icon>
                 </ion-range>
             </div>

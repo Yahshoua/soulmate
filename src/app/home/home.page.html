@@ -3,7 +3,7 @@
         <section>
             <ion-button expand="full" color="primary" [routerLink]="['/inscription']" routerLinkActive="router-link-active">CREER SON PROFIL</ion-button>
             <ion-button expand="full" color="light" [routerLink]="['/connexion']" routerLinkActive="router-link-active">SE CONNECTER</ion-button>
-            <ion-button expand="full" color="light">
+            <ion-button expand="full" color="light" (click)="facebook()">
                 <ion-icon slot="start" name="logo-facebook" color="secondary"></ion-icon>
                 Connexion par Facebook
             </ion-button>

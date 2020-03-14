@@ -1,0 +1,123 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+        <ion-title slot="end" color="light" style="font-size: 93%;" (click)="apply()">
+            Appliquer </ion-title>
+        <ion-title color="light" style="font-size: 93%;"> Mode de vie </ion-title>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item class="myinp" style="display: none">
+        <ion-label style="color: #616161;font-weight: bold;">{{label}}</ion-label>
+        <ion-select #myselect (ionChange)="getSelect($event)" okText="Ok" cancelText="Retour">
+            <ion-select-option *ngFor="let item of items" [value]="item">
+                {{item}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+    <section style="margin-top: 5%;">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="3">
+                    Situation
+                </ion-col>
+                <ion-col size="9" (click)="openselect(tab.situation, 'Situation')" class="ion-activatable ripple-parent">
+                    <span>
+                    {{emptyTable.situation}}
+                  </span>
+                    <span style="float: right;">
+                    <ion-icon name="caret-down-outline"></ion-icon>
+                  </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="3">
+                    Habitation
+                </ion-col>
+                <ion-col size="9" class="ion-activatable ripple-parent" (click)="openselect(tab.habitation, 'Habitation')">
+                    <span>
+                      {{emptyTable.habitation}}
+                </span>
+                    <span style="float: right;">
+                  <ion-icon name="caret-down-outline"></ion-icon>
+                </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="3">
+                    Enfants
+                </ion-col>
+                <ion-col size="9" class="ion-activatable ripple-parent" (click)="openselect(tab.enfant, 'Enfant')">
+                    <span>
+                      {{emptyTable.enfant}}
+              </span>
+                    <span style="float: right;">
+                <ion-icon name="caret-down-outline"></ion-icon>
+              </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="3">
+                    Profession
+                </ion-col>
+                <ion-col size="9" class="ion-activatable ripple-parent" (click)="openselect(tab.profession, 'Profession')">
+                    <span>
+                      {{emptyTable.profession}}
+            </span>
+                    <span style="float: right;">
+              <ion-icon name="caret-down-outline"></ion-icon>
+            </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="3">
+                    Apparence
+                </ion-col>
+                <ion-col size="9" class="ion-activatable ripple-parent" (click)="openselect(tab.apparence, 'Apparence')">
+                    <span>
+                      {{emptyTable.apparence}}
+          </span>
+                    <span style="float: right;">
+            <ion-icon name="caret-down-outline"></ion-icon>
+          </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="3">
+                    Taille
+                </ion-col>
+                <ion-col size="9" class="ion-activatable ripple-parent" (click)="openselect(tab.taille, 'Taille')">
+                    <span>
+                      {{emptyTable.taille}}
+        </span>
+                    <span style="float: right;">
+          <ion-icon name="caret-down-outline"></ion-icon>
+        </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="3">
+                    Poids
+                </ion-col>
+                <ion-col size="9" class="ion-activatable ripple-parent" (click)="openselect(tab.poids, 'Poids')">
+                    <span>
+                      {{emptyTable.poids}}
+                    </span>
+                    <span style="float: right;">
+        <ion-icon name="caret-down-outline"></ion-icon>
+      </span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </section>
+
+</ion-content>

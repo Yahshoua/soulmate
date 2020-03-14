@@ -27,6 +27,7 @@ export class monservice {
     url13 = this.server2+'/phpsoulmate/updateprofil.php'
     url14 = this.server2+'/phpsoulmate/updateabout.php'
     url15 = this.server2+'/phpsoulmate/updateInteret.php'
+    url16 = this.server2+'/phpsoulmate/updatemode.php'
     url = this.server2+'/phpsoulmate/setUser.php';
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
@@ -35,6 +36,10 @@ export class monservice {
     myLong
     favoris
     titre
+    facebook = {
+      email: undefined,
+      photo: undefined
+    }
     favoriSub = new Subject()
     titreSub = new Subject()
     favoriSybscriber() {
@@ -60,7 +65,26 @@ export class monservice {
     subsciberAllperso() {
       this.allperSub.next(this.Allpersonnes)
     }
-    updateInteret(data, table, Tabmod) {
+    updatemode(datas) {
+      console.log('dataaaaaaa ', datas)
+      $.ajax({
+        method: 'POST',
+        url: this.url16,
+        data: datas,
+        dataType: 'json',
+        success: e=> {
+          // code pourri
+          this.getAllUser()
+          this.subsciberAllperso()
+        }
+      })
+    }
+   async updateInteret(data, table, Tabmod) {
+    //  Penses à mettre à jour directement la table des  interets de l'user dans variables this.allperso, ensuite appeler le subscribe pour eviter la MAJ asynchrone
+    //...
+
+
+    //...
       var datas = JSON.stringify(data)
       $.ajax({
         method: 'POST',
@@ -68,10 +92,12 @@ export class monservice {
         data: {data: encodeURIComponent(datas), id: this.utilisateur.id, table: table},
         success: e=> {
           console.log('ok success ')
+          // Code pouri à bannir
           this.getAllUser()
           this.subsciberAllperso()
         }
       })
+    
     }
     updatePropos(personne) {
       for(let i = 0; i < this.Allpersonnes.length; i++) {
@@ -141,7 +167,7 @@ export class monservice {
     utilisateurSubscriber = new Subject()
     // Variable filtres par defaut
     public genreVoulu
-    public kilometreVoulu = 3
+    public kilometreVoulu = 10
     public gps = true
     public ageMin = 18
     public ageMax = 70
@@ -325,7 +351,7 @@ export class monservice {
                   return false
                 }
               } else {
-                if(item['genre'] !== this.genreVoulu || item['kilometre'] || ageUser < filter.ageMinVoulu && ageUser > filter.ageMaxVoulu) {
+                if(item['genre'] !== this.genreVoulu || ageUser < filter.ageMinVoulu && ageUser > filter.ageMaxVoulu) {
                   return false
                 }
           }

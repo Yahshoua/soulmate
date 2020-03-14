@@ -7,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./modal-filter.page.scss'],
 })
 export class ModalFilterPage implements OnInit {
-  age
-  distances
+  age = {
+    lower: this.service.ageMin,
+    upper: this.service.ageMax
+  }
+  distances = this.service.kilometreVoulu
   gps = this.service.gps
   avertissement
   ObjFilter = {}
@@ -31,9 +34,7 @@ export class ModalFilterPage implements OnInit {
     var ageMin =  this.age.lower
     var ageMax =  this.age.upper
   }
-  distance() {
-    var distance = this.distances
-  }
+
   localization() {
     console.log('GPS ', this.gps, 'avertissement ', this.avertissement)
     if(this.avertissement == undefined && this.gps == false) {
@@ -58,7 +59,7 @@ export class ModalFilterPage implements OnInit {
       })
       this.presentToast()
     }
-    if(this.gps == undefined) {
+    if(this.gps !== undefined) {
         this.service.gps = this.gps
         this.service.getAllUser().then(e=> {
           console.log('nouvelles personnes ', e)

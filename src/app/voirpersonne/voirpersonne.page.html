@@ -61,7 +61,7 @@
                                 <p class="monp" *ngIf="ObjInteret?.length <= 0" style="white-space: normal;
                                 font-size: 79%;
                                 color: gray !important;">
-                                    Ce membre n'a pas encore indiqu de centres d'interet
+                                    Ce membre n'a pas encore indiqué de centres d'interet
                                 </p>
                                 <ion-col *ngFor="let interet of ObjInteret" size="12" style="display: flex;padding-left: 0;">
                                     <ion-icon style="font-size: 23px;" name={{interet?.icon}}></ion-icon>
@@ -71,7 +71,7 @@
                                             {{interet?.libele}}
                                         </p>
                                         <p>
-                                            {{interet?.titre}}
+                                            {{parsing(interet?.titre)}}
                                         </p>
                                     </div>
                                 </ion-col>

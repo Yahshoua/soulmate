@@ -1,6 +1,6 @@
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavController, IonContent } from '@ionic/angular';
+import { NavController, IonContent, ToastController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AlertController } from '@ionic/angular';
@@ -32,7 +32,7 @@ export class InscriptionPage implements OnInit {
   localization = true
   toto = false
   customMonthShortNames = ['Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Ju', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'];
-  constructor(private navCtrl: NavController, public formBuild: FormBuilder, private service: monservice, private geolocation: Geolocation, private alertController: AlertController) { }
+  constructor(private navCtrl: NavController, public formBuild: FormBuilder, private service: monservice, private geolocation: Geolocation, private alertController: AlertController, public toastController: ToastController) { }
 
   ngOnInit() {
     this.service.setPersonne()
@@ -40,7 +40,7 @@ export class InscriptionPage implements OnInit {
     this.formInscription = this.formBuild.group({
       genre: '',
     })
-  
+    this.email = this.service.facebook.email
   }
   getPosition() {
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -66,6 +66,37 @@ export class InscriptionPage implements OnInit {
        this.presentAlert(message)
        this.toto = true
      });
+  }
+  checkEmail() {
+    console.log('check email ...')
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let e = re.test(String(this.email).toLowerCase())
+    if(e == true) {
+        $.ajax({
+          method: 'POST',
+          url: this.service.server2+'/phpsoulmate/checkmail.php',
+          data: {email: this.email},
+          dataType: 'json',
+          success: async(e: any)=> {
+            if(e.reponse== true) {
+              // si l'email existe deja
+              this.Femail = false
+              const toast = await this.toastController.create({
+                message: 'Cette adresse émail existe dèjà !',
+                duration: 3000,
+                color: 'danger',
+                position: 'top'
+              });
+              toast.present();
+              this.Femail = true
+            } else {
+                this.Femail = false
+            }
+          }
+        })
+    } else {
+      this.Femail = true
+    }
   }
   async presentAlert(erreur) {
     const alert = await this.alertController.create({

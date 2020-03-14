@@ -125,7 +125,7 @@
             <div style="display: grid;width: 100%;margin-top: 5%;">
                 <ion-item>
                     <ion-label position="fixed">Email</ion-label>
-                    <ion-input [(ngModel)]="email" type="text" placeholder="saisir mon email"></ion-input>
+                    <ion-input (ionBlur)="checkEmail()" [(ngModel)]="email" type="text" placeholder="saisir mon email"></ion-input>
                 </ion-item>
                 <p *ngIf="Femail" style="padding-left: 3%;color: red;font-size: 70%">
                     Adresse mail invalide !

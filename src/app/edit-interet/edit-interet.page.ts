@@ -1,6 +1,6 @@
 import { monservice } from './../services/monserice';
 import { EditModalPage } from './../edit-modal/edit-modal.page';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-edit-interet',
@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class EditInteretPage implements OnInit {
   libele
   personne
-  constructor(private navCtrl: NavController, private modalCtrl: ModalController, private service: monservice) { }
+  constructor(private navCtrl: NavController, private modalCtrl: ModalController, private service: monservice, public toastController: ToastController) { }
   Tabmode = {
     music: [],
     film: [],
@@ -34,28 +34,39 @@ export class EditInteretPage implements OnInit {
       }
     }
   }
-  delete() {
+ async delete() {
     for(let i in this.Tabmode) {
         for(let e = 0;e < this.Tabmode[i].length;e++ ) {
           if(this.Tabmode[i][e].etat == true) {
              this.Tabmode[i].splice(e, 1)
           }
         }
-        if(this.Tabmode[i].length >= 1) {
           var table = i
           this.service.updateInteret(this.Tabmode[i], table, this.Tabmode)
-        }
       }
     //this.navCtrl.back({animated: true})
     console.log(this.Tabmode)
+    const toast = await this.toastController.create({
+      message: 'Suppression faite',
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
-  apply() {
+  async apply() {
     for(let i in this.Tabmode) {
       if(this.Tabmode[i].length >= 1) {
         var table = i
         this.service.updateInteret(this.Tabmode[i], table, this.Tabmode)
       }
   }
+      const toast = await this.toastController.create({
+        message: 'Centres d\'interets ajoutés:)',
+        duration: 3000,
+        position: 'bottom',
+        color: 'success'
+      });
+      toast.present();
   }
   goBack() {
     this.navCtrl.back({animated: true})

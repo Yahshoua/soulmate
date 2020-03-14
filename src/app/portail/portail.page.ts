@@ -1,7 +1,7 @@
 import { ModalFilterPage } from './../modal-filter/modal-filter.page';
 import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
-import { MenuController, NavController, ModalController, LoadingController } from '@ionic/angular';
+import { MenuController, NavController, ModalController, LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 declare var moment
 @Component({
@@ -16,18 +16,19 @@ export class PortailPage implements OnInit {
   loading
   utilisateur
   all
-  constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController, private modalController: ModalController, public loadingController: LoadingController) { }
+  random
+  constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController, private modalController: ModalController, public loadingController: LoadingController, private alertCtrl: AlertController) { }
 
    ngOnInit() {
     this.presentLoading()
-    this.image = this.service.photo
+    
     this.service.allperSub.subscribe((e: any)=> {
       this.all = e
     }) 
-    
-   
   }
- 
+  refresh() {
+    this.service.getAllUser()
+  }
   async presentLoading() {
     this.loading = await this.loadingController.create({
       message: 'Chargement des profil...'
@@ -38,11 +39,43 @@ export class PortailPage implements OnInit {
       this.utilisateur = this.all.find(i=> {
         return i.id == this.service.utilisateur.id
       })
+      this.image = this.utilisateur.images
+      this.randoms()
+    }).catch(async (err)=> {
+      console.log('erreur ', err)
+      if(err.readyState == 0) {
+          this.alert("Problème de connexion internet")
+      } else {
+        this.alert("Une erreur du serveur sans doute")
+      }
+      
     })
     await this.loading.present();
-
     // this.role =  loading.onDidDismiss();
     console.log('Loading dismissed!');
+  }
+  async alert(message) {
+    this.loading.dismiss()
+    const alert = await this.alertCtrl.create({
+      header: 'Erreur',
+      subHeader: "Impossible de continuer.",
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+  flote(i) {
+     if(i%2!==0) {
+       return 'right'
+     }
+     return 'left'
+  }
+  randoms() {
+    var r = this.all.filter((x, y)=> {
+      return y < 11
+    })
+    this.random = r.sort(() => Math.random() - 0.5)
+    console.log('random ', this.random)
   }
   getAge(age) {
     return moment().format('Y') - moment(age).format('Y') + ' ans'
@@ -72,6 +105,9 @@ export class PortailPage implements OnInit {
   }
   ionViewDidEnter(){
     console.log('this.router.url', this.router.url);
+  }
+  seemore(id) {
+    this.navCtl.navigateForward('/voirplus/route/main', {queryParams: {id: id, route: this.router.url}})
   }
       openmenu() {
     this.menu.enable(true, 'first');

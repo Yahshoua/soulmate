@@ -150,7 +150,7 @@
             <ion-col size="12" style="padding-left: 3%;padding: 0" class="col-mode">
                 <div class="col-item">
                     <p id="lib-ann">Mode de vie</p>
-                    <p style="float: right;">
+                    <p style="float: right;" [routerLink]="['/edit-vie-mode']" routerLinkActive="router-link-active">
                         Ajouter
                     </p>
                 </div>
@@ -161,7 +161,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{mode?.situation}}
+                            {{decode(mode?.situation)}}
                         </p>
                     </ion-col>
                 </ion-row>
@@ -172,7 +172,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{mode?.habitation}}
+                            {{decode(mode?.habitation)}}
                         </p>
                     </ion-col>
                 </ion-row>
@@ -183,7 +183,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{mode?.enfants}}
+                            {{mode?.enfant}}
                         </p>
                     </ion-col>
                 </ion-row>
@@ -194,7 +194,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{mode?.apparence}}
+                            {{mode?.profession}}
                         </p>
                     </ion-col>
                 </ion-row>
@@ -205,7 +205,7 @@
 
                     <ion-col size="7">
                         <p class="myp">
-                            {{mode?.taille}}
+                            {{mode?.apparence}}
                         </p>
                     </ion-col>
                 </ion-row>

@@ -2,7 +2,7 @@
     <ion-toolbar *ngIf="!favoris">
         <ion-icon style="font-size: 30px;" slot="start" name="menu-outline" (click)="openmenu()"></ion-icon>
         <ion-title style="font-size: 93%;">Pres de chez moi</ion-title>
-        <ion-icon slot="end" name="refresh-outline" style="margin-right: 4%;
+        <ion-icon (click)="presentLoading()" slot="end" name="refresh-outline" style="margin-right: 4%;
         font-size: 25px;"></ion-icon>
         <ion-icon (click)="presentModal()" slot="end" style="margin-right: 3%;
         font-size: 20px;" name="ellipsis-vertical-outline"></ion-icon>
@@ -44,19 +44,14 @@
             <div class="deconnexion" (click)="disconnecte()">Deconexion</div>
             <ion-item lines="none">
                 <font>Au hasard</font>
-                <ion-icon slot="end" name="refresh-outline"></ion-icon>
+                <ion-icon slot="end" name="refresh-outline" (click)="randoms()"></ion-icon>
             </ion-item>
             <ion-item lines="none">
                 <ion-grid>
                     <ion-row class="col-hsr">
-                        <ion-col size="6">
-                            <ion-avatar>
-                                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-                            </ion-avatar>
-                        </ion-col>
-                        <ion-col size="6">
-                            <ion-avatar style="float: right;">
-                                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                        <ion-col size="6" *ngFor="let has of random;let i = index">
+                            <ion-avatar (click)="seemore(has.id)" [ngStyle]="{'float': flote(i), height: '70px', width: '70px' }">
+                                <img src="{{has.images}}">
                             </ion-avatar>
                         </ion-col>
                     </ion-row>
