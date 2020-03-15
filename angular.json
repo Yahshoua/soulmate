@@ -54,6 +54,9 @@
                             },
                             {
                                 "input": "src/assets/js/pusher.min.js"
+                            },
+                            {
+                                "input": "src/assets/js/jquery.preload.js"
                             }
                         ]
                     },

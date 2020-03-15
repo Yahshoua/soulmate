@@ -32,6 +32,22 @@ export class VoirplusPage implements OnInit {
       return res.id == index
     })
     console.log('myyy route ', this.myroute)
+    var preloadImg: any = this.personne.album
+    let tab = []
+    if(preloadImg.length >= 1) {
+      for(let i =0;i < preloadImg.length;i++) {
+          tab.push(preloadImg[i].photo)
+      }
+    }
+    console.log('tableau de photo à preloader ', tab)
+    $.preload(tab, {
+      onRequest: e=> {
+        console.log('preload en cours', e)
+      },
+      onFinish: e=> {
+        console.log('preload terminé ', e)
+      }
+    })
   }
   ngAfterViewInit() {
     this.favoris = this.personne.favoris
@@ -73,9 +89,11 @@ export class VoirplusPage implements OnInit {
       this.favoris = true
     }
     this.service.setFavoris({id: this.service.utilisateur.id, id_favoris: this.personne.id})
+    this.service.sendNotification(this.personne.token, "Favoris", this.service.utilisateur.nom+" t'a ajouté à ses favoris")
   }
   flash() {
     this.presentToast('Ton coup de coeur a été envoyé')
     this.service.setFlash({id: this.service.utilisateur.id, id_pers: this.personne.id})
+    this.service.sendNotification(this.personne.token, "Coup de foudre", this.service.utilisateur.nom+" a un coup de foudre pour toi")
   }
 }

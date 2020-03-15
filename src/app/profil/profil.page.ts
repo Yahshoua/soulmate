@@ -42,16 +42,18 @@ export class ProfilPage implements OnInit {
     let options = {
       maximumImagesCount: 1,
       outputType: 0,
+      quality: 20,
       allow_video: false
     }
     this.imagePicker.getPictures(options).then(async (results) => {
         //
         var fileTransfer: FileTransferObject = this.transfer.create();
-        console.log('Image URI: ' + results[0]);
+        if(results.length <= 0) return
+        console.log('Image URI: ' + results[0], 'results ', results);
         //chemin de l image
         var imageUpload = results[0]
         // nom de l image
-         this.Imagename = moment().format('DD-MMMM-YYYY HH:mm:s')+'.jpg'
+         this.Imagename = moment().format('DD-MMMM-YYYY-HH:mm:s')+'.jpg'
          //
          let options: FileUploadOptions = {
            fileKey: 'file',
@@ -66,7 +68,7 @@ export class ProfilPage implements OnInit {
         })
         //
           console.log('Image url: ' + results[0]);
-          this.image = results[0]
+          this.image = (<any>window).Ionic.WebView.convertFileSrc(results[0])
      
           this.modal = await this.moadalCtrl.create({
             component: PhotoProfilSelectedPage,

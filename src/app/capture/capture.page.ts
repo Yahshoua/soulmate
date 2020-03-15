@@ -29,6 +29,7 @@ export class CapturePage implements OnInit {
      
   }
   fbimage() {
+    this.load()
     var image = this.service.facebook.photo
     if(image == undefined) {
       // connecte Facebook
@@ -38,33 +39,51 @@ export class CapturePage implements OnInit {
           this.service.facebook = this.userData
           this.image = this.service.facebook.photo
           console.log('userData ', this.userData)
-          this.service.setPhoto(this.image)
-          setTimeout(()=> {
+          this.service.setPhoto(this.image).then(e=> {
             this.navCtrl.navigateForward('portail')
-          }, 3000)
+            this.loading.dismiss()
+          })
+       
         }).catch(err=> {
           alert('une erreur s\'est produit '+ err)
         })
       }).catch(err=> {
-        console.log('erreur facebook ', err)
-        alert(JSON.stringify(err))
+              console.log('erreur facebook ', err)
+              alert(JSON.stringify(err))
       })
     } else {
       this.image = image
+      this.service.setPhoto(this.image).then(e=> {
+        this.navCtrl.navigateForward('portail')
+        this.loading.dismiss()
+      })
+       
+            
     }
   }
   pickImage() {
     let options = {
       maximumImagesCount: 1,
       outputType: 0,
+      quality: 20,
       allow_video: false
     }
+      // Test
+    
+    // this.service.setPhoto(this.image).then(e=> {
+    //   this.service.getAllUser().then(e=> {
+    //      this.navCtrl.navigateForward('portail')
+    //   })
+    // })
+    // fin
+
 
     this.imagePicker.getPictures(options).then(async (results) => {
       this.load()
      var fileTransfer: FileTransferObject = this.transfer.create();
          console.log('Image URI: ' + results[0]);
          var imageUpload = results[0]
+         this.image = (<any>window).Ionic.WebView.convertFileSrc(imageUpload)
           this.name = moment().format('DD-MMMM-YYYY-HH:mm:s')+'.jpg'
           let options: FileUploadOptions = {
             fileKey: 'file',
@@ -98,13 +117,6 @@ export class CapturePage implements OnInit {
       console.log('erreur', err)
     
     })
-    // Test
-    
-    // this.service.setPhoto(this.image)
-    // setTimeout(()=> {
-    //   this.navCtrl.navigateForward('portail')
-    // }, 3000)
-    // fin
   }
   async load() {
     this.loading = await this.loadingController.create({

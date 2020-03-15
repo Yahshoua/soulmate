@@ -28,6 +28,7 @@ export class monservice {
     url14 = this.server2+'/phpsoulmate/updateabout.php'
     url15 = this.server2+'/phpsoulmate/updateInteret.php'
     url16 = this.server2+'/phpsoulmate/updatemode.php'
+    url17 = this.server2+'/phpsoulmate/token.php'
     url = this.server2+'/phpsoulmate/setUser.php';
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
@@ -53,6 +54,57 @@ export class monservice {
     getUtilisateur() {
       return this.utilisateur
     }
+    // preload() {
+    //   var all: any = this.Allpersonnes
+    //  var tab = []
+    //  if(all !== undefined) {
+    //       let e: any = all.filter((i: any)=> {
+    //         return i.album.length >= 1
+    //       })
+          
+    //       for(let i = 0; i < e.length; i++) {
+    //           for(let k = 0; k < e[i].album.length; k++) {
+    //             var photo = e[i].album[k].photo
+    //             tab.push(photo)
+    //           }
+    //       }
+    //       console.log('aaaaaaa', tab)
+    //       $.preload(tab, {
+    //         onRequest: e=> {
+    //           console.log('image mis en cache ', e)
+    //         },
+    //         onFinish: e=> {
+    //           console.log('images preloader terminés', e)
+    //         }
+    //       })
+    //  }
+    // }
+    setToken(token) {
+      $.ajax({
+        method: "POST",
+        url: this.url17,
+        data: {id: this.utilisateur.id, token: token}
+      })
+    }
+    sendNotification(token, titre, description) {
+      let key="AAAA5Nx-Uvk:APA91bG0kI-T9V_RjZ-aUa7j3BfLVapILV9E-ofGzbYLXLG-HEell9rMuuRQT9DO7g6jCHi92Lap2ShWpdLPX5MboAA2AcaHNor5JMVG9vr80j5nogS2J__A6Cvf5QehyYQoBxSWT2QI";
+      $.ajax({        
+        type : 'POST',
+        url : "https://fcm.googleapis.com/fcm/send",
+        headers : {
+            Authorization : 'key=' + key
+        },
+        contentType : 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({"to": token, "priority": "high", "notification": {"title":titre,"body":description, "forceStart": "1"}}),
+        success : function(response) {
+            console.log(response);
+        },
+        error : function(xhr, status, error) {
+            console.log(xhr.error);                   
+        }
+    });
+  }
     setSubscriptionFavoris(etat, titre) {
         this.favoris = etat
         this.titre = titre
@@ -252,7 +304,7 @@ export class monservice {
 
    async setPhoto(img=this.photo) {
      this.utilisateur = this.moi
-     console.log('moiii ', this.moi)
+     
       this.photo = img
       this.setPicture(img)
       var date = moment().format()
@@ -260,17 +312,21 @@ export class monservice {
       this.utilisateur.type = this.type
       this.utilisateur.latitude = this.myLat
       this.utilisateur.longitude = this.myLong
-      
+      this.utilisateur.image = img
+      this.utilisateur.photo = img
+      var data = this.utilisateur
+      console.log('donée a envoyé ', this.utilisateur)
       //Mise à jour des data user dans la BDD
           var e = $.ajax({
             method: 'POST',
             url: this.url,
-            data: this.utilisateur
+            data: data
           }).done((response)=> {
             console.log('mise à jour des données users ', response)
             response = JSON.parse(response)
             this.utilisateur.id = response.id
-            this.storeUser( this.utilisateur)
+            this.storeUser(this.utilisateur)
+             console.log('moiii ', 'img ',  img,  this.moi, 'utili ', this.utilisateur, ' response ', response)
           }).fail((err)=> {
             console.log('erreur lors de la mise à jour des données users ', err)
           })
@@ -339,6 +395,7 @@ export class monservice {
         }
           this.Allpersonnes = res
           this.subsciberAllperso()
+          console.log('aaaaaaallll ', this.Allpersonnes)
           return this.filtrage(res)
       })
       console.log('rrrr ', r)
@@ -520,7 +577,6 @@ export class monservice {
       let log = JSON.parse(localStorage.getItem('user')) || []
       log.images = image
       localStorage.setItem('user', JSON.stringify(log))
-      this.utilisateur.images = image
     }
      // Recuperer le quartier ou la ville
    async displayLocation(latitude, longitude) {

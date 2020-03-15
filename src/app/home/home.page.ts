@@ -13,41 +13,7 @@ export class HomePage implements OnInit {
   senderID: any;
 
   constructor(private service: monservice, private navCtrl: NavController,private fb: Facebook, private push: Push) {}
-  ngOnInit() {
-          // Return a list of currently configured channels
-        this.push.listChannels().then((channels) => console.log('List of channels', channels))
-        // to initialize push notifications
-      // Marche pas :(
-      const options: PushOptions = {
-        android: {
-          senderID:"982951809785",
-          icon: 'https://kazimo.ga/Zela/logo-cash.PNG',
-          vibrate: true,
-          forceShow: true,
-          messageKey: 'Hey bonhomme !',
-          titleKey: 'Qui t\'a dit que c\'est difficile ? '
-        },
-        ios: {
-            alert: 'true',
-            badge: true,
-            sound: 'false'
-        },
-        windows: {},
-        browser: {
-            pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-        }
-      }
-
-      //fin
-    const pushObject: PushObject = this.push.init(options);
-    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
-     // Marche, le numero de registration est l'id du phone qui reçoit le push notif
-  pushObject.on('registration').subscribe((registration: any) =>{
-    console.log('Device registered', registration)
-        this.senderID = registration.registrationId
-  });
-  pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-  }
+  ngOnInit() {}
   facebook() {
     this.fb.login(['email', 'public_profile']).then((response: FacebookLoginResponse) => {
       this.fb.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {

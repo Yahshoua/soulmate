@@ -21,7 +21,7 @@ export class PhotoProfilSelectedPage implements OnInit {
   }
   
   ngOnInit() {
-    this.image = this.navParams.get('image')
+    this.image = (<any>window).Ionic.WebView.convertFileSrc(this.navParams.get('image'))
     console.log(this.navParams.get('image'));
     this.platform.backButton.subscribe(() => {
       this.modalController.dismiss({

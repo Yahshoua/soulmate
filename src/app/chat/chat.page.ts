@@ -117,6 +117,7 @@ export class ChatPage implements OnInit {
     var nom = this.user.nom
     var obj = {idExp: this.user.id, idRecep: this.personne.id, message: message, dates: dates, nom: nom, photo: photo, chaine: chaine, chaineRecep: this.personne.chaine_notif, dateMoment: dateMoment}
     this.service.setChat(obj)
+    this.service.sendNotification(this.personne.token, "Nouveau Message", this.service.utilisateur.nom+" envoyé un message")
     this.form.reset()
   }
   slot(email) {

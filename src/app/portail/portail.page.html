@@ -20,11 +20,11 @@
             <ion-title>
                 <div class="col-me">
                     <ion-avatar>
-                        <img [src]="image">
+                        <img [src]="users?.images">
                     </ion-avatar>
                     <div>
-                        <span>{{utilisateur?.nom}}</span>
-                        <small>{{getAge(utilisateur?.datenaiss)}}</small>
+                        <span>{{users?.nom}}</span>
+                        <small>{{getAge(users?.datenaiss)}}</small>
                     </div>
                 </div>
                 <div class="modifier" style="padding-top: 3%;
