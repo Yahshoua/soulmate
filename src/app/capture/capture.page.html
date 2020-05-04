@@ -5,7 +5,7 @@
 </ion-header>
 <section class="sec1">
     <ion-avatar>
-        <img [src]=image>
+        <img id="images" src="https://mitashi-otha.com/20-01-14-20-42-14-215_decox.jpg" crossorigin="*">
     </ion-avatar>
 </section>
 <ion-content>
@@ -13,7 +13,7 @@
         Ajouter une photo recente de vous, bien cadré et en vous mettant en valeur
     </p>
     <section class="sec2">
-        <ion-button expand="full" color="light" style="margin-bottom: 5%;" (click)="pickImage()">
+        <ion-button expand="full" color="light" style="margin-bottom: 5%;" (click)="permission()">
             <ion-icon slot="start" name="images-outline" color="secondary"></ion-icon>
             Depuis la gallery
         </ion-button>

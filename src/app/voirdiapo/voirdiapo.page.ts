@@ -38,7 +38,24 @@ export class VoirdiapoPage implements OnInit {
     this.personne = this.service.Allpersonnes.find(res=> {
       return res.id == id
     })
+    var i = this.personne.album.find(e=> {
+      return e.photo == this.personne.images
+    })
+    console.log('iiii ', i)
+        if(i == undefined) {
+        var k =  this.personne.album.push({id: this.personne.album.length+1,photo: this.personne.images})
+          this.personne.album = this.personne.album.sort((a, b)=> {
+            if (a.id < b.id ) {
+            return 1;
+          }
+          if (a.id > b.id ) {
+            return -1;
+          }
+          return 0;
+      })
+    }
     this.service.subsciberAllperso()
+    console.log('personne ', this.personne)
     // this.personne.album.push({image: this.personne.photo})
     this.loopSlider.lockSwipes(true)
     if(this.personne.album.length > 1 ) {

@@ -38,6 +38,25 @@ export class ProfilPage implements OnInit {
      // console.log('taille ', $('app-proposition').height())
      return style
   }
+      permission() {
+        this.imagePicker.hasReadPermission().then(e=> {
+          console.log('has read ', e)
+            if(e== true) {
+              this.pickImage()
+            } else {
+                    /**
+                   * Request permission to read images
+                   * @returns {Promise<any>}
+                   */
+                  this.imagePicker.requestReadPermission().then(e=> {
+                    console.log('request ReadPermission ', e)
+                  })
+            }
+        
+        })
+      
+      }
+
   async pickImage() {
     let options = {
       maximumImagesCount: 1,
@@ -48,56 +67,59 @@ export class ProfilPage implements OnInit {
     this.imagePicker.getPictures(options).then(async (results) => {
         //
         var fileTransfer: FileTransferObject = this.transfer.create();
-        if(results.length <= 0) return
+       
         console.log('Image URI: ' + results[0], 'results ', results);
-        //chemin de l image
-        var imageUpload = results[0]
-        // nom de l image
-         this.Imagename = moment().format('DD-MMMM-YYYY-HH:mm:s')+'.jpg'
-         //
-         let options: FileUploadOptions = {
-           fileKey: 'file',
-           fileName: this.Imagename,
-           headers: {}
-        }
-        fileTransfer.upload(imageUpload, 'https://kazimo.ga/cashapp/upload_photo.php', options).then(e=> {
-          console.log(e, 'effectué')
+        if(results[0] !== undefined) {
+              //chemin de l image
+            var imageUpload = results[0]
+            console.log('Image url: ' + results[0]);
+              this.image = (<any>window).Ionic.WebView.convertFileSrc(results[0])
         
-        }).catch(err=>  {
-          console.log('erreur du transfert ', err)
-        })
-        //
-          console.log('Image url: ' + results[0]);
-          this.image = (<any>window).Ionic.WebView.convertFileSrc(results[0])
-     
-          this.modal = await this.moadalCtrl.create({
-            component: PhotoProfilSelectedPage,
-            componentProps: {
-              'image': this.image
+              this.modal = await this.moadalCtrl.create({
+                component: PhotoProfilSelectedPage,
+                componentProps: {
+                  'image': this.image
+                }
+              })
+          this.modal.onDidDismiss().then((e: any)=> {
+            console.log('dismiss', e)
+            var data = e.data.componentProps.image
+            if(data == true) {
+              // nom de l image
+            this.Imagename = moment().format('DD-MMMM-YYYY-HH:mm:s')+'.jpg'
+            //
+            let options: FileUploadOptions = {
+              fileKey: 'file',
+              fileName: this.Imagename,
+              headers: {}
             }
-          })
-      this.modal.onDidDismiss().then((e: any)=> {
-        console.log('dismiss', e)
-        var data = e.data.componentProps.image
-        if(data == true) {
-          this.loopSlider.lockSwipes(false)
-          this.personne.album.push({id: this.personne.album.length+1, photo: this.image})
-          this.loopSlider.update().then(e=> {
-            var taille = this.loopSlider.length().then(e=> {
-              console.log('taille ', e)
-              this.loopSlider.slideTo(e)
-              var album = this.personne.album
-              var img1 = this.personne.images
-              this.service.updateAllperson(img1, album, this.Imagename)
-            })
+            fileTransfer.upload(imageUpload, 'https://kazimo.ga/cashapp/upload_photo.php', options).then(e=> {
+              console.log(e, 'effectué')
             
-          })
-          if(this.pages == false) {
-            this.pages = true
-          }
+            }).catch(err=>  {
+              console.log('erreur du transfert ', err)
+            })
+            //
+              this.loopSlider.lockSwipes(false)
+              this.personne.album.push({id: this.personne.album.length+1, photo: this.image})
+              this.loopSlider.update().then(e=> {
+                var taille = this.loopSlider.length().then(e=> {
+                  console.log('taille ', e)
+                  this.loopSlider.slideTo(e)
+                  var album = this.personne.album
+                  var img1 = this.personne.images
+                  this.service.updateAllperson(img1, album, this.Imagename)
+                })
+                
+              })
+              if(this.pages == false) {
+                this.pages = true
+              }
+            }
+        })
+        return await this.modal.present();
         }
-    })
-    return await this.modal.present();
+        
     }, (err) => { 
       alert('erreur lors de la recuperation de votre image '+ err)
     })
@@ -162,7 +184,7 @@ export class ProfilPage implements OnInit {
       var k = ''
       for(let i =0;i < e.length; i++) {
         if(i>0 && i < e.length) {
-          k+= ","+ e[i].texte
+          k+= ", "+ e[i].texte
         } else {
           k+= e[i].texte
         }

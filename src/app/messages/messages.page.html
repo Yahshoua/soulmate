@@ -8,14 +8,14 @@
         </p>
     </div>
 
-    <ion-item *ngFor="let pers of personne" button (click)="route(pers.id)">
+    <ion-item *ngFor="let pers of messages" button (click)="route(pers.id)" [ngClass]="{gray: pers.color}">
         <ion-avatar slot="start">
-            <img src="{{pers.images}}">
+            <img src="{{pers.image}}">
         </ion-avatar>
         <ion-label>
             <h2>{{pers.nom}}</h2>
-            <h3>{{getLastMessage(pers.chat)}}</h3>
-            <p>{{getDate(pers.chat)}}</p>
+            <h3>{{pers.messages}}</h3>
+            <p>{{pers.dates}}</p>
         </ion-label>
     </ion-item>
 </ion-content>

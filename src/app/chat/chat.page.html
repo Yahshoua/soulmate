@@ -1,9 +1,9 @@
 <ion-header>
     <ion-toolbar>
-        <ion-icon (click)="goBAck()" queryParamsHandling="merge" routerLinkActive="router-link-active" style="font-size: 30px;" slot="start" name="chevron-back-outline"></ion-icon>
-        <div style="display: flex;padding-left: 3%;">
+        <ion-icon (click)="goBAck(personne.id)" queryParamsHandling="merge" routerLinkActive="router-link-active" style="font-size: 30px;" slot="start" name="chevron-back-outline"></ion-icon>
+        <div class="col-info-pers" style="display: flex;padding-left: 3%;" (click)="route(personne.id)">
             <ion-avatar style="width: 40px;height: 40px;">
-                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                <img src="{{personne.images}}">
             </ion-avatar>
             <div style="padding-left: 3%;display: grid;line-height: 16px;">
                 <span style="font-size: 81%;">{{personne.nom}}</span>
@@ -22,10 +22,10 @@
                 <ion-avatar [slot]="slot(chat.email)">
                     <img src={{chat?.photo}}>
                 </ion-avatar>
-                <ion-label [ngStyle]="{'text-align': align(chat?.email)}" style="white-space: initial">
+                <ion-label class="label-chat" style="white-space: initial">
 
-                    <p>{{chat?.messages}}</p>
-                    <span style="font-size: 59%;color: gray"> {{chat?.dates}} </span>
+                    <p [ngStyle]="{'background': align(chat?.email).couleur, 'float': align(chat?.email).position }">{{chat?.messages}}</p>
+                    <div [ngStyle]="{'text-align': align(chat?.email).position}" style="font-size: 59%;color: gray;clear: both"> {{chat?.dates}} </div>
                 </ion-label>
             </ion-item>
         </div>

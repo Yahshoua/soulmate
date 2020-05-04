@@ -17,10 +17,13 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { PopoverPageModule } from './popover/popover.module';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { ModalVersionPageModule } from './modal-version/modal-version.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule, PopoverPageModule, ModalVersionPageModule],
   providers: [
     Facebook,
     FileTransfer,
@@ -32,6 +35,7 @@ import { File } from '@ionic-native/file/ngx';
     Geolocation,
     MutationObserver,
     SplashScreen,
+    AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

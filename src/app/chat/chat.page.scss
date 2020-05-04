@@ -11,6 +11,20 @@ ion-toolbar {
     right: 0;
 }
 
+.label-chat p {
+    color: #fff;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.col-info-pers:focus {
+    outline: none;
+}
+
 .col-btn ion-input {
     width: 80%;
     float: left;

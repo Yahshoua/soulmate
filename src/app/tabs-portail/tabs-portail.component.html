@@ -7,6 +7,7 @@
 
         <ion-tab-button tab="match">
             <ion-icon name="heart-outline"></ion-icon>
+            <ion-badge style="top: 6px;" *ngIf="notifications?.matche.length >= 1"> {{notifications?.matche.length}} </ion-badge>
         </ion-tab-button>
 
         <ion-tab-button tab="profil" (click)="goProfil()">
@@ -14,7 +15,9 @@
         </ion-tab-button>
 
         <ion-tab-button tab="messages" (click)="goMessage()">
+            <ion-badge style="top: 6px;" *ngIf="notifications?.chat.length >= 1"> {{notifications?.chat.length}} </ion-badge>
             <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+
         </ion-tab-button>
     </ion-tab-bar>
 </ion-tabs>

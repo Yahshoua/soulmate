@@ -1,0 +1,20 @@
+<ion-content>
+    <section>
+        <div style="display: grid;">
+            <p style="text-align: center;    color: #03A9F4;" [ngClass]="{'monstyle': updated}">
+
+                {{texte}}</p>
+            <ion-fab vertical="bottom" style="position: unset;margin: auto">
+                <ion-fab-button>
+                    <i class={{emoji}} [ngClass]="{'updated': updated, 'likes': !updated}"></i>
+                </ion-fab-button>
+            </ion-fab>
+            <p style="text-align: center;color: gray;font-size: 80%">
+                soulmate version {{versionnum}}
+            </p>
+            <ion-button *ngIf="!updated" expand="block " style="margin-left: 5%; margin-right: 5%; " (click)="continus()">Ok, continuer</ion-button>
+            <ion-button (click)="update()" *ngIf="updated" expand="block " style="margin-left: 5%; margin-right: 5%; ">Mettre à jour la version {{lastversion}}</ion-button>
+        </div>
+
+    </section>
+</ion-content>

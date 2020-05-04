@@ -54,7 +54,7 @@ const routes: Routes = [
     loadChildren: () => import('./tabprofil/tabprofil.module').then( m => m.TabprofilPageModule)
   },
   {
-    path: 'connexion',
+    path: 'connexion',canActivate: [GuardHome],
     loadChildren: () => import('./connexion/connexion.module').then( m => m.ConnexionPageModule)
   },
   {
@@ -124,6 +124,14 @@ const routes: Routes = [
   {
     path: 'edit-vie-mode',
     loadChildren: () => import('./edit-vie-mode/edit-vie-mode.module').then( m => m.EditVieModePageModule)
+  },
+  {
+    path: 'popover',
+    loadChildren: () => import('./popover/popover.module').then( m => m.PopoverPageModule)
+  },
+  {
+    path: 'modal-version',
+    loadChildren: () => import('./modal-version/modal-version.module').then( m => m.ModalVersionPageModule)
   }
 ];
 

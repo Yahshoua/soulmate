@@ -1,8 +1,8 @@
-import { NavController, ModalController, LoadingController } from '@ionic/angular';
+import { NavController, ModalController, LoadingController, AlertController, Platform } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalFilterPage } from '../modal-filter/modal-filter.page';
 declare var $, moment
 @Component({
@@ -20,6 +20,7 @@ export class PropositionPage implements OnInit {
   loading
   slideOpts = {
     initialSlide: this.curentSlide,
+    speed: 300
   };
   monStyle(i) {
     let style=  {
@@ -33,7 +34,7 @@ export class PropositionPage implements OnInit {
      return style
   }
     
-  constructor(private service: monservice, private geolocation: Geolocation, private navCtrl: NavController, public router:ActivatedRoute, private modalController: ModalController, public loadingController: LoadingController,) { }
+  constructor(private service: monservice, private geolocation: Geolocation, private navCtrl: NavController, public router:ActivatedRoute, private modalController: ModalController, public loadingController: LoadingController, private alertCtrl: AlertController, private platform: Platform, private route: Router) { }
   
   ngOnInit() {
     moment.locale('fr')
@@ -48,6 +49,7 @@ export class PropositionPage implements OnInit {
     })
     this.GPS = this.service.gps
      this.service.userSubscriber.subscribe((res: any)=> {
+       
         this.personnes = res.sort(() => Math.random() - 0.5)
         console.log('ooook', this.personnes)
         if(this.personnes.length <= 0) {
@@ -67,6 +69,37 @@ export class PropositionPage implements OnInit {
     }
     this. getMyPosi()
     this.getalluser()
+    console.log('route url ', this.router.url)
+    this.platform.backButton.subscribe(() => {
+      var route  = this.route.url
+      if(route == '/portail/users/proposition') {
+        this.closeapp()
+      }
+    });
+}
+async closeapp() {
+  const alert = await this.alertCtrl.create({
+    header: 'Quitter soulmate ?',
+    message: 'Voulez-vous fermer l\'application ?',
+    backdropDismiss: false,
+    buttons: [
+      {
+        text: 'Non',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {
+          console.log('Confirm Cancel: blah');
+        }
+      }, {
+        text: 'Fermer',
+        handler: () => {
+          navigator["app"].exitApp();
+          this.service.setOnline({id: this.service.utilisateur.id, etat: 0})
+        }
+      }
+    ]
+  });
+      await alert.present();
 }
 async presentModal() {
   const modal = await this.modalController.create({
@@ -95,14 +128,22 @@ ionViewWillLeave(){
         })
   }
   getalluser() {
+    var allpers = this.service.Allpersonnes || []
+    if(allpers.length >= 1) {
+      return
+    }
     this.service.getAllUser().then(e=> {
       console.log('tous les users ', e)
       this.Allperson = e
     })
   }
+  getNbrePict(alb) {
+      return alb.length 
+  }
   getAge(date) {
+    if(date == null) return
     var age = moment(date).format('Y')
-     return moment().format('Y') - age
+     return moment().format('Y') - age + ' ans'
   }
   getMyPosi() {
     this.geolocation.getCurrentPosition().then((resp) => {

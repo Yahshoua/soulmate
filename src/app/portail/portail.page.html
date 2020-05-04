@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar *ngIf="!favoris">
         <ion-icon style="font-size: 30px;" slot="start" name="menu-outline" (click)="openmenu()"></ion-icon>
-        <ion-title style="font-size: 93%;">Pres de chez moi</ion-title>
-        <ion-icon (click)="presentLoading()" slot="end" name="refresh-outline" style="margin-right: 4%;
+        <ion-title style="font-size: 93%;"> {{titres}} </ion-title>
+        <ion-icon (click)="refresh()" slot="end" name="refresh-outline" style="margin-right: 4%;
         font-size: 25px;"></ion-icon>
         <ion-icon (click)="presentModal()" slot="end" style="margin-right: 3%;
         font-size: 20px;" name="ellipsis-vertical-outline"></ion-icon>

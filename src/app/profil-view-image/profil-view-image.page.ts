@@ -4,6 +4,7 @@ import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { ActionSheetController } from '@ionic/angular';
 declare var $
 @Component({
   selector: 'app-profil-view-image',
@@ -15,9 +16,11 @@ export class ProfilViewImagePage implements OnInit {
   curentSlide
   personne
   pages = true
+  slidepos
   modal
+  Photo
   image = 'https://i.picsum.photos/id/230/200/300.jpg'
-  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController, private imagePicker: ImagePicker, private moadalCtrl: ModalController) { }
+  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController, private imagePicker: ImagePicker, private moadalCtrl: ModalController, public actionSheetController: ActionSheetController) { }
   slideOpts = {
     initialSlide: this.curentSlide,
   };
@@ -26,11 +29,12 @@ export class ProfilViewImagePage implements OnInit {
       return e.id == this.service.utilisateur.id
     })
     this.slideOpts.initialSlide = this.router.snapshot.queryParams.index
-    console.log('index ', this.slideOpts.initialSlide)
+    this.slidepos = this.router.snapshot.queryParams.index
+    this.Photo = this.personne.album[this.slidepos].photo
+    console.log('index ', this.personne)
     var i = this.personne.album.find(e=> {
       return e.photo == this.personne.images
     })
-    console.log('iiii ', i)
     if(i == undefined) {
         var k =  this.personne.album.push({id: this.personne.album.length+1, photo: this.personne.images})
           this.personne.album = this.personne.album.sort((a, b)=> {
@@ -49,6 +53,80 @@ export class ProfilViewImagePage implements OnInit {
         this.pages = true
         this.loopSlider.lockSwipes(false)
       }
+  }
+  changePosition() {
+   this.loopSlider.getActiveIndex().then(index=> {
+      console.log('index ', index)
+      this.slidepos = index
+      this.Photo = this.personne.album[index].photo
+    })
+  }
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Que faire de la photo ?',
+      buttons: [{
+        text: 'Supprimer',
+        role: 'destructive',
+        icon: 'trash',
+        disabled: true,
+        handler: async () => {
+          console.log('Delete clicked');
+          if(this.slidepos==0) {
+            const toast = await this.toastController.create({
+              message: 'Vous ne pouvez pas supprimer votre photo principale',
+              duration: 3000
+            });
+            toast.present();
+          } else {
+              var nameImage = this.personne.album[this.slidepos].photo
+              this.service.deletePhoto(nameImage)
+              this.service.utilisateur = this.personne
+              this.personne.album.splice(this.slidepos, 1)
+              console.log('nouvelle personne ', this.personne)
+          }
+        }
+      }, {
+        text: 'Definir comme photo pricipale',
+        icon: 'happy-outline',
+        cssClass: this.Photo == this.personne.images?'disabled':'deleted',
+        disabled: false,
+        handler: () => {
+          // cette photo sera supp de album et add dans user[personne]
+          var photoPricipale = this.personne.album[ this.slidepos].photo
+          // cette photo sera supprimer de la table user[personne] et add dans album
+          var ancPhotPric =  this.personne.images
+          $.ajax({
+            method: 'POST',
+            url: 'https://kazimo.ga/cashapp/phpsoulmate/addprincipalephot.php',
+            data: {newphoto: photoPricipale, ancphoto: ancPhotPric, id: this.personne.id},
+            dataType: 'json'
+          }).done(async (data)=> {
+            this.personne.images = photoPricipale
+            this.service.utilisateur = this.personne
+            console.log('data ', data)
+            this.personne.album = data
+            this.loopSlider.slideTo(0, 500)
+            const toast = await this.toastController.create({
+              message: 'Photo principale choisie',
+              duration: 3000, 
+              position:'top',
+              color: 'success'
+            });
+            toast.present();
+          })
+          console.log('Share clicked');
+        }
+      }, {
+        text: 'Retour',
+        icon: 'close',
+        disabled: false,
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
   goBack() {
     this.navCtrl.back()

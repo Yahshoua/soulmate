@@ -1,7 +1,10 @@
 <ion-header>
     <ion-toolbar>
         <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
-        <ion-title color="light" style="font-size: 93%;"> {{personne.nom}} </ion-title>
+        <ion-title color="light" style="font-size: 93%;float: left"> {{personne.nom}} </ion-title>
+
+        <span *ngIf="personne?.etat !== '1'" class="span-online"> {{timer}} </span>
+        <span *ngIf="personne?.etat == '1'" class="span-online"> <i class="fas fa-circle" style="color: rgb(34, 230, 34)"></i> En ligne </span>
     </ion-toolbar>
 </ion-header>
 <ion-content>

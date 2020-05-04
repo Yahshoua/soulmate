@@ -2,12 +2,13 @@
     <ion-toolbar>
         <ion-icon slot="start" color="light" style="font-size: 30px;margin-left: 1%;" name="chevron-back-outline" (click)="goBack()"></ion-icon>
         <ion-title color="light" style="font-size: 93%;"> Mes photos </ion-title>
+        <ion-icon color="light" (click)="presentActionSheet()" slot="end" name="ellipsis-vertical-outline" style="font-size: 30px;margin-right: 1%;"></ion-icon>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <section style="position: relative;">
-        <ion-slides pager="true" [options]="slideOpts" #loopSlider>
+        <ion-slides (ionSlideTransitionEnd)="changePosition()" pager="true" [options]="slideOpts" #loopSlider>
             <ion-slide *ngFor="let al of personne?.album">
                 <div class="col-images" [ngStyle]="monstyle(al)">
 

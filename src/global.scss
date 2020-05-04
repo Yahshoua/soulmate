@@ -88,3 +88,33 @@
     display: block;
     height: 54% !important;
 }
+
+.modalversion .modal-wrapper {
+    height: 200px !important;
+    margin: 3%;
+}
+
+.mypop .popover-wrapper:after {
+    top: 47px;
+    right: 18px;
+    border-radius: 3px;
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    background: var(--background);
+    content: "";
+    z-index: 10;
+}
+
+.mypop .popover-content {
+    top: 55px !important;
+    left: unset !important;
+    right: 0 !important;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

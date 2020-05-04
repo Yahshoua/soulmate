@@ -57,6 +57,18 @@
                             },
                             {
                                 "input": "src/assets/js/jquery.preload.js"
+                            },
+                            {
+                                "input": "src/assets/build/tracking.js"
+                            },
+                            {
+                                "input": "src/assets/build/data/face.js"
+                            },
+                            {
+                                "input": "src/assets/build/data/eye.js"
+                            },
+                            {
+                                "input": "src/assets/build/data/mouth.js"
                             }
                         ]
                     },

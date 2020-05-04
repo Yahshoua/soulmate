@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.soulmate.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Soulmate</name>
+<widget id="com.soulmate.mitashi.app" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>soulmate</name>
     <description>Ma super app de rencontre</description>
     <author email="yahanthony8@gmail.com" href="http://ionicframework.com/">Mitashi Otha Anthony</author>
     <content src="index.html" />

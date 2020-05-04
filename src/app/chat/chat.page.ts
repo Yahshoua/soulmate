@@ -95,6 +95,7 @@ export class ChatPage implements OnInit {
   ionViewWillEnter(){
     this.service.getAllUser()
     this.service.setSubscriptionFavoris(false, '')
+    this.service.setVue({id: this.service.utilisateur.id, id_dest: this.personne.id})
   }
   async presentToast(message) {
     const toast = await this.toastController.create({
@@ -106,7 +107,8 @@ export class ChatPage implements OnInit {
     toast.present();
   }
   getAge(an) {
-    return moment().format('Y') - moment(an).format('Y') + 'ans'
+    if(an == null) return
+    return moment().format('Y') - moment(an).format('Y') + ' ans'
   }
   envoi() {
     var message = this.texte
@@ -117,7 +119,7 @@ export class ChatPage implements OnInit {
     var nom = this.user.nom
     var obj = {idExp: this.user.id, idRecep: this.personne.id, message: message, dates: dates, nom: nom, photo: photo, chaine: chaine, chaineRecep: this.personne.chaine_notif, dateMoment: dateMoment}
     this.service.setChat(obj)
-    this.service.sendNotification(this.personne.token, "Nouveau Message", this.service.utilisateur.nom+" envoyé un message")
+    this.service.sendNotification(this.personne.token, "Nouveau Message", this.service.utilisateur.nom+" t'a envoyé un message")
     this.form.reset()
   }
   slot(email) {
@@ -125,10 +127,17 @@ export class ChatPage implements OnInit {
     return this.user.email == email?'start':'end'
   }
   align(email) {
-    return this.user.email == email?'left':'right'
+    return {
+        position: this.user.email == email?'left':'right',
+        couleur: this.user.email == email?'#E91E63':'rgb(126, 127, 128)'
+    } 
   }
-  goBAck() {
-    this.navCtrl.navigateRoot(this.myroute)
+  goBAck(id) {
+    this.navCtrl.navigateRoot(this.myroute,  {queryParams: {id: id}, queryParamsHandling: 'merge'})
+  }
+  route(id) {
+    console.log('route click', id)
+    this.navCtrl.navigateForward('/voirplus/route/main', {queryParams: {id: id, route: 'chat'}, queryParamsHandling: 'merge'})
   }
   ionViewDidLeave(){
     if( this.router.snapshot.queryParams.routes !== undefined) {

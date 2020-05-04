@@ -22,6 +22,13 @@
         <ion-slide *ngFor="let i of personnes">
 
             <div class="toto" [ngStyle]="monStyle(i)"></div>
+            <div class="cam">
+                <ion-icon name="camera-outline"></ion-icon>
+                <font> {{getNbrePict(i.album)}} </font>
+            </div>
+            <div class="online" *ngIf="i.etat =='1'">
+                <i class="fas fa-circle"></i>
+            </div>
             <section class="sec-info">
                 <div class="col-name" style="display: flex;">
                     <ion-fab-button color="primary" class="myfab" (click)="seemore(i.id)">
@@ -31,7 +38,7 @@
                         {{i.nom}}
                     </span>
                     <span style="float: right;margin:auto;margin-right: 3%;color: #fff">
-                        {{getAge(i.datenaiss)}} ans
+                        {{getAge(i.datenaiss)}}
                     </span>
                 </div>
                 <div class="col-loc">

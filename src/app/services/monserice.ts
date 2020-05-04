@@ -13,14 +13,15 @@ export class monservice {
     moi
     server1 = 'http://localhost'
     server2= 'https://kazimo.ga/cashapp'
+    server3 = 'http://mitashi-otha.com/cashapp'
     url2 = this.server2+'/phpsoulmate/getAlluser.php'
     url3 = this.server2+'/phpsoulmate/setSug.php'
     url4 = this.server2+'/phpsoulmate/getUserCloud.php'
     url5 = this.server2+'/phpsoulmate/login.php'
     url6 = this.server2+'/phpsoulmate/getChat.php'
-    url7 = this.server2+'/phpsoulmate/setChat.php'
+    url7 = this.server2+'/phpsoulmate/setChat--.php'
     url8 = this.server2+'/phpsoulmate/setFavoris.php'
-    url9 = this.server2+'/phpsoulmate/setFlash.php'
+    url9 = this.server2+'/phpsoulmate/setFlash--.php'
     url10 = this.server2+'/phpsoulmate/setMatch.php'
     url11 = this.server2+'/phpsoulmate/debloquer.php'
     url12 = this.server2+'/phpsoulmate/updateimage.php'
@@ -29,7 +30,14 @@ export class monservice {
     url15 = this.server2+'/phpsoulmate/updateInteret.php'
     url16 = this.server2+'/phpsoulmate/updatemode.php'
     url17 = this.server2+'/phpsoulmate/token.php'
+    url18 = this.server2+'/phpsoulmate/setVue.php'
+    url19 = this.server2+'/phpsoulmate/setEtat.php'
+    url20 = this.server2+'/phpsoulmate/relative.php'
+    url21 = this.server2+'/phpsoulmate/setVisite.php'
+    url22 = this.server2+'/phpsoulmate/deletePhoto.php'
+    //....-_-
     url = this.server2+'/phpsoulmate/setUser.php';
+    //..
     myroutes = 'portail'
     photo = '../assets/images/homme.png'
     type= 'formulaire'
@@ -43,9 +51,21 @@ export class monservice {
     }
     favoriSub = new Subject()
     titreSub = new Subject()
+     
     favoriSybscriber() {
       this.favoriSub.next(this.favoris)
       this.titreSub.next(this.titre) 
+    }
+    async getTimeRelative(data) {
+      var i = $.ajax({
+        method: "POST",
+        url: this.url20,
+        data: data,
+        success: e=> {
+          return e.temps
+        }
+      })
+    return i
     }
     setUtilisateur(user) {
       this.utilisateur.push(user)
@@ -53,6 +73,13 @@ export class monservice {
     }
     getUtilisateur() {
       return this.utilisateur
+    }
+    setVue(data) {
+      $.ajax({
+        method: 'POST',
+        url: this.url18,
+        data: data
+      })
     }
     // preload() {
     //   var all: any = this.Allpersonnes
@@ -84,6 +111,17 @@ export class monservice {
         method: "POST",
         url: this.url17,
         data: {id: this.utilisateur.id, token: token}
+      })
+    }
+    deletePhoto(name) {
+      $.ajax({
+        method: "POST",
+        url: this.url22,
+        data: {image: name},
+        dataType: 'json',
+        success: ()=> {
+
+        }
       })
     }
     sendNotification(token, titre, description) {
@@ -230,11 +268,24 @@ export class monservice {
     utilisateurSubscriber = new Subject()
     // Variable filtres par defaut
     public genreVoulu
-    public kilometreVoulu = 1
+    public kilometreVoulu = 500
     public gps = true
     public ageMin = 18
     public ageMax = 70
+    public online = false
     //fin
+    gpsSubscr = new Subject()
+
+    SubscriptionGps() {
+      this.gpsSubscr.next(this.gps)
+    }
+    setGps(val) {
+      this.gps = val
+      this.SubscriptionGps()
+    }
+    setEnligne(val) {
+      this.online = val
+    }
     // ce tableau sert à contenir les matchings selon que le user à accepter ou non, je le recupere dans la route matchclose
     matching: any
     matchingSubscriber = new Subject()
@@ -418,17 +469,21 @@ export class monservice {
         for(var key in filter) {
           var ageUser = moment().format('Y') - moment(item['datenaiss']).format('Y')
           console.log('age min ', filter.ageMinVoulu, "ageMAx ", filter.ageMaxVoulu, "GPS ", this.gps, " kilometre ", filter.kilometre)
-          if(this.gps == true) {
-                if(item['genre'] !== this.genreVoulu || item['kilometre'] > filter.kilometre || ageUser < filter.ageMinVoulu || ageUser > filter.ageMaxVoulu || item['id'] == filter.monId ) {
-                  return false
-                }
-              } else {
-                if(item['genre'] !== this.genreVoulu || ageUser < filter.ageMinVoulu && ageUser > filter.ageMaxVoulu || item['id'] == filter.monId) {
-                  return false
-                }
+          if(this.online == true) {
+              if(item['etat'] !== '1') {
+                return false
+              }
           }
           
-        }
+          if(item['genre'] !== this.genreVoulu || ageUser < filter.ageMinVoulu || ageUser > filter.ageMaxVoulu || item['id'] == filter.monId ) {
+            return false
+          }
+            if(this.gps == true) {
+                if(item['kilometre'] > filter.kilometre) {
+                  return false
+                }
+              } 
+          }
         return true
       })
       this.matching = data.filter(i=> {
@@ -557,8 +612,24 @@ export class monservice {
         return q
   }
     logout() {
+    this.Allpersonnes = []
+    this.setOnline({id: this.utilisateur.id, etat: 0})
       localStorage.removeItem('user');
       this.auth = false
+    }
+    Setpopover() {
+      var ck = localStorage.getItem('pop')
+      console.log('popover ', ck)
+      if(ck !== undefined) {
+        localStorage.setItem('pop', JSON.stringify({pop: true}))
+      }
+    }
+    setOnline(data) {
+      $.ajax({
+        method: 'POST',
+        url: this.url19,
+        data: data
+      })
     }
     storeUser(profil) {
         if(profil.image == undefined) {

@@ -146,3 +146,12 @@ ion-label {
     color: gray;
     font-size: 80%;
 }
+
+.col-mode>ion-col>div p {
+    font-family: ubuntu-light;
+    color: var(--ion-color-step-600, #666);
+}
+
+.col-mode>ion-col>div {
+    padding-left: 5%;
+}

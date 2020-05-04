@@ -29,6 +29,7 @@ export class InscriptionPage implements OnInit {
   nom
   Fnom
   lieux= ''
+  EmailExiste
   localization = true
   toto = false
   customMonthShortNames = ['Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Ju', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -80,7 +81,7 @@ export class InscriptionPage implements OnInit {
           success: async(e: any)=> {
             if(e.reponse== true) {
               // si l'email existe deja
-              this.Femail = false
+              this.EmailExiste = true
               const toast = await this.toastController.create({
                 message: 'Cette adresse émail existe dèjà !',
                 duration: 3000,
@@ -88,9 +89,8 @@ export class InscriptionPage implements OnInit {
                 position: 'top'
               });
               toast.present();
-              this.Femail = true
             } else {
-                this.Femail = false
+              this.EmailExiste = false
             }
           }
         })
@@ -165,7 +165,7 @@ export class InscriptionPage implements OnInit {
     } else {
       this.Fpass = false
     }
-    if(this.Femail == false && this.Fpass == false) {
+    if(this.Femail == false && this.Fpass == false && this.EmailExiste == false) {
        var profil = {
           nom: this.nom,
           genre: this.genre,

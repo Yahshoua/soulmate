@@ -28,7 +28,7 @@
             </ion-col>
             <ion-col size="6">
                 <p id="age">
-                    {{getAge(personne.datenaiss)}} ans
+                    {{getAge(personne.datenaiss)}}
                 </p>
             </ion-col>
         </ion-row>
@@ -63,11 +63,11 @@
                                 color: gray !important;">
                                     Ce membre n'a pas encore indiqué de centres d'interet
                                 </p>
-                                <ion-col *ngFor="let interet of ObjInteret" size="12" style="display: flex;padding-left: 0;">
-                                    <ion-icon style="font-size: 23px;" name={{interet?.icon}}></ion-icon>
+                                <ion-col *ngFor="let interet of ObjInteret" size="12" style="display: flex;padding-left: 0;padding-bottom: 5%;">
+                                    <ion-icon style="font-size: 23px;" [ngStyle]="{'color': interet?.color}" name={{interet?.icon}}></ion-icon>
                                     <div style="display: grid;display: grid;
                                     padding-left: 2%;">
-                                        <p style="font-size: 13px;">
+                                        <p style="font-size: 14px;" [ngStyle]="{'color': interet?.color}">
                                             {{interet?.libele}}
                                         </p>
                                         <p>
@@ -85,7 +85,7 @@
                 <p class="monp" *ngIf="ObjMode?.length <= 0" style="white-space: normal;
                 font-size: 79%;
                 color: gray !important;">
-                    Ce membre n'a pas encore indiqé son mode de vie</p>
+                    Ce membre n'a pas encore indiqué son mode de vie</p>
 
                 <ion-row class="detail-plus" *ngFor="let mode of ObjMode">
                     <ion-col size="4">

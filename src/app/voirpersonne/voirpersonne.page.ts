@@ -99,29 +99,36 @@ export class VoirpersonnePage implements OnInit {
             switch(ints) {
               case 'music':
                 var icon = 'musical-notes-outline'
+                var color = 'green'
                 break
               case 'film':
                 var icon = 'film-outline'
+                var color = 'yellow'
                 break
               case 'passeTemps':
                   var icon = 'hourglass-outline'
+                  var color = 'red'
                 break
               case 'sport':
                     var icon = 'football-outline'
+                    var color = 'blue'
                     break
               case 'aime':
                     var icon = 'heart-outline'
+                    var color = 'pink'
                     break
-              case 'aime':
+              case 'deteste':
                     var icon = 'heart-dislike-outline'
+                    var color = 'gray'
                     break
             }
             
-            if(this.interet[ints] !== null && this.interet[ints] !== '') {
+            if(this.interet[ints] !== null && this.interet[ints] !== '' && this.interet[ints] !== '[]') {
               this.ObjInteret.push({
                 libele: ints,
                 titre: this.interet[ints],
-                icon: icon
+                icon: icon,
+                color: color
               })
             }
         }
@@ -130,7 +137,9 @@ export class VoirpersonnePage implements OnInit {
   }
   ionViewWillLeave(){
     this.service.getAllUser()
+    
   }
+
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
@@ -160,9 +169,11 @@ export class VoirpersonnePage implements OnInit {
       this.service.setSug(sujet, this.personne.id)
       if(sujet == 1) {
         this.presentToast('Demande d\'ajout de photo envoyée')
+        this.service.sendNotification(this.personne.token, "Suggetion", this.service.utilisateur.nom+" Te demande + de photo de toi")
         this.affSugPhot = false
       } else {
         this.presentToast('Demande d\'ajout de description envoyée')
+        this.service.sendNotification(this.personne.token, "Suggetion", this.service.utilisateur.nom+" Te demande d'ajouter une description de toi")
         this.affSugAbouts = false
       }
   }
@@ -189,8 +200,9 @@ export class VoirpersonnePage implements OnInit {
     })
   }
   getAge(date) {
+   if(date == null) return
     var age = moment(date).format('Y')
-     return moment().format('Y') - age
+     return moment().format('Y') - age + ' ans'
   }
   getKms(km) {
     var kM = Math.round(km)
