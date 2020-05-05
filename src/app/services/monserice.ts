@@ -231,25 +231,28 @@ export class monservice {
         }
       }
     }
-    updateAllperson(imag1, album, newimage) {
+    async updateAllperson(imag1, album, newimage) {
         for(let i=0;i < this.Allpersonnes.length; i++) {
-          if(this.Allpersonnes[i].id == this.utilisateur.id) {
-            this.Allpersonnes[i].images = imag1
-            this.Allpersonnes[i].album = album
-            $.ajax({
+            if(this.Allpersonnes[i].id == this.utilisateur.id) {
+              this.Allpersonnes[i].images = imag1
+              this.Allpersonnes[i].album = album
+              break
+            }
+        }
+        var res = $.ajax({
               method: "POST",
               url: this.url12,
-              data: {image: "https://kazimo.ga/cashapp/uploads/"+newimage, id: this.utilisateur.id},
+              data: {image: newimage, id: this.utilisateur.id},
               dataType: "JSON"
             }).done(e=> {
               console.log('mise ) jour de la photo effectuée !')
+              return e
             }).fail(err=> {
               console.log('erreur lors de la mise à jour de la photo ', err)
+              return false
             })
-            break
-          }
-        }
         this.subsciberAllperso()
+      return res
     }
     debloquer(data) {
       $.ajax({
@@ -581,10 +584,22 @@ export class monservice {
       return e
    }
    setChat(data) {
+     var chat = {
+       chaine: data.chaine,
+       dates:data.dates,
+       email: this.utilisateur.email,
+       id: this.utilisateur.id,
+       id_dest: data.idRecep,
+       id_exp: data.idExp,
+       photo: data.photo,
+       messages: data.message,
+       nom: this.utilisateur.nom,
+       image: data.photo
+     }
      var id  = data.idRecep
      for(let i =0;i < this.Allpersonnes.length; i++) {
        if(this.Allpersonnes[i].id == id) {
-         this.Allpersonnes[i].chat.push(data)
+         this.Allpersonnes[i].chat.push(chat)
          this.subsciberAllperso()
          break
        }

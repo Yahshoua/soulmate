@@ -5,7 +5,8 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { ActionSheetController } from '@ionic/angular';
-declare var $
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+declare var $, moment
 @Component({
   selector: 'app-profil-view-image',
   templateUrl: './profil-view-image.page.html',
@@ -20,7 +21,8 @@ export class ProfilViewImagePage implements OnInit {
   modal
   Photo
   image = 'https://i.picsum.photos/id/230/200/300.jpg'
-  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController, private imagePicker: ImagePicker, private moadalCtrl: ModalController, public actionSheetController: ActionSheetController) { }
+  Imagename: string;
+  constructor(public router:ActivatedRoute, private service: monservice, private navCtrl: NavController, private route: Router, public toastController: ToastController, private imagePicker: ImagePicker, private moadalCtrl: ModalController, public actionSheetController: ActionSheetController,  private transfer: FileTransfer) { }
   slideOpts = {
     initialSlide: this.curentSlide,
   };
@@ -131,6 +133,24 @@ export class ProfilViewImagePage implements OnInit {
   goBack() {
     this.navCtrl.back()
   }
+  permission() {
+    this.imagePicker.hasReadPermission().then(e=> {
+      console.log('has read ', e)
+        if(e== true) {
+          this.pickImage()
+        } else {
+                /**
+               * Request permission to read images
+               * @returns {Promise<any>}
+               */
+              this.imagePicker.requestReadPermission().then(e=> {
+                console.log('request ReadPermission ', e)
+              })
+        }
+    
+    })
+  
+  }
   ionViewWillEnter() {
     this.moadalCtrl.dismiss({
       component: PhotoProfilSelectedPage
@@ -150,7 +170,8 @@ export class ProfilViewImagePage implements OnInit {
     console.log('pick')
     let options = {
       maximumImagesCount: 1,
-      outputType: 1,
+      outputType: 0,
+      quality: 20,
       allow_video: false
     }
      //FAKE
@@ -163,38 +184,60 @@ export class ProfilViewImagePage implements OnInit {
     
     // return await this.modal.present();
     this.imagePicker.getPictures(options).then(async (results) => {
-      for (var i = 0; i < results.length; i++) {
-          console.log('Image base64: ' + results[i]);
-          this.image = "data:image/png;base64,"+results[i]
-      }
-      this.modal = await this.moadalCtrl.create({
-        component: PhotoProfilSelectedPage,
-        componentProps: {
-          'image': this.image
+      this.image =  (<any>window).Ionic.WebView.convertFileSrc(results[0])
+      if(results[0] !== undefined) {
+        this.Imagename = moment().format('DD-MMMM-YYYY-HH:mm:s')+'.jpg'
+        let options: FileUploadOptions = {
+          fileKey: 'file',
+          fileName: this.Imagename,
+          headers: {}
         }
-      })
-      this.modal.onDidDismiss().then((e: any)=> {
-        console.log('dismiss', e)
-        var data = e.data.componentProps.image
-        if(data == true) {
-          this.loopSlider.lockSwipes(false)
-          this.personne.album.push({id: this.personne.album.length+1,photo: this.image})
-          this.loopSlider.update().then(e=> {
-            var taille = this.loopSlider.length().then(e=> {
-              console.log('taille ', e)
-              this.loopSlider.slideTo(e)
-              var album = this.personne.album
-              var img1 = this.personne.images
-              this.service.updateAllperson(img1, album, this.image)
-            })
-            
-          })
-          if(this.pages == false) {
-            this.pages = true
+        var fileTransfer: FileTransferObject = this.transfer.create();
+        this.modal = await this.moadalCtrl.create({
+          component: PhotoProfilSelectedPage,
+          componentProps: {
+            'image': this.image
           }
-        }
-    })
-    return await this.modal.present();
+        })
+        this.modal.onDidDismiss().then((e: any)=> {
+          console.log('dismiss', e)
+          var data = e.data.componentProps.image
+          if(data == true) {
+            this.loopSlider.lockSwipes(false)
+            this.personne.album.push({photo: this.image})
+            //upload
+            fileTransfer.upload(results[0], 'https://kazimo.ga/cashapp/upload_photo.php', options).then(e=> {
+              console.log(e, 'effectué')
+              this.loopSlider.update().then(e=> {
+                var taille = this.loopSlider.length().then(e=> {
+                  console.log('taille ', e)
+                  // add dans l'album[personne]
+                  this.personne.album[e-1].photo = 'https://kazimo.ga/cashapp/uploads/'+this.Imagename
+                  this.loopSlider.slideTo(e)
+                  var album = this.personne.album
+                  var img1 = this.personne.images
+                  //envois pour ajout global/ecrire en BDD
+                  this.service.updateAllperson(img1, album, 'https://kazimo.ga/cashapp/uploads/'+this.Imagename).then(res=> {
+                    console.log("resultat de l'update de l'album ", res)
+                    if(res !== false) {
+                      //this.personne.
+                    }
+                  })
+                })
+              })
+            
+            }).catch(err=>  {
+              console.log('erreur du transfert ', err)
+            })
+            //
+            if(this.pages == false) {
+              this.pages = true
+            }
+          }
+      })
+      return await this.modal.present();
+      
+      }
     }, (err) => { 
       alert('erreur lors de la recuperation de votre image '+ err)
     })

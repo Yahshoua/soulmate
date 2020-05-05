@@ -1,0 +1,92 @@
+.list-premium li {
+    text-align: center;
+    width: -webkit-fill-available;
+}
+
+.list-premium {
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.list-premium p {
+    font-size: 14px;
+    font-family: ubuntu-light;
+}
+
+.list-premium li i,
+.list-premium li ion-icon {
+    font-size: 40px;
+}
+
+.list-premium {
+    list-style: none;
+}
+
+ion-card {
+    margin: 0;
+    position: relative;
+    overflow: inherit;
+}
+
+ion-card>div:first-child {
+    display: flex;
+    height: 146px;
+}
+
+ion-card div {
+    text-align: center;
+}
+
+ion-card h5 {
+    color: #00c4ff;
+}
+
+ion-card ion-badge {
+    position: absolute;
+    bottom: -8px;
+    right: 0px;
+    z-index: 100;
+}
+
+.adv {
+    background: var(--ion-color-dark-tint);
+    padding: 0.1px;
+    box-shadow: 2px 5px 11px 0px rgb(31, 26, 26);
+    -webkit-box-shadow: 2px 5px 11px 0px rgb(31, 26, 26);
+}
+
+.mygrid h6 {
+    border-bottom: 1px solid #c1c1c1;
+    padding-bottom: 8px;
+}
+
+.mygrid font {
+    font-size: 15px;
+}
+
+.mygrid ion-col[size='6'] {
+    margin-bottom: 10px
+}
+
+.mygrid ion-icon {
+    font-size: 20px;
+}
+
+.adv p {
+    text-align: center;
+    font-size: 98%;
+    color: #fff;
+    margin: 8px;
+    padding: 0 !important;
+}
+
+#infos {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    text-align: justify;
+    color: gray;
+}

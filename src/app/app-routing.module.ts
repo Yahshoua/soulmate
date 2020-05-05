@@ -132,6 +132,10 @@ const routes: Routes = [
   {
     path: 'modal-version',
     loadChildren: () => import('./modal-version/modal-version.module').then( m => m.ModalVersionPageModule)
+  },
+  {
+    path: 'premium',
+    loadChildren: () => import('./premium/premium.module').then( m => m.PremiumPageModule)
   }
 ];
 

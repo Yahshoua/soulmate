@@ -226,12 +226,13 @@ export class PortailPage implements OnInit {
           if(i !== null) {
               var j= JSON.parse(i)
               console.log('ji ', j , ' i ', j)
+              // Ajouter && codeversion > this.versioncode
               if(this.updated == false) {
-                this.modalversion()
+                //this.modalversion()
               }
               return
           }
-          this.modalversion()
+        //  this.modalversion()
         }
       })
     }
