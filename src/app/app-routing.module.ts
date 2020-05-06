@@ -136,6 +136,10 @@ const routes: Routes = [
   {
     path: 'premium',
     loadChildren: () => import('./premium/premium.module').then( m => m.PremiumPageModule)
+  },
+  {
+    path: 'payement',
+    loadChildren: () => import('./payement/payement.module').then( m => m.PayementPageModule)
   }
 ];
 

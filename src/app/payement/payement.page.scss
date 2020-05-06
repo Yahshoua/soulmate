@@ -1,0 +1,45 @@
+.myhead {
+    background: #3c3c3c;
+}
+
+.myhead>div {
+    height: 32px
+}
+
+.myhead>div>i {
+    font-size: 20px;
+    line-height: 35px;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.ps {
+    margin: 0;
+    text-align: justify;
+    font-size: 13px;
+    color: gray;
+    word-break: break-all;
+}
+
+.advisor {
+    text-align: justify;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+}
+
+ion-content>div:first-child {
+    text-align: center;
+    background: #3c3c3c;
+    padding-bottom: 10px;
+    color: #fff;
+}
+
+ion-content>div:first-child>h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+ion-content>div:first-child>p {
+    margin-bottom: 0;
+}

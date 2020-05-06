@@ -209,7 +209,7 @@ export class ProfilViewImagePage implements OnInit {
             fileTransfer.upload(results[0], 'https://kazimo.ga/cashapp/upload_photo.php', options).then(e=> {
               console.log(e, 'effectué')
               this.loopSlider.update().then(e=> {
-                var taille = this.loopSlider.length().then(e=> {
+                this.loopSlider.length().then(e=> {
                   console.log('taille ', e)
                   // add dans l'album[personne]
                   this.personne.album[e-1].photo = 'https://kazimo.ga/cashapp/uploads/'+this.Imagename

@@ -31,7 +31,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col size="6">
-                    <ion-card>
+                    <ion-card data-amount="formule-1">
                         <div>
                             <div style="margin: auto">
                                 <h5>6 Mois</h5>
@@ -44,7 +44,7 @@
                     </ion-card>
                 </ion-col>
                 <ion-col size="6">
-                    <ion-card>
+                    <ion-card data-amount="formule-2">
                         <div>
                             <div style="margin: auto">
                                 <h5>3 Mois</h5>
@@ -59,7 +59,7 @@
             </ion-row>
             <ion-row>
                 <ion-col size="6">
-                    <ion-card>
+                    <ion-card data-amount="formule-3">
                         <div>
                             <div style="margin: auto">
                                 <h5>1 Mois</h5>
@@ -72,7 +72,7 @@
                     </ion-card>
                 </ion-col>
                 <ion-col size="6">
-                    <ion-card>
+                    <ion-card data-amount="formule-4">
                         <div>
                             <div style="margin: auto">
                                 <h5>2 semaines</h5>
@@ -87,7 +87,7 @@
             <br>
             <ion-row>
                 <ion-col size="12">
-                    <ion-button expand="full">Continuer</ion-button>
+                    <ion-button (click)="continuer()" id="continuer" expand="full" data-amount="fomule-1">Continuer</ion-button>
                 </ion-col>
                 <ion-col size="12">
                     <p id="infos">
@@ -299,26 +299,4 @@
             </ion-row>
         </ion-grid>
     </section>
-    <!-- <ion-card class="welcome-card">
-        <ion-card-header>
-            <ion-card-subtitle>Get Started</ion-card-subtitle>
-            <ion-card-title>Stripe Sample</ion-card-title>
-            <ion-row>
-                <ion-col>Total Payment</ion-col>
-                <ion-col> 50€ </ion-col>
-            </ion-row>
-        </ion-card-header>
-        <ion-card-content>
-            <form action="/" method="post" id="payment-form">
-                <div class="form-row">
-                    <div id="card-element">
-                       
-                    </div>
-                   
-                    <div id="card-errors" role="alert"></div>
-                </div>
-                <ion-button type="submit" color="success" expand="full">Make Payment</ion-button>
-            </form>
-        </ion-card-content>
-    </ion-card> -->
 </ion-content>

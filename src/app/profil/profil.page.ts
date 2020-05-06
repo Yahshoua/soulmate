@@ -95,23 +95,22 @@ export class ProfilPage implements OnInit {
             }
             fileTransfer.upload(imageUpload, 'https://kazimo.ga/cashapp/upload_photo.php', options).then(e=> {
               console.log(e, 'effectué')
-            
+              //
+                this.loopSlider.lockSwipes(false)
+                this.personne.album.push({photo: 'https://kazimo.ga/cashapp/uploads/'+this.Imagename})
+                this.loopSlider.update().then(e=> {
+                  this.loopSlider.length().then(e=> {
+                    console.log('taille ', e)
+                    this.loopSlider.slideTo(e)
+                    var album = this.personne.album
+                    var img1 = this.personne.images
+                    this.service.updateAllperson(img1, album, 'https://kazimo.ga/cashapp/uploads/'+this.Imagename)
+                  })
+                })
             }).catch(err=>  {
               console.log('erreur du transfert ', err)
             })
-            //
-              this.loopSlider.lockSwipes(false)
-              this.personne.album.push({id: this.personne.album.length+1, photo: this.image})
-              this.loopSlider.update().then(e=> {
-                var taille = this.loopSlider.length().then(e=> {
-                  console.log('taille ', e)
-                  this.loopSlider.slideTo(e)
-                  var album = this.personne.album
-                  var img1 = this.personne.images
-                  this.service.updateAllperson(img1, album, this.Imagename)
-                })
-                
-              })
+            
               if(this.pages == false) {
                 this.pages = true
               }
