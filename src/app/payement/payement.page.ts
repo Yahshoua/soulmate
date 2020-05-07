@@ -1,7 +1,8 @@
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-declare var Stripe, $
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+declare var Stripe, $, cordova
 @Component({
   selector: 'app-payement',
   templateUrl: './payement.page.html',
@@ -46,9 +47,15 @@ export class PayementPage implements OnInit {
     }
   ]
   cardname: any;
-  constructor(private router: ActivatedRoute, private navCtl: NavController) { }
+  url: any;
+  constructor(private router: ActivatedRoute, private navCtl: NavController, private iab: InAppBrowser) { }
   stripe = Stripe('pk_test_GZzhjw9fnXuqi5b6n9Zku8zr006b1WwAa5');
   ngOnInit() {
+        this.url =  window.location.href
+        window.open = (url, target?, opts?) => {
+          this.openLink(url);
+          return null;
+       }
     if(this.router.snapshot.queryParams) {
       this.formule = this.router.snapshot.queryParams.formule
        console.log('formule choisie ', this.formule)
@@ -59,6 +66,10 @@ export class PayementPage implements OnInit {
     }
       
       this.setupStripe()
+  }
+  openLink(urlOpening: string) {
+    const browser = this.iab.create(urlOpening, '_blank', 'location=yes,clearsessioncache=yes,clearcache=yes');   
+    browser.executeScript
   }
   goback() {
     this.navCtl.back()
@@ -97,28 +108,41 @@ export class PayementPage implements OnInit {
 
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', event => {
-      fetch('//localhost/stripe/index.php').then(e=> {
+      var server = '//localhost'
+      var server2 = 'https://kazimo.ga/cashapp'
+      fetch(server2+'/stripe/index.php', {method: 'POST', body: JSON.stringify({url: this.url })}).then(e=> {
         return e.json()
       }).then(i=> {
         console.log('reponse ', i)
-        this.stripe.confirmCardSetup(
-          i.id,
-          {
-            payment_method: {
-              card: this.card,
-              billing_details: {
-                name: this.cardname,
-              },
-            },
-          }
-        ).then(function(result) {
+        this.stripe.redirectToCheckout({
+          // Make the id field from the Checkout Session creation API response
+          // available to this file, so you can provide it as parameter here
+          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+          sessionId: i.id
+        }).then(function (result) {
           console.log('resultat ', result)
-          if (result.error) {
-            // Display error.message in your UI.
-          } else {
-            // The setup has succeeded. Display a success message.
-          }
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, display the localized error message to your customer
+          // using `result.error.message`.
         });
+        // this.stripe.confirmCardSetup(
+        //   i.id,
+        //   {
+        //     payment_method: {
+        //       card: this.card,
+        //       billing_details: {
+        //         name: this.cardname,
+        //       },
+        //     },
+        //   }
+        // ).then(function(result) {
+        //   console.log('resultat ', result)
+        //   if (result.error) {
+        //     // Display error.message in your UI.
+        //   } else {
+        //     // The setup has succeeded. Display a success message.
+        //   }
+        // });
       })
       event.preventDefault();
 
@@ -129,7 +153,7 @@ export class PayementPage implements OnInit {
           var errorElement = document.getElementById('card-errors');
           errorElement.textContent = result.error.message;
         } else {
-          console.log(result);
+          console.log('resultat ', result);
           this.makePayment(result.id);
         }
       });

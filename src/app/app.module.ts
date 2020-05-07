@@ -20,6 +20,7 @@ import { File } from '@ionic-native/file/ngx';
 import { PopoverPageModule } from './popover/popover.module';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { ModalVersionPageModule } from './modal-version/modal-version.module';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -35,6 +36,7 @@ import { ModalVersionPageModule } from './modal-version/modal-version.module';
     Geolocation,
     MutationObserver,
     SplashScreen,
+    InAppBrowser,
     AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

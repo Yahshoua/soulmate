@@ -104,7 +104,6 @@ export class VoirplusPage implements OnInit {
     }
   }
   ionViewWillLeave() {
-    console.log('route url ', this.router.url)
     if(this.myroute== 'portail/users/proposition') {
      // this.personne.album.splice(0, 1)
     }
