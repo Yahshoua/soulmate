@@ -1,3 +1,4 @@
+import { monservice } from './../services/monserice';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -12,46 +13,16 @@ export class PayementPage implements OnInit {
   formule
   choix
   card: any;
-  abonnement = [
-    {
-      formule: 'formule-1',
-      periode: '6 Mois',
-      prix: '6.87',
-      monnaie: 'eur',
-      definition: '6.87€/semaine',
-      total: '179'
-    },
-    {
-      formule: 'formule-2',
-      periode: '3 Mois',
-      prix: '9.13',
-      monnaie: 'eur',
-      definition: '9.13€/semaine',
-      total: '119'
-    },
-    {
-      formule: 'formule-3',
-      periode: '1 Mois',
-      prix: '13.58',
-      monnaie: 'eur',
-      definition: '13.58€/semaine',
-      total: '59'
-    },
-    {
-      formule: 'formule-4',
-      periode: '2 semaines',
-      prix: '13.58',
-      monnaie: 'eur',
-      definition: '13.58€/semaine',
-      total: '39.5'
-    }
-  ]
+  abonnement = this.service.abonnement
   cardname: any;
   url: any;
-  constructor(private router: ActivatedRoute, private navCtl: NavController, private iab: InAppBrowser) { }
+  constructor(private router: ActivatedRoute, private navCtl: NavController, private iab: InAppBrowser, public service: monservice ) { }
   stripe = Stripe('pk_test_GZzhjw9fnXuqi5b6n9Zku8zr006b1WwAa5');
   ngOnInit() {
-        this.url =  window.location.href
+        var url =   this.absolute(window.location.href)
+        console.log("url absolute ", url[2])
+        this.url = "http://"+ url[2]
+        console.log("absolute ", this.absolute(window.location.href))
         window.open = (url, target?, opts?) => {
           this.openLink(url);
           return null;
@@ -63,10 +34,17 @@ export class PayementPage implements OnInit {
          return e.formule == this.formule
        })
        console.log('choix ', this.choix)
+       sessionStorage.setItem("abonnement", JSON.stringify(this.choix))
     }
       
       this.setupStripe()
   }
+  absolute(base) {
+    var stack = base.split("/")
+    //stack.pop(); // remove current file name (or empty string)
+    
+    return stack
+}
   openLink(urlOpening: string) {
     const browser = this.iab.create(urlOpening, '_blank', 'location=yes,clearsessioncache=yes,clearcache=yes');   
     browser.executeScript
@@ -108,23 +86,25 @@ export class PayementPage implements OnInit {
 
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', event => {
+      event.preventDefault();
       var server = '//localhost'
       var server2 = 'https://kazimo.ga/cashapp'
-      fetch(server2+'/stripe/index.php', {method: 'POST', body: JSON.stringify({url: this.url })}).then(e=> {
+      fetch(server2+'/stripe/index.php', {method: 'POST', body: JSON.stringify({url: this.url +"/payment-success" })}).then(e=> {
         return e.json()
       }).then(i=> {
         console.log('reponse ', i)
-        this.stripe.redirectToCheckout({
+        console.log( this.stripe)
+       // this.stripe.redirectToCheckout({
           // Make the id field from the Checkout Session creation API response
           // available to this file, so you can provide it as parameter here
           // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-          sessionId: i.id
-        }).then(function (result) {
-          console.log('resultat ', result)
+         // sessionId: i.id
+       // }).then(function (result) {
+        //  console.log('resultat ', result)
           // If `redirectToCheckout` fails due to a browser or network
           // error, display the localized error message to your customer
           // using `result.error.message`.
-        });
+        //});
         // this.stripe.confirmCardSetup(
         //   i.id,
         //   {
@@ -144,7 +124,7 @@ export class PayementPage implements OnInit {
         //   }
         // });
       })
-      event.preventDefault();
+      
 
       console.log(event)
 

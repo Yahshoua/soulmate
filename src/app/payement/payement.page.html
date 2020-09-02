@@ -1,19 +1,19 @@
-<div class="myhead">
-    <div>
-        <i class="fas fa-chevron-left" (click)="goback()" routerLinkActive="router-link-active" queryParamsHandling="merge" routerLinkActive="router-link-active" slot="start" name="chevron-back-outline"></i>
+<section>
+    <div class="myhead">
+            <div>
+                <i class="fas fa-chevron-left" (click)="goback()" routerLinkActive="router-link-active" queryParamsHandling="merge" routerLinkActive="router-link-active" slot="start" name="chevron-back-outline"></i>
+            </div>
+            <div>
+                <h3>Abonnement {{choix?.periode}}</h3>
+                <p>
+                    {{choix?.definition}}
+                </p>
+            </div>
     </div>
-</div>
-
-<ion-content>
-    <div>
-        <h3>Abonnement {{choix?.periode}}</h3>
-        <p>
-            {{choix?.definition}}
-        </p>
-    </div>
+    
     <ion-card class="welcome-card">
-        <ion-card-header>
-            <ion-card-title>Informations bancaire</ion-card-title>
+        <ion-card-header style="padding-bottom: 0">
+            <ion-card-title>Verification de votre abonnement</ion-card-title> <br>
             <ion-row>
                 <ion-col style="padding-left: 0;">Payement total</ion-col>
                 <ion-col> {{choix?.total}}€ </ion-col>
@@ -21,14 +21,13 @@
         </ion-card-header>
         <ion-card-content>
             <form action="/" method="post" id="payment-form">
-                <div class="form-row">
+                <div class="form-row" style="visibility: hidden">
                     <div id="card-element">
 
                     </div>
 
                     <div id="card-errors" role="alert" style="color: red"></div>
                 </div>
-                <br>
                 <!-- <input class="holder-name" ([ngModel])='cardname' plcaholder="nom sur la carte" /> -->
                 <div style="padding-left: 3px;">
                     <p class="advisor">
@@ -39,26 +38,18 @@
                         En cliquant sur le bouton DEVENIR PREMIUM je certifis avoir lu et accepter les conditions générale de vente.
                     </p>
                 </div>
-
-                <ion-button type="submit" color="success" expand="full">Devenir premium</ion-button>
+                <ion-button type="submit" color="success" expand="full">Continuer l'abonnement</ion-button>
             </form>
         </ion-card-content>
     </ion-card>
-    <ion-grid>
+    <!-- <ion-grid>
         <ion-row>
-            <ion-col size="12">
-                <h6>
-                    Information
-                </h6>
-            </ion-col>
-            <ion-col size="4">
-                <img src="../../assets/images/stripe.jpg" style="width: 75%;">
-            </ion-col>
+           
             <ion-col size="8">
                 <p class="ps">
-                    Interface de paiement Stripe entièrement sécurisée et authentifiée par certificat DigitCert SHA2 Extended Validation Server CA
+                  En cliquant sur continuer  Vous allez etre redirigé vers la plateform de paiement securisée stripe afin de finaliser votre abonnement
                 </p>
             </ion-col>
         </ion-row>
-    </ion-grid>
-</ion-content>
+    </ion-grid> -->
+</section>

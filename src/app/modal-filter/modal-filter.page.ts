@@ -1,6 +1,7 @@
 import { monservice } from './../services/monserice';
 import { NavController, ModalController, Platform, AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { ModalEmptyPersonPage } from './../modal-empty-person/modal-empty-person.page';
 @Component({
   selector: 'app-modal-filter',
   templateUrl: './modal-filter.page.html',
@@ -12,7 +13,7 @@ export class ModalFilterPage implements OnInit {
     upper: this.service.ageMax
   }
   distances = this.service.kilometreVoulu
-  gps = this.service.gps
+  gps
   online = this.service.online
   avertissement
   ObjFilter = {}
@@ -25,6 +26,11 @@ export class ModalFilterPage implements OnInit {
         component: ModalFilterPage
       })
     });
+    this.service.gpsSubscr.subscribe(e=> {
+      console.log('GPS mdal-filter', e)
+      this.gps = e==0?false:true
+    })
+    this.service.SubscriptionGps()
   }
 
   back() {
@@ -61,6 +67,7 @@ export class ModalFilterPage implements OnInit {
             }, {
               text: 'Activer le Gps',
               handler: () => {
+                this.gps = this.service.setGps(true)
                 this.gps = true
               }
             }
@@ -111,7 +118,26 @@ export class ModalFilterPage implements OnInit {
         this.loading.dismiss()
         console.log('nouvelles personnes ', e)
         this.presentToast()
+        if(this.service.personnes.length <= 0) {
+          this.openModal()
+        }
       })
+    }
+    
+  }
+  async openModal() {
+    if(this.service.personnes.length <= 0) {
+      this.modalController.dismiss({
+        Component: ModalFilterPage
+      })
+      var modal = await this.modalController.create({
+        component: ModalEmptyPersonPage,
+        cssClass: 'modal-empty-person',
+        componentProps: {
+          'kilometre': this.service.kilometreVoulu
+        }
+      })
+      return await modal.present()
     }
   }
   async presentToast() {
@@ -121,6 +147,7 @@ export class ModalFilterPage implements OnInit {
       cssClass: 'myToast2',
       color: 'success'
     });
+   
     toast.present();
   }
   async alertCtrl() {
@@ -134,6 +161,7 @@ export class ModalFilterPage implements OnInit {
           cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
+            this.gps = true
           }
         }, {
           text: 'Continuer',

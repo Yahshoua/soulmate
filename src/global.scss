@@ -93,7 +93,12 @@
     height: 200px !important;
     margin: 3%;
 }
-
+.modal-empty-person .modal-wrapper {
+    // height: 200px !important;
+    margin: 2%;
+    margin-top: 71%;
+    background: transparent;
+}
 .mypop .popover-wrapper:after {
     top: 47px;
     right: 18px;

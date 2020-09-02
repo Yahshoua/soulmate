@@ -9,6 +9,40 @@ import { JsonPipe } from '@angular/common';
   providedIn: 'root'
 })
 export class monservice {
+  abonnement = [
+    {
+      formule: 'Gold',
+      periode: '6 Mois',
+      prix: '6.87',
+      monnaie: 'eur',
+      definition: '6.87€/semaine',
+      total: '179'
+    },
+    {
+      formule: 'Silver',
+      periode: '3 Mois',
+      prix: '9.13',
+      monnaie: 'eur',
+      definition: '9.13€/semaine',
+      total: '119'
+    },
+    {
+      formule: 'Diamond',
+      periode: '1 Mois',
+      prix: '13.58',
+      monnaie: 'eur',
+      definition: '13.58€/semaine',
+      total: '59'
+    },
+    {
+      formule: 'Rubi',
+      periode: '2 semaines',
+      prix: '13.58',
+      monnaie: 'eur',
+      definition: '13.58€/semaine',
+      total: '39.5'
+    }
+  ]
     utilisateur
     moi
     server1 = 'http://localhost'
@@ -35,6 +69,9 @@ export class monservice {
     url20 = this.server2+'/phpsoulmate/relative.php'
     url21 = this.server2+'/phpsoulmate/setVisite.php'
     url22 = this.server2+'/phpsoulmate/deletePhoto.php'
+    url23 = this.server2+'/phpsoulmate/setgps.php'
+    url24 = this.server2+'/phpsoulmate/setabonnement.php'
+    url25 = this.server2+'/phpsoulmate/getabonnement.php'
     //....-_-
     url = this.server2+'/phpsoulmate/setUser.php';
     //..
@@ -67,6 +104,20 @@ export class monservice {
       })
     return i
     }
+   async getAbonnement() {
+     var e = $.ajax({
+        method: "POST",
+        url: this.url25,
+        data: {id: this.utilisateur.id},
+        success: e=> {
+          return e
+        },
+        fail: err=> {
+          return "Impossible de recuperer vos abonnements ";
+        }
+      })
+      return e
+  }
     setUtilisateur(user) {
       this.utilisateur.push(user)
       this.utilsateurSubscription()
@@ -78,6 +129,13 @@ export class monservice {
       $.ajax({
         method: 'POST',
         url: this.url18,
+        data: data
+      })
+    }
+    setAbonnement(data) {
+      $.ajax({
+        method: 'POST',
+        url: this.url24,
         data: data
       })
     }
@@ -284,6 +342,15 @@ export class monservice {
     }
     setGps(val) {
       this.gps = val
+      val = val==true?1:0
+      $.ajax({
+        method: 'POST',
+        url: this.url23,
+        dataType: 'json',
+        data: {valeur: val, id: this.utilisateur.id}
+      }).done(()=> {
+        this.getCloudUtilisateur()
+      })
       this.SubscriptionGps()
     }
     setEnligne(val) {
@@ -369,6 +436,10 @@ export class monservice {
       this.utilisateur.image = img
       this.utilisateur.photo = img
       var data = this.utilisateur
+
+     
+
+      data.image = encodeURIComponent(data.image)
       console.log('donée a envoyé ', this.utilisateur)
       //Mise à jour des data user dans la BDD
           var e = $.ajax({
@@ -450,6 +521,8 @@ export class monservice {
           this.Allpersonnes = res
           this.subsciberAllperso()
           console.log('aaaaaaallll ', this.Allpersonnes)
+          //this.personnes = this.Allpersonnes
+          this.userSubscription()
           return this.filtrage(res)
       })
       console.log('rrrr ', r)
@@ -527,6 +600,8 @@ export class monservice {
       let user = JSON.parse(localStorage.getItem('user')) || []
       user.length <=0? this.auth= false:this.auth = true
       this.utilisateur = user
+     this.utilisateur.gps ==1?true:false
+      this.gps = this.utilisateur.gps
       this.utilsateurSubscription()
       return {
             user: this.utilisateur,
@@ -547,6 +622,7 @@ export class monservice {
         var user = JSON.parse(e)
         user = user[0]
         console.log('eeeee ', user)
+        user.gps == null?1:user.gps
         localStorage.setItem('user', JSON.stringify(user))
         this.utilisateur = user
         this.utilsateurSubscription()
@@ -655,6 +731,10 @@ export class monservice {
           profil.longitude = this.myLong
         }
         let log = JSON.parse(localStorage.getItem('user')) || []
+        if(profil.gps==null) {
+          profil.gps = 1
+        }
+        console.log('profiiil ', profil)
         localStorage.setItem('user', JSON.stringify(profil))
         this.utilisateur = JSON.parse(localStorage.getItem('user'))
     }

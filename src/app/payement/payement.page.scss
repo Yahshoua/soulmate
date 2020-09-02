@@ -2,9 +2,11 @@
     background: #3c3c3c;
 }
 
-.myhead>div {
-    height: 32px
-}
+.myhead>div:last-child {
+    text-align: center;
+    padding-bottom: 1px;
+    color: #fff;
+}   
 
 .myhead>div>i {
     font-size: 20px;

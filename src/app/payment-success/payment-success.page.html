@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-icon style="font-size: 26px;margin-left: 1%;" name="arrow-back-outline" slot="start" (click)="goback()"></ion-icon>
+      <ion-title style="font-size: 93%;">Vos abonnements</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngFor="let ab of allabonnement" class="card-abonnement">
+      <ion-badge [ngStyle]="{'background': getState(ab.temps_ecoule.invert, ab.temps_ecoule.days).couleur }"> {{getState(ab.temps_ecoule.invert, ab.temps_ecoule.days).etat}} </ion-badge>
+        <h4> {{ab?.formule}} </h4>
+      
+    </div>
+</ion-content>

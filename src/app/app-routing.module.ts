@@ -140,6 +140,14 @@ const routes: Routes = [
   {
     path: 'payement',
     loadChildren: () => import('./payement/payement.module').then( m => m.PayementPageModule)
+  },
+  {
+    path: 'modal-empty-person',
+    loadChildren: () => import('./modal-empty-person/modal-empty-person.module').then( m => m.ModalEmptyPersonPageModule)
+  },
+  {
+    path: 'payment-success',
+    loadChildren: () => import('./payment-success/payment-success.module').then( m => m.PaymentSuccessPageModule)
   }
 ];
 

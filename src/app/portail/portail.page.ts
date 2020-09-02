@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { ModalEmptyPersonPage } from './../modal-empty-person/modal-empty-person.page';
 declare var moment, $
 @Component({
   selector: 'app-portail',
@@ -44,7 +45,6 @@ export class PortailPage implements OnInit {
     // this.imagePicker.requestReadPermission().then(e=> {
     //   console.log('request ReadPermission ', e)
     // })
-  
     this.service.allperSub.subscribe((e: any)=> {
       console.log('eeeee ', e)
     })
@@ -108,14 +108,31 @@ export class PortailPage implements OnInit {
     });
     return await popover.present();
   }
+  async modalEmpty() {
+    const modal = await this.modalController.create({
+      component: ModalEmptyPersonPage,
+      cssClass: 'modal-empty-person',
+      //backdropDismiss: false,
+      componentProps: {
+        'kilometre': this.service.kilometreVoulu
+      }
+    })
+    modal.onDidDismiss().then(()=> {
+      //
+    })
+    return await modal.present()
+  }
   async refresh() {
     this.loading = await this.loadingController.create({
-      message: 'Chargement des profil...'
+      message: 'Chargement des profils...'
     });
     this.loading.present()
     this.service.getAllUser().then(e=> {
       this.loading.dismiss()
       this.randoms()
+      if(this.service.personnes.length <= 0) {
+        this.modalEmpty()
+      }
       // this.getVersion()
      
       
@@ -128,16 +145,23 @@ export class PortailPage implements OnInit {
       return
     } 
     this.loading = await this.loadingController.create({
-      message: 'Chargement des profil...'
+      message: 'Chargement des profils...'
     });
     this.service.getAllUser()
     .then(async (e)=> {
       this.all = this.service.Allpersonnes
       this.user()
       this.getVersion()
-      console.log('utilisateur dans portail ', this.service.utilisateur, ' storage ', this.service.getStorageUser().user)
+      console.log('utilisateur dans portail ', this.service.utilisateur, ' storage ', this.service.
+      getStorageUser().user)
+      
       this.loading.dismiss()
       this.randoms()
+      var personnes= this.service.personnes
+      console.log('there eee ', this.service.personnes, 'type of ', typeof this.service.personnes)
+      if(personnes.length <= 0 || personnes == undefined) {
+        this.modalEmpty()
+      }
       var pop = localStorage.getItem('pop')
       // if(pop == undefined) {
       //   this.presentPopover()
@@ -161,7 +185,18 @@ export class PortailPage implements OnInit {
       header: 'Erreur',
       subHeader: "Impossible de continuer.",
       message: message,
-      buttons: ['OK']
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          handler: (blah) => {
+            this.service.logout()
+            setTimeout(e=> {
+                this.navCtl.navigateBack('home')
+            }, 1500)
+          }
+        }
+      ]
     });
     await alert.present();
   }
@@ -228,7 +263,7 @@ export class PortailPage implements OnInit {
               console.log('ji ', j , ' i ', j)
               // Ajouter && codeversion > this.versioncode
               if(this.updated == false) {
-                //this.modalversion()
+                this.modalversion()
               }
               return
           }
@@ -271,7 +306,8 @@ export class PortailPage implements OnInit {
   }
   ionViewWillEnter() {
     this.service.gpsSubscr.subscribe(e=> {
-          this.titres = e == true?'Pres de chez moi':'Partout en Afrique'
+         // this.titres = e == true?'Pres de chez moi':'Partout au monde'
+         this.titres = 'Pres de chez moi'
     })
     this.service.SubscriptionGps()
     console.log('entreeeeer')

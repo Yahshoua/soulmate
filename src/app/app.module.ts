@@ -1,3 +1,4 @@
+import { ModalEmptyPersonPageModule } from './modal-empty-person/modal-empty-person.module';
 import { PhotoProfilSelectedPageModule } from './photo-profil-selected/photo-profil-selected.module';
 import { ModalFilterPageModule } from './modal-filter/modal-filter.module';
 import { NgModule } from '@angular/core';
@@ -24,7 +25,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule, PopoverPageModule, ModalVersionPageModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, ModalFilterPageModule, PhotoProfilSelectedPageModule, EditModalPageModule, PopoverPageModule, ModalVersionPageModule, ModalEmptyPersonPageModule],
   providers: [
     Facebook,
     FileTransfer,

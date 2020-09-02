@@ -30,6 +30,7 @@ export class InscriptionPage implements OnInit {
   Fnom
   lieux= ''
   EmailExiste
+  clkGPS = false
   localization = true
   toto = false
   customMonthShortNames = ['Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Ju', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -44,6 +45,7 @@ export class InscriptionPage implements OnInit {
     this.email = this.service.facebook.email
   }
   getPosition() {
+    this.clkGPS = true
     this.geolocation.getCurrentPosition().then((resp) => {
       this.toto = false
       console.log(resp.coords.latitude)
@@ -66,6 +68,7 @@ export class InscriptionPage implements OnInit {
        var message = 'Nous n\'avons pas pu trouver ta position GPS !'
        this.presentAlert(message)
        this.toto = true
+       this.clkGPS = false
      });
   }
   checkEmail() {

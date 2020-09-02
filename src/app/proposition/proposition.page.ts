@@ -1,3 +1,4 @@
+
 import { NavController, ModalController, LoadingController, AlertController, Platform } from '@ionic/angular';
 import { monservice } from './../services/monserice';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -19,8 +20,7 @@ export class PropositionPage implements OnInit {
   texte = "Recherche des personnes à proximité ..."
   loading
   slideOpts = {
-    initialSlide: this.curentSlide,
-    speed: 300
+    initialSlide: this.curentSlide
   };
   monStyle(i) {
     let style=  {
@@ -51,10 +51,11 @@ export class PropositionPage implements OnInit {
      this.service.userSubscriber.subscribe((res: any)=> {
        
         this.personnes = res.sort(() => Math.random() - 0.5)
-        console.log('ooook', this.personnes)
+        console.log('ooook', this.personnes , 'ress ', res)
         if(this.personnes.length <= 0) {
            var km = this.service.kilometreVoulu
             this.texte = `Nous n'avons pas trouvé de personne à moins de ${km} Km de vous`
+            //this.modalEmpty()
         }
     })
     this.service.getGenres()
@@ -79,7 +80,7 @@ export class PropositionPage implements OnInit {
 }
 async closeapp() {
   const alert = await this.alertCtrl.create({
-    header: 'Quitter soulmate ?',
+    header: 'Quitter Single ?',
     message: 'Voulez-vous fermer l\'application ?',
     backdropDismiss: false,
     buttons: [
@@ -101,6 +102,8 @@ async closeapp() {
   });
       await alert.present();
 }
+
+
 async presentModal() {
   const modal = await this.modalController.create({
     component: ModalFilterPage
