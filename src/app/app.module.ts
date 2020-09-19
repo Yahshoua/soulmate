@@ -22,6 +22,7 @@ import { PopoverPageModule } from './popover/popover.module';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { ModalVersionPageModule } from './modal-version/modal-version.module';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Stripe } from '@ionic-native/stripe/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -38,6 +39,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     MutationObserver,
     SplashScreen,
     InAppBrowser,
+    Stripe,
     AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

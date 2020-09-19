@@ -72,6 +72,7 @@ export class monservice {
     url23 = this.server2+'/phpsoulmate/setgps.php'
     url24 = this.server2+'/phpsoulmate/setabonnement.php'
     url25 = this.server2+'/phpsoulmate/getabonnement.php'
+    url26 =  this.server2+'/phpsoulmate/getcustomer.php'
     //....-_-
     url = this.server2+'/phpsoulmate/setUser.php';
     //..
@@ -88,6 +89,7 @@ export class monservice {
     }
     favoriSub = new Subject()
     titreSub = new Subject()
+   
      
     favoriSybscriber() {
       this.favoriSub.next(this.favoris)
@@ -138,6 +140,17 @@ export class monservice {
         url: this.url24,
         data: data
       })
+    }
+    async getCustomer() {
+     var $e =  $.ajax({
+        method: 'POST',
+        url: this.url26,
+        dataType: 'json',
+        data: {id: this.utilisateur.id}
+      }).done(e=> {
+        return e
+      })
+      return $e
     }
     // preload() {
     //   var all: any = this.Allpersonnes
