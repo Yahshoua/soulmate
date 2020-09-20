@@ -6,9 +6,15 @@
 </ion-header>
 
 <ion-content>
-    <div *ngFor="let ab of allabonnement" class="card-abonnement">
+    <div *ngFor="let ab of allabonnement" class="card-abonnement" id={{ab?.id}}>
       <ion-badge [ngStyle]="{'background': getState(ab.temps_ecoule.invert, ab.temps_ecoule.days).couleur }"> {{getState(ab.temps_ecoule.invert, ab.temps_ecoule.days).etat}} </ion-badge>
         <h4> {{ab?.formule}} </h4>
-      
+        <ul>
+            <li> Abonné le {{ab?.date_ab}} </li>
+            <li> Expire le {{getExpire(ab?.expiration)}} </li>
+            <li> Vous avez depensé {{ab?.total}} € </li>
+        </ul>
+        <br>
+        <ion-button color="danger" (click)="alert(ab?.id, ab?.formule)" [disabled]="activedBtn(ab.temps_ecoule.invert, ab.temps_ecoule.days)"> Resilier l'abonnememt </ion-button>
     </div>
 </ion-content>

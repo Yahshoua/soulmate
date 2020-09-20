@@ -134,12 +134,18 @@ export class monservice {
         data: data
       })
     }
-    setAbonnement(data) {
-      $.ajax({
+   async setAbonnement(data) {
+     var $e =   $.ajax({
         method: 'POST',
         url: this.url24,
+        dataType: 'json',
         data: data
+      }).done(e=> {
+        return e
+      }).fail(err=> {
+        return {status: 100}
       })
+      return $e
     }
     async getCustomer() {
      var $e =  $.ajax({

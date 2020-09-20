@@ -41,7 +41,8 @@
                
                 <p style="font-size: 93%"> Devenir Premium </p>
             </ion-item>
-            <div class="deconnexion" (click)="disconnecte()">Deconexion</div>
+            <div class="abonnement" [routerLink]="['/payment-success']"> Mes abonnements</div>
+
             <ion-item lines="none">
                 <font>Au hasard</font>
                 <ion-icon slot="end" name="refresh-outline" (click)="randoms()"></ion-icon>
@@ -58,6 +59,7 @@
                 </ion-grid>
             </ion-item>
         </ion-list>
+        <div class="deconnexion" (click)="disconnecte()">Deconexion</div>
     </ion-content>
 </ion-menu>
 <ion-router-outlet id="main"></ion-router-outlet>

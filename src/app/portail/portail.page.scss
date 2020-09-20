@@ -27,7 +27,9 @@ ion-slides {
     font-size: 15px;
     padding-top: 1%;
 }
-
+ion-content {
+    position: relative
+}
 .col-hsr ion-avatar {
     height: 50px;
     width: 50px;
@@ -35,13 +37,25 @@ ion-slides {
 .premium {
     --background: #ffff00 !important
 }
+.abonnement {
+    padding: 7%;
+    text-align: center;
+    font-size: 93%;
+    color: #696969;
+    text-align: left;
+    background: #d9f5e7;
+}
 .deconnexion {
     padding: 7%;
     text-align: center;
     font-size: 93%;
-    background: #bcffdd;
-    color: #424242;
+    background: #000000;
+    color: #fff6f6;
     text-align: left;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }
 
 .deconnexion:active {

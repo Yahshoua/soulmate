@@ -1,6 +1,6 @@
 import { monservice } from './../services/monserice';
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 declare var moment, $
 @Component({
@@ -11,28 +11,34 @@ declare var moment, $
 export class PaymentSuccessPage implements OnInit {
   allabonnement: any = []
   couleur = "rgb(191 191 191)"
-  constructor(private navCtl: NavController, private router: ActivatedRoute, private service: monservice) { }
+  customer: any;
+  constructor(private navCtl: NavController, private router: ActivatedRoute, private service: monservice, private alertCtrl: AlertController) { }
 
   ngOnInit() {
-    moment.locale("fr")
-    var dates = moment().format('ll')
-    var url = window.location.href
-    var split_url = url.split("?")
-    var get_session = split_url[1]
-    var _session = get_session.split("=")
-    var session_id =  _session[1]
-    var get_ab = JSON.parse(sessionStorage.getItem("abonnement")) || []
-    if(Object.keys(get_ab).length >= 1) {
-      get_ab.dates = dates
-      get_ab.session_id = session_id
-      get_ab.user_id = this.service.utilisateur.id
-      this.service.setAbonnement(get_ab)
+    if(this.router.snapshot.queryParams) {
+      this.customer = this.router.snapshot.queryParams.customer
     }
+    
   }
+  getExpire(date) {
+    moment.locale('fr')
+    console.log('moment ', moment(date).format('Do MMMM YYYY à h:mm:ss a'))
+    return  moment(date).format('DD MMMM YYYY à h:mm:ss')
+  }
+  activedBtn(val1, val2) {
+    if(val1 >=1 && val2 >= 1) {
+      return true
+    }
+    return false
+  }
+
   goback() {
     this.navCtl.back()
   }
   ionViewWillEnter(){
+    this.get()
+  }
+  get() {
     this.service.getAbonnement().then((e: any)=> {
       e = JSON.parse(e)
       if(e.length >= 1) {
@@ -52,5 +58,33 @@ export class PaymentSuccessPage implements OnInit {
       couleur: "#26ec26",
       etat: "En cours"
     }
+  }
+  async alert(id, formule) {
+    const alert = await this.alertCtrl.create({
+      header: 'Attention',
+      message:  `Votre abonnement ${formule} sera supprimé`,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: (blah) => {
+            
+          }
+        },
+        {
+          text: 'Suivant',
+          handler: () => {
+              $.ajax({
+                  method: 'POST',
+                  url: this.service.server2+'/phpsoulmate/deleteAbonnement.php',
+                  data: {id: id}
+              }).done(e=> {
+                $("div[id="+id+"]").hide()
+              })
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

@@ -1,9 +1,9 @@
 import { monservice } from './../services/monserice';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-declare var Stripe, $, cordova
+declare var Stripe, $, cordova, moment
 @Component({
   selector: 'app-payement',
   templateUrl: './payement.page.html',
@@ -16,7 +16,8 @@ export class PayementPage implements OnInit {
   abonnement = this.service.abonnement
   cardname: any;
   url: any;
-  constructor(private router: ActivatedRoute, private navCtl: NavController, private iab: InAppBrowser, public service: monservice ) { }
+  loading: HTMLIonLoadingElement;
+  constructor(private router: ActivatedRoute, private navCtl: NavController, private iab: InAppBrowser, public service: monservice, private navCtrl: NavController, public loadingController: LoadingController, private alertCtrl: AlertController ) { }
   stripe = Stripe('pk_test_GZzhjw9fnXuqi5b6n9Zku8zr006b1WwAa5');
   ngOnInit() {
         var url =   this.absolute(window.location.href)
@@ -191,15 +192,74 @@ export class PayementPage implements OnInit {
   makePayment(token) {
     var client = null;
     var server2 = 'https://kazimo.ga/cashapp'
+    this.loader("Abonnement en cours...")
     //Recherchez si le user est deja abonné
     this.service.getCustomer().then(e=> {
       console.log('client ', e.customer)
         if(undefined !== e.customer) client = encodeURIComponent(e.customer)
-        fetch(server2+'/stripe/index.php', {method: 'POST', body: JSON.stringify({token: token, abonnement: this.abonnement[0].formule, montant: this.choix.total, customer: client, userid: this.service.utilisateur.id  })}).then(e=> {
+        fetch(server2+'/stripe/index.php', {method: 'POST', body: JSON.stringify({token: token, abonnement: this.abonnement[0].formule, montant: Math.round(this.choix.total), customer: client, userid: this.service.utilisateur.id,  username: this.service.utilisateur.nom  })}).then(e=> {
           return e.json()
         }).then(e => {
+          this.loading.dismiss()
           console.log('response ', e)
+          if(e.operation.status_code == 200) {
+             this.validepaiement(e.operation.customer)
+          } else {
+            this.alert("l'abonnement ne peut s'effectué")
+          }
+        }).catch(err=> {
+          this.alert("Erreur du serveur: "+ err)
         })
     })
+  }
+
+   validepaiement(customer) {
+    moment.locale("fr")
+    var dates = moment().format('ll')
+    var get_ab = JSON.parse(sessionStorage.getItem("abonnement")) || []
+    if(Object.keys(get_ab).length >= 1) {
+      get_ab.dates = dates
+      this.loader("Abonnement en cours...")
+      get_ab.user_id = this.service.utilisateur.id
+      get_ab.customer = customer
+      this.service.setAbonnement(get_ab).then(async e=> {
+        console.log('resultat de l\'abonnement ', e)
+        if(e.status == 200) {
+          sessionStorage.removeItem('abonnement')
+          this.loading.dismiss()
+          this.navCtrl.navigateForward('payment-success')
+        }
+      
+      })
+    } else {
+      this.alert('Vous êtes dejà abonné à cette formule. Choissisez une autre ou recommencez l\'opération')
+    }
+  }
+  async loader(message) {
+    this.loading = await this.loadingController.create({
+      message: message
+    });
+    this.loading.present()
+  }
+  async alert(message) {
+    this.loading.dismiss()
+    const alert = await this.alertCtrl.create({
+      header: 'Erreur',
+      subHeader: "Impossible de continuer.",
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          handler: (blah) => {
+           // this.service.logout()
+            setTimeout(e=> {
+                this.navCtl.navigateBack('home')
+            }, 1500)
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

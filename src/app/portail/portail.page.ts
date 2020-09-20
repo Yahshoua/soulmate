@@ -35,6 +35,7 @@ export class PortailPage implements OnInit {
   constructor(private menu: MenuController, private service: monservice, private router: Router, private navCtl: NavController, private modalController: ModalController, public loadingController: LoadingController, private alertCtrl: AlertController,  private push: Push, private imagePicker: ImagePicker, public popoverController: PopoverController, private platform: Platform, private appVersion: AppVersion) { }
 
    ngOnInit() {
+    
     // this.imagePicker.hasReadPermission().then(e=> {
     //   console.log('has read ', e)
     // })
@@ -273,7 +274,7 @@ export class PortailPage implements OnInit {
     }
   randoms() {
     var r = this.all.filter((x, y)=> {
-      return y < 11 && x.id !== this.service.utilisateur.id
+      return y < 9 && x.id !== this.service.utilisateur.id
     })
     this.random = r.sort(() => Math.random() - 0.5)
     console.log('random ', this.random)
